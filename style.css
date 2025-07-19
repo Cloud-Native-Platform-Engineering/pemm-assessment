@@ -57,8 +57,7 @@
     --font-size-3xl: 2.2em;
     
     /* Layout Values */
-    --container-max-width: 1400px;
-    --sidebar-width: 400px;
+    --container-max-width: 1000px;
     --chart-height: 350px;
     --table-width: 100%;
     
@@ -91,8 +90,6 @@ body {
     max-width: var(--container-max-width);
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr var(--sidebar-width);
-    gap: var(--spacing-3xl);
     margin-block-end: var(--spacing-3xl);
 }
 
@@ -102,6 +99,7 @@ body {
     border-radius: var(--radius-lg);
     padding: var(--spacing-4xl);
     box-shadow: var(--shadow-card);
+    margin-block-end: var(--spacing-3xl);
 }
 
 .chart-section {
@@ -115,12 +113,13 @@ body {
     height: fit-content;
 }
 
-.matrix-section {
-    background: var(--bg-white-translucent);
-    backdrop-filter: blur(10px);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-3xl);
-    box-shadow: var(--shadow-card);
+.chart-section > canvas {
+    display: block;
+    margin-inline: auto;
+}
+
+.intro {
+    margin-block-end: var(--spacing-xl);
 }
 
 .share-button {
@@ -141,7 +140,7 @@ body {
 
 h1 {
     color: var(--text-heading-dark);
-    margin-bottom: var(--spacing-3xl);
+    margin-block-end: var(--spacing-3xl);
     text-align: center;
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-semibold);
@@ -153,7 +152,7 @@ h2 {
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-medium);
     border-bottom: 3px solid var(--primary-color);
-    padding-bottom: var(--spacing-sm);
+    padding-block-end: var(--spacing-sm);
 }
 
 fieldset {
@@ -166,7 +165,7 @@ legend {
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-medium);
     border-bottom: 3px solid var(--primary-color);
-    padding-bottom: var(--spacing-sm);
+    padding-block-end: var(--spacing-sm);
 }
 
 table {
@@ -182,7 +181,7 @@ td {
 }
 
 .question-group {
-    margin-bottom: var(--spacing-3xl);
+    margin-block-end: var(--spacing-3xl);
     padding: var(--spacing-2xl);
     background: var(--bg-primary-light);
     border-radius: var(--radius-md);
@@ -191,7 +190,7 @@ td {
 
 .question {
     font-weight: var(--font-weight-medium);
-    margin-bottom: var(--spacing-lg);
+    margin-block-end: var(--spacing-lg);
     color: var(--text-heading-dark);
     font-size: var(--font-size-lg);
     line-height: 1.4;
@@ -259,7 +258,7 @@ td {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-medium);
     color: var(--text-heading-dark);
-    margin-bottom: var(--spacing-lg);
+    margin-block-end: var(--spacing-lg);
 }
 
 .scores {
@@ -273,7 +272,7 @@ td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-sm);
+    margin-block-end: var(--spacing-sm);
     padding: var(--spacing-xs) 0;
 }
 
