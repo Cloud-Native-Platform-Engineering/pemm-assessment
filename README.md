@@ -8,7 +8,9 @@ You can copy the URL to share the form in its current state, for example [this p
 
 When [giving feedback](https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform) please use these shareable URLs to help folks see what you see.
 
-![Screenshot showing the questions, and a results panel with a spider diagram, scores, and heatmap](https://github.com/user-attachments/assets/711c3cd6-678a-41ea-b5ca-f6351a9e7801)
+<img width="2127" height="1422" alt="A screenshot showing the layout of question in the assessment" src="https://github.com/user-attachments/assets/4c9beaa0-09ca-4a87-9d08-6c20c17fd2f7" />
+
+<img width="1939" height="1883" alt="A screenshot showing the assessment results, a spider chart, heatmap matrix, and list of scores" src="https://github.com/user-attachments/assets/7cceafdd-0907-49e3-b2db-df59b0cadb7b" />
 
 ## HTML requirements
 
