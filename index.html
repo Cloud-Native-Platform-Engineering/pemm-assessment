@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="form-section">
+    <main class="container">
+      <article class="form-section">
+        <header>
         <h1>CNCF Platform Maturity Assessment</h1>
+        </header>
         <div class="intro">
           <p>We are looking for feedback on this pilot assessment, so please 
             <a href="https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform" target="_blank">share your thoughts</a>.</p>
@@ -957,22 +959,25 @@
             </div>
           </fieldset>
         </form>
-      </div>
+      </article>
 
-      <div class="chart-section">
-        <div class="chart-title">Results</div>
-        
-        <canvas id="maturity-spider"></canvas>
-        
-        <table id="maturity-matrix"></table>
+      <article class="chart-section">
+        <header>
+          <h2>Assessment Results</h2>
+        </header>
+
+        <div class="charts">
+          <canvas id="maturity-spider"></canvas>
+          <table id="maturity-matrix"></table>
+        </div>
         
         <div id="maturity-scores" class="scores"></div>
 
         <div class="share-button">
           <a onclick="copyURLToClipboard(this)">📋 Copy Shareable Link</a>
         </div>
-      </div>
-    </div>
+      </article>
+    </main>
 
     <script src="app.js"></script>
   </body>
