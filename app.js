@@ -189,7 +189,7 @@
       total += parseInt(input.value);
     });
 
-    return total / inputs.length;
+    return (total / inputs.length).toFixed(2);
   }
 
   function calculateCategoryCount(category) {
