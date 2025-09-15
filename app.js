@@ -4,14 +4,14 @@
     {
       code: "en",
       name: "English",
-      url: "/",
+      url: "/pemm-assessment/",
       copySuccess: "📋 Copied!",
       copyFail: "Failed! Please copy from address bar."
     },
     {
       code: "zh",
       name: "中文(Chinese)",
-      url: "/zh/",
+      url: "/pemm-assessment/zh/",
       copySuccess: "📋 已复制！",
       copyFail: "复制失败！请尝试从地址栏复制。"
     }
