@@ -1,8 +1,21 @@
 {
   // Languages
-  const languages = {
-    zh: "中文(Chinese)"
-  };
+  const languages = [
+    {
+      code: "en",
+      name: "English",
+      url: "/",
+      copySuccess: "📋 Copied!",
+      copyFail: "Failed! Please copy from address bar."
+    },
+    {
+      code: "zh",
+      name: "中文(Chinese)",
+      url: "/zh/",
+      copySuccess: "📋 已复制！",
+      copyFail: "复制失败！请尝试从地址栏复制。"
+    }
+  ];
 
   // Chart setup
   const canvas = document.getElementById("maturity-spider");
@@ -45,16 +58,29 @@
   canvas.height = 350;
 
   function drawLanguageSwitcher() {
-    const options = Object.entries(languages)
-      .map(([code, name]) =>`<li><a href="/${code}/">${name}</option></li>`).join("");
+    const options = languages
+      .map((lang) =>`<li><a href="${lang.url}">${lang.name}</option></li>`).join("");
     document.body.insertAdjacentHTML('afterbegin', `
       <nav class="languages">
       <ul>
-      <li><a href="/">English</a></li>
       ${options}
       </ul>
       </nav>`);
   }
+
+  function getLanguage() {
+    const path = window.location.pathname;
+    for (let lang of languages) {
+      if (lang.url === path) {
+        console.log("Detected language:", lang.code);
+        return lang;
+      }
+    }
+
+    return null;
+  }
+
+  const lang = getLanguage();
 
   function drawSpiderChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -280,12 +306,12 @@
     navigator.clipboard
       .writeText(window.location.href)
       .then(function () {
-        elem.innerText = '📋 Copied!';
+        elem.innerText = lang.copySuccess;
         console.log('copied');
         window.setTimeout(() => revert(elem, originalText), 2000);
       })
       .catch(function (err) {
-        elem.innerText = 'Failed! Please copy from address bar.';
+        elem.innerText = lang.copySuccess;
         window.setTimeout(() => revert(elem, originalText), 2000);
       });
   }

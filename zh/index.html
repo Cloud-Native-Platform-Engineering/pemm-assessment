@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>平台工程成熟度模型评估</title>
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
     <main class="container">
@@ -939,27 +939,11 @@
         <div id="maturity-scores" class="scores"></div>
 
         <div class="share-button">
-          <a onclick="copyURLToClipboardZH(this)">📋 复制分享链接</a>
+          <a onclick="copyURLToClipboard(this)">📋 复制分享链接</a>
         </div>
       </article>
     </main>
 
-    <script src="../app.js"></script>
-    <script style="text/javascript">
-        function copyURLToClipboardZH(elem) {
-        const originalText = elem.innerText;
-        navigator.clipboard
-          .writeText(window.location.href)
-          .then(function () {
-            elem.innerText = '📋 已复制！';
-            console.log('copied');
-            window.setTimeout(() => revert(elem, originalText), 2000);
-          })
-          .catch(function (err) {
-            elem.innerText = '复制失败！请尝试从地址栏复制。';
-            window.setTimeout(() => revert(elem, originalText), 2000);
-          });
-      }
-    </script>
+    <script src="/app.js"></script>
   </body>
 </html>
