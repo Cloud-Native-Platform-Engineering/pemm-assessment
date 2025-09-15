@@ -1,10 +1,12 @@
 {
+  // Languages
+  const languages = {
+    zh: "中文(Chinese)"
+  };
+
   // Chart setup
   const canvas = document.getElementById("maturity-spider");
   const ctx = canvas.getContext("2d");
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
-  const radius = 120;
 
   // Elements
   const maturityForm = document.getElementById("maturity-form");
@@ -41,6 +43,18 @@
   // Set canvas size
   canvas.width = 350;
   canvas.height = 350;
+
+  function drawLanguageSwitcher() {
+    const options = Object.entries(languages)
+      .map(([code, name]) =>`<li><a href="/${code}/">${name}</option></li>`).join("");
+    document.body.insertAdjacentHTML('afterbegin', `
+      <nav class="languages">
+      <ul>
+      <li><a href="/">English</a></li>
+      ${options}
+      </ul>
+      </nav>`);
+  }
 
   function drawSpiderChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -296,6 +310,7 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     loadStateFromURL();
+    drawLanguageSwitcher();
   });
 
   // Initial chart draw

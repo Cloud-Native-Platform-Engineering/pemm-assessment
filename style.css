@@ -116,6 +116,22 @@ legend {
     padding-block-end: var(--spacing-sm);
 }
 
+/** Language Switcher */
+nav.languages {
+    background-color: var(--bg-white-translucent);
+    padding-block: var(--spacing-sm);
+    margin-inline: calc(var(--spacing-xl) * -1);
+    margin-block-start: calc(var(--spacing-xl) * -1);
+    margin-block-end: var(--spacing-xl);
+}
+
+nav.languages ul {
+    list-style: none;
+    display: flex;
+    gap: var(--spacing-lg);
+    justify-content: right;
+}
+
 .container {
     max-width: var(--container-max-width);
     margin: 0 auto;
@@ -324,4 +340,3 @@ legend {
 .heat_4 {
     background-color: var(--heat-4);
 }
-
