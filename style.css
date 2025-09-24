@@ -202,8 +202,25 @@ nav.languages ul {
     margin-block-end: var(--spacing-xl);
 }
 
+.feedback-message {
+    padding: var(--spacing-xl);
+    margin-block-start: var(--spacing-4xl);
+    margin-block-end: var(--spacing-lg);
+    background: var(--bg-primary-light);
+    border-radius: var(--radius-md);
+    text-align: center;
+    border-left: 5px solid var(--primary-color);
+}
+
+.feedback-message p {
+    margin: 0;
+    color: var(--text-heading-medium);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
 .share-button {
-    padding-block-start: 2em;
+    padding-block-start: 1em;
     text-align: center;
 }
 
@@ -216,6 +233,7 @@ nav.languages ul {
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
+    text-decoration: none;
 }
 
 .question-group {
