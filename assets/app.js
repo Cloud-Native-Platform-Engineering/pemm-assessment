@@ -76,7 +76,7 @@
     if (feedbackMessageElement) feedbackMessageElement.textContent = data.metadata.feedback_message;
     if (copyLinkElement) copyLinkElement.textContent = data.metadata.copy_link_text;
     if (shareFeedbackElement) shareFeedbackElement.textContent = data.metadata.share_feedback_text;
-    
+
     // Update language selector (dropdown only, no label)
     if (languageDropdownElement) {
       languageDropdownElement.innerHTML = `
@@ -525,14 +525,14 @@
 // Global function for language switching (accessible from HTML onclick)
 window.changeLanguage = function(langCode) {
   const currentUrl = new URL(window.location);
-  
+
   // Update the language parameter
   if (langCode === 'zh') {
     currentUrl.searchParams.set('lang', 'zh');
   } else {
     currentUrl.searchParams.delete('lang');
   }
-  
+
   // Navigate to the new URL
   window.location.href = currentUrl.toString();
 };
@@ -541,16 +541,16 @@ window.changeLanguage = function(langCode) {
 window.updateLanguageDropdown = function() {
   const dropdown = document.getElementById('language-dropdown');
   if (!dropdown) return;
-  
+
   // Determine current language
   const params = new URLSearchParams(window.location.search);
   const path = window.location.pathname;
   let currentLang = 'en';
-  
+
   if (params.get('lang') === 'zh' || path.includes('/zh/') || path.endsWith('/zh')) {
     currentLang = 'zh';
   }
-  
+
   // Set dropdown value
   dropdown.value = currentLang;
 };

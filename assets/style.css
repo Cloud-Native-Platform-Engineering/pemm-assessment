@@ -2,12 +2,12 @@
     /* Primary Colors */
     --primary-color: #667eea;
     --primary-dark: #764ba2;
-    
+
     /* Text Colors */
     --text-primary: #333;
     --text-heading-dark: #2d3748;
     --text-heading-medium: #4a5568;
-    
+
     /* Background Colors */
     --bg-gradient-start: #667eea;
     --bg-gradient-end: #764ba2;
@@ -16,20 +16,20 @@
     --bg-primary-medium: rgba(102, 126, 234, 0.1);
     --bg-primary-hover: rgba(102, 126, 234, 0.2);
     --bg-white: white;
-    
+
     /* Heat Map Colors */
     --heat-1: rgba(102, 126, 234, 0.1);
     --heat-2: rgba(102, 126, 234, 0.3);
     --heat-3: rgba(102, 126, 234, 0.6);
     --heat-4: rgba(102, 126, 234, 0.9);
-    
+
     /* Border Colors */
     --border-silver: silver;
     --border-transparent: transparent;
-    
+
     /* Shadow Colors */
     --shadow-light: rgba(0, 0, 0, 0.1);
-    
+
     /* Spacing Values */
     --spacing-xs: 8px;
     --spacing-sm: 10px;
@@ -39,34 +39,34 @@
     --spacing-2xl: 25px;
     --spacing-3xl: 30px;
     --spacing-4xl: 40px;
-    
+
     /* Border Radius */
     --radius-sm: 10px;
     --radius-md: 15px;
     --radius-lg: 20px;
-    
+
     /* Font Weights */
     --font-weight-medium: 600;
     --font-weight-semibold: 700;
-    
+
     /* Font Sizes */
     --font-size-base: 1em;
     --font-size-lg: 1.1em;
     --font-size-xl: 1.3em;
     --font-size-2xl: 1.5em;
     --font-size-3xl: 2.2em;
-    
+
     /* Layout Values */
     --container-max-width: 1000px;
     --chart-height: 350px;
     --table-width: 100%;
-    
+
     /* Input Sizes */
     --radio-size: 20px;
-    
+
     /* Transitions */
     --transition-smooth: all 0.3s ease;
-    
+
     /* Box Shadows */
     --shadow-card: 0 20px 40px var(--shadow-light);
     --shadow-hover: 0 5px 15px var(--bg-primary-hover);
@@ -155,7 +155,7 @@ nav.languages select:focus {
     nav.languages {
         padding-right: var(--spacing-md);
     }
-    
+
     nav.languages select {
         padding: var(--spacing-xs) var(--spacing-sm);
         font-size: 13px;
