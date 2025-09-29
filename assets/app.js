@@ -12,22 +12,38 @@
     // Check for language parameter in URL
     if (params.get('lang') === 'zh') {
       langCode = 'zh';
+    } else if (params.get('lang') === 'es') {
+      langCode = 'es';
     }
     // Check for Chinese path (legacy support)
     else if (path.includes('/zh/') || path.endsWith('/zh')) {
       langCode = 'zh';
     }
-    // Check for Chinese language parameter in hash
+    // Check for language parameter in hash
     else if (window.location.hash.includes('lang=zh')) {
       langCode = 'zh';
+    } else if (window.location.hash.includes('lang=es')) {
+      langCode = 'es';
     }
 
     // Try different path patterns for GitHub Pages vs local development
+    let yamlFileName;
+    switch(langCode) {
+      case 'zh':
+        yamlFileName = 'questions-zh.yaml';
+        break;
+      case 'es':
+        yamlFileName = 'questions-es.yaml';
+        break;
+      default:
+        yamlFileName = 'questions-en.yaml';
+    }
+
     const yamlPaths = [
-      langCode === 'zh' ? '/pemm-assessment/data/questions-zh.yaml' : '/pemm-assessment/data/questions-en.yaml',
-      langCode === 'zh' ? './data/questions-zh.yaml' : './data/questions-en.yaml',
-      langCode === 'zh' ? '../data/questions-zh.yaml' : '../data/questions-en.yaml',
-      langCode === 'zh' ? 'data/questions-zh.yaml' : 'data/questions-en.yaml'
+      `/pemm-assessment/data/${yamlFileName}`,
+      `./data/${yamlFileName}`,
+      `../data/${yamlFileName}`,
+      `data/${yamlFileName}`
     ];
 
     for (const yamlPath of yamlPaths) {
@@ -82,6 +98,7 @@
       languageDropdownElement.innerHTML = `
         <option value="en">${data.metadata.language_english}</option>
         <option value="zh">${data.metadata.language_chinese}</option>
+        <option value="es">${data.metadata.language_spanish}</option>
       `;
       languageDropdownElement.value = data.metadata.language;
     }
@@ -527,8 +544,8 @@ window.changeLanguage = function(langCode) {
   const currentUrl = new URL(window.location);
 
   // Update the language parameter
-  if (langCode === 'zh') {
-    currentUrl.searchParams.set('lang', 'zh');
+  if (langCode === 'zh' || langCode === 'es') {
+    currentUrl.searchParams.set('lang', langCode);
   } else {
     currentUrl.searchParams.delete('lang');
   }
@@ -549,6 +566,8 @@ window.updateLanguageDropdown = function() {
 
   if (params.get('lang') === 'zh' || path.includes('/zh/') || path.endsWith('/zh')) {
     currentLang = 'zh';
+  } else if (params.get('lang') === 'es') {
+    currentLang = 'es';
   }
 
   // Set dropdown value

@@ -12,6 +12,7 @@ metadata:
   language_label: "语言："
   language_english: "English"
   language_chinese: "中文"
+  language_spanish: "Español"
 
 categories:
   - id: "investment"
