@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="app-html">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Platform Engineering Maturity Model Assessment</title>
+    <title id="app-title">Platform Engineering Maturity Model Assessment</title>
     <link rel="stylesheet" href="/pemm-assessment/assets/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
   </head>
   <body>
+    <nav class="languages">
+      <select id="language-dropdown" onchange="changeLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="zh">中文</option>
+      </select>
+    </nav>
+    
     <main class="container">
       <article class="form-section">
         <header>
-        <h1>Platform Engineering Maturity Model Assessment</h1>
+          <h1 id="app-main-title">Platform Engineering Maturity Model Assessment</h1>
         </header>
         <div class="intro">
-          <p>We are looking for feedback on this pilot assessment, so please
+          <p id="app-intro">We are looking for feedback on this pilot assessment, so please
             <a href="https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform" target="_blank">share your thoughts</a>.</p>
         </div>
         <form id="maturity-form">
@@ -24,7 +31,7 @@
 
       <article class="chart-section">
         <header>
-          <h2>Assessment Results</h2>
+          <h2 id="app-results-title">Assessment Results</h2>
         </header>
 
         <div class="charts">
@@ -35,12 +42,12 @@
         <div id="maturity-scores" class="scores"></div>
 
         <div class="feedback-message">
-          <p>Thank you for using our Platform Engineering Maturity Model assessment! We hope you found it valuable. While you're here, we'd love to hear your thoughts and feedback to help us improve this tool.</p>
+          <p id="app-feedback-message">Thank you for using our Platform Engineering Maturity Model assessment! We hope you found it valuable. While you're here, we'd love to hear your thoughts and feedback to help us improve this tool.</p>
         </div>
 
         <div class="share-button">
-          <a onclick="copyURLToClipboard(this)">📋 Copy Shareable Link</a>
-          <a href="https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform" target="_blank">💬 Share Feedback</a>
+          <a onclick="copyURLToClipboard(this)" id="app-copy-link">📋 Copy Shareable Link</a>
+          <a href="https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform" target="_blank" id="app-share-feedback">💬 Share Feedback</a>
         </div>
       </article>
     </main>

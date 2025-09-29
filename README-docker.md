@@ -18,7 +18,8 @@ This Docker Compose setup provides a local development environment that mimics t
 
 2. **Access the application:**
    - English version: http://localhost:8080/pemm-assessment/
-   - Chinese version: http://localhost:8080/pemm-assessment/zh/
+   - Chinese version: http://localhost:8080/pemm-assessment/?lang=zh
+   - Legacy Chinese URL: http://localhost:8080/pemm-assessment/zh/ (redirects to main template)
 
 3. **Stop the development server:**
    ```bash
@@ -30,14 +31,13 @@ This Docker Compose setup provides a local development environment that mimics t
 The Docker setup serves files exactly as GitHub Pages would:
 ```
 /pemm-assessment/
-├── index.html          # English version
-├── style.css           # Shared styles
-├── app.js              # Main application logic
-├── data/
-│   ├── questions-en.yaml  # English questions
-│   └── questions-zh.yaml  # Chinese questions
-└── zh/
-    └── index.html      # Chinese version
+├── index.html          # Single dynamic template for all languages
+├── assets/
+│   ├── style.css       # Shared styles
+│   └── app.js          # Main application logic with dynamic content loading
+└── data/
+    ├── questions-en.yaml  # English questions and UI text
+    └── questions-zh.yaml  # Chinese questions and UI text
 ```
 
 ### Development Workflow

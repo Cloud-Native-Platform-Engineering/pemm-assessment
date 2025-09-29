@@ -4,12 +4,21 @@
 
   // Load YAML data
   async function loadQuestionsData() {
-    // Determine language from URL path or default to English
+    // Determine language from URL path, query parameter, or default to English
     let langCode = 'en';
     const path = window.location.pathname;
+    const params = new URLSearchParams(window.location.search);
 
-    // Check for Chinese path
-    if (path.includes('/zh/') || path.endsWith('/zh')) {
+    // Check for language parameter in URL
+    if (params.get('lang') === 'zh') {
+      langCode = 'zh';
+    }
+    // Check for Chinese path (legacy support)
+    else if (path.includes('/zh/') || path.endsWith('/zh')) {
+      langCode = 'zh';
+    }
+    // Check for Chinese language parameter in hash
+    else if (window.location.hash.includes('lang=zh')) {
       langCode = 'zh';
     }
 
@@ -29,6 +38,10 @@
           const yamlText = await response.text();
           questionsData = jsyaml.load(yamlText);
           console.log('Successfully loaded questions data from:', yamlPath);
+
+          // Update page language attribute
+          document.documentElement.lang = langCode;
+
           return questionsData;
         }
       } catch (error) {
@@ -46,22 +59,32 @@
     const form = document.getElementById('maturity-form');
     if (!form) return;
 
-    // Update page metadata
-    document.title = data.metadata.title;
-    document.querySelector('h1').textContent = data.metadata.title;
-    document.querySelector('.intro p').innerHTML = data.metadata.intro;
-    document.querySelector('#maturity-scores').parentElement.querySelector('h2').textContent = data.metadata.results_title;
+    // Update page metadata using the new IDs
+    const titleElement = document.getElementById('app-title');
+    const mainTitleElement = document.getElementById('app-main-title');
+    const introElement = document.getElementById('app-intro');
+    const resultsTitleElement = document.getElementById('app-results-title');
+    const feedbackMessageElement = document.getElementById('app-feedback-message');
+    const copyLinkElement = document.getElementById('app-copy-link');
+    const shareFeedbackElement = document.getElementById('app-share-feedback');
+    const languageDropdownElement = document.getElementById('language-dropdown');
 
-    // Update feedback message and buttons
-    const feedbackMessage = document.querySelector('.feedback-message p');
-    if (feedbackMessage) {
-      feedbackMessage.textContent = data.metadata.feedback_message;
+    if (titleElement) titleElement.textContent = data.metadata.title;
+    if (mainTitleElement) mainTitleElement.textContent = data.metadata.title;
+    if (introElement) introElement.innerHTML = data.metadata.intro;
+    if (resultsTitleElement) resultsTitleElement.textContent = data.metadata.results_title;
+    if (feedbackMessageElement) feedbackMessageElement.textContent = data.metadata.feedback_message;
+    if (copyLinkElement) copyLinkElement.textContent = data.metadata.copy_link_text;
+    if (shareFeedbackElement) shareFeedbackElement.textContent = data.metadata.share_feedback_text;
+    
+    // Update language selector (dropdown only, no label)
+    if (languageDropdownElement) {
+      languageDropdownElement.innerHTML = `
+        <option value="en">${data.metadata.language_english}</option>
+        <option value="zh">${data.metadata.language_chinese}</option>
+      `;
+      languageDropdownElement.value = data.metadata.language;
     }
-
-    const copyButton = document.querySelector('.share-button a[onclick*="copyURLToClipboard"]');
-    const shareButton = document.querySelector('.share-button a[href*="docs.google.com"]');
-    if (copyButton) copyButton.textContent = data.metadata.copy_link_text;
-    if (shareButton) shareButton.textContent = data.metadata.share_feedback_text;
 
     // Generate form HTML
     let formHTML = '';
@@ -491,10 +514,49 @@
       loadStateFromURL();
     }
 
-    drawLanguageSwitcher();
+    // drawLanguageSwitcher(); // Now using static HTML nav instead
     draw();
   });
 
   // Initial chart draw
   draw();
 }
+
+// Global function for language switching (accessible from HTML onclick)
+window.changeLanguage = function(langCode) {
+  const currentUrl = new URL(window.location);
+  
+  // Update the language parameter
+  if (langCode === 'zh') {
+    currentUrl.searchParams.set('lang', 'zh');
+  } else {
+    currentUrl.searchParams.delete('lang');
+  }
+  
+  // Navigate to the new URL
+  window.location.href = currentUrl.toString();
+};
+
+// Function to set the dropdown to the current language
+window.updateLanguageDropdown = function() {
+  const dropdown = document.getElementById('language-dropdown');
+  if (!dropdown) return;
+  
+  // Determine current language
+  const params = new URLSearchParams(window.location.search);
+  const path = window.location.pathname;
+  let currentLang = 'en';
+  
+  if (params.get('lang') === 'zh' || path.includes('/zh/') || path.endsWith('/zh')) {
+    currentLang = 'zh';
+  }
+  
+  // Set dropdown value
+  dropdown.value = currentLang;
+};
+
+// Update dropdown when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  // Small delay to ensure dropdown is rendered
+  setTimeout(window.updateLanguageDropdown, 100);
+});

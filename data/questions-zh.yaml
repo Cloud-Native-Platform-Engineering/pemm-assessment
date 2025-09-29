@@ -9,6 +9,9 @@ metadata:
   feedback_message: "感谢您使用我们的平台工程成熟度模型评估工具！希望它对您有所帮助。既然您在这里，我们很乐意听到您的想法和反馈，以帮助我们改进这个工具。"
   copy_link_text: "📋 复制分享链接"
   share_feedback_text: "💬 分享反馈"
+  language_label: "语言："
+  language_english: "English"
+  language_chinese: "中文"
 
 categories:
   - id: "investment"
