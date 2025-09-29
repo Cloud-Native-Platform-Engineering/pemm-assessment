@@ -1,4 +1,166 @@
 {
+  // YAML data storage
+  let questionsData = null;
+
+  // Load YAML data
+  async function loadQuestionsData() {
+    // Determine language from URL path or default to English
+    let langCode = 'en';
+    const path = window.location.pathname;
+
+    // Check for Chinese path
+    if (path.includes('/zh/') || path.endsWith('/zh')) {
+      langCode = 'zh';
+    }
+
+    // Try different path patterns for GitHub Pages vs local development
+    const yamlPaths = [
+      langCode === 'zh' ? '/pemm-assessment/data/questions-zh.yaml' : '/pemm-assessment/data/questions-en.yaml',
+      langCode === 'zh' ? './data/questions-zh.yaml' : './data/questions-en.yaml',
+      langCode === 'zh' ? '../data/questions-zh.yaml' : '../data/questions-en.yaml',
+      langCode === 'zh' ? 'data/questions-zh.yaml' : 'data/questions-en.yaml'
+    ];
+
+    for (const yamlPath of yamlPaths) {
+      try {
+        console.log('Attempting to load YAML file:', yamlPath);
+        const response = await fetch(yamlPath);
+        if (response.ok) {
+          const yamlText = await response.text();
+          questionsData = jsyaml.load(yamlText);
+          console.log('Successfully loaded questions data from:', yamlPath);
+          return questionsData;
+        }
+      } catch (error) {
+        console.log('Failed to load from:', yamlPath, error.message);
+      }
+    }
+
+    console.error('Could not load YAML data from any path');
+    console.log('Falling back to static HTML structure');
+    return null;
+  }  // Generate form HTML from YAML data
+  function generateFormFromData(data) {
+    if (!data) return;
+
+    const form = document.getElementById('maturity-form');
+    if (!form) return;
+
+    // Update page metadata
+    document.title = data.metadata.title;
+    document.querySelector('h1').textContent = data.metadata.title;
+    document.querySelector('.intro p').innerHTML = data.metadata.intro;
+    document.querySelector('#maturity-scores').parentElement.querySelector('h2').textContent = data.metadata.results_title;
+
+    // Update feedback message and buttons
+    const feedbackMessage = document.querySelector('.feedback-message p');
+    if (feedbackMessage) {
+      feedbackMessage.textContent = data.metadata.feedback_message;
+    }
+
+    const copyButton = document.querySelector('.share-button a[onclick*="copyURLToClipboard"]');
+    const shareButton = document.querySelector('.share-button a[href*="docs.google.com"]');
+    if (copyButton) copyButton.textContent = data.metadata.copy_link_text;
+    if (shareButton) shareButton.textContent = data.metadata.share_feedback_text;
+
+    // Generate form HTML
+    let formHTML = '';
+
+    data.categories.forEach(category => {
+      formHTML += `
+        <fieldset>
+          <legend data-category="${category.id}">${category.name}</legend>
+      `;
+
+      category.questions.forEach(question => {
+        formHTML += `
+          <div class="question-group">
+            <div class="question">${question.text}</div>
+            <div class="options">
+        `;
+
+        question.options.forEach(option => {
+          formHTML += `
+            <label class="option">
+              <input type="radio" name="${question.field_name}" value="${option.value}" />
+              <div class="option-text">
+                <span class="option-level">${option.level}</span><br />
+                <span class="option-description">${option.description}</span>
+              </div>
+            </label>
+          `;
+        });
+
+        formHTML += `
+            </div>
+          </div>
+        `;
+      });
+
+      formHTML += `</fieldset>`;
+    });
+
+    form.innerHTML = formHTML;
+
+    // Reinitialize after form generation
+    initializeAfterFormGeneration();
+  }
+
+  // Reinitialize form listeners and data after dynamic generation
+  function initializeAfterFormGeneration() {
+    // Update categories object
+    const legends = document.querySelectorAll("legend[data-category]");
+    const inputs = document.querySelectorAll("input");
+
+    // Clear existing data
+    Object.keys(categories).forEach(key => delete categories[key]);
+    Object.keys(scores).forEach(key => delete scores[key]);
+    Object.keys(counts).forEach(key => delete counts[key]);
+
+    maxValue = 0;
+
+    // Rebuild categories from new form
+    legends.forEach((legend) => {
+      const category = legend.dataset.category;
+      const text = legend.innerText;
+
+      categories[category] = text;
+      scores[category] = 0;
+      counts[category] = 0;
+    });
+
+    inputs.forEach((input) => {
+      const value = parseInt(input.value);
+      if (!isNaN(value)) {
+        maxValue = Math.max(maxValue, value);
+      }
+    });
+
+    // Re-add event listeners for new radio buttons
+    document.addEventListener("change", handleRadioChange);
+
+    // Load state from URL and draw charts
+    loadStateFromURL();
+  }
+
+  // Handle radio button changes
+  function handleRadioChange(e) {
+    if (e.target.type === "radio") {
+      // Remove selected class from all options in the same question group
+      const questionGroup = e.target.closest(".question-group");
+      questionGroup
+        .querySelectorAll(".option")
+        .forEach((opt) => opt.classList.remove("selected"));
+
+      // Add selected class to chosen option
+      e.target.closest(".option").classList.add("selected");
+
+      // Update scores and chart
+      updateScores();
+      saveStateToURL();
+    }
+  }
+
   // Languages
   const languages = [
     {
@@ -23,8 +185,8 @@
 
   // Elements
   const maturityForm = document.getElementById("maturity-form");
-  const legends = maturityForm.querySelectorAll("legend[data-category]");
-  const inputs = maturityForm.querySelectorAll("input");
+  const legends = maturityForm ? maturityForm.querySelectorAll("legend[data-category]") : [];
+  const inputs = maturityForm ? maturityForm.querySelectorAll("input") : [];
   const matrix = document.getElementById("maturity-matrix");
   const scoreList = document.getElementById("maturity-scores");
 
@@ -34,8 +196,7 @@
   const counts = {};
   let maxValue = 0;
 
-  // Legends are used to obtain the list of categories
-  // Use: <legend data-category="name">Name</legend>
+  // Initialize categories from existing HTML (fallback)
   legends.forEach((legend) => {
     const category = legend.dataset.category;
     const text = legend.innerText;
@@ -316,27 +477,22 @@
       });
   }
 
-  // Radio button clicks
-  document.addEventListener("change", function (e) {
-    if (e.target.type === "radio") {
-      // Remove selected class from all options in the same question group
-      const questionGroup = e.target.closest(".question-group");
-      questionGroup
-        .querySelectorAll(".option")
-        .forEach((opt) => opt.classList.remove("selected"));
+  // Radio button clicks (removed - now handled in handleRadioChange)
 
-      // Add selected class to chosen option
-      e.target.closest(".option").classList.add("selected");
+  document.addEventListener("DOMContentLoaded", async function () {
+    // Try to load YAML data first
+    const yamlData = await loadQuestionsData();
 
-      // Update scores and chart
-      updateScores();
-      saveStateToURL();
+    if (yamlData) {
+      // Generate form from YAML data
+      generateFormFromData(yamlData);
+    } else {
+      // Fallback to existing HTML structure
+      loadStateFromURL();
     }
-  });
 
-  document.addEventListener("DOMContentLoaded", function () {
-    loadStateFromURL();
     drawLanguageSwitcher();
+    draw();
   });
 
   // Initial chart draw
