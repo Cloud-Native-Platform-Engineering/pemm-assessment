@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  pemm-assessment:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./assets/nginx.conf:/etc/nginx/nginx.conf:ro
+      - .:/usr/share/nginx/html/pemm-assessment:ro
+    container_name: pemm-assessment-dev
+    restart: unless-stopped
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
