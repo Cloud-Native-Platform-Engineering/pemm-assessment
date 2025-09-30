@@ -1,0 +1,291 @@
+# Platform Engineering Maturity Model Assessment - Spanish Data
+# This file contains all questions, answers, and metadata for the Spanish version
+
+metadata:
+  title: "Evaluación del Modelo de Madurez de Ingeniería de Plataforma"
+  language: "es"
+  intro: "Estamos buscando comentarios sobre esta evaluación piloto, así que por favor <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">comparta sus pensamientos</a>."
+  results_title: "Resultados de la Evaluación"
+  feedback_message: "¡Gracias por usar nuestra evaluación del Modelo de Madurez de Ingeniería de Plataforma! Esperamos que la haya encontrado valiosa. Ya que está aquí, nos encantaría escuchar sus pensamientos y comentarios para ayudarnos a mejorar esta herramienta."
+  copy_link_text: "📋 Copiar Enlace Compartible"
+  share_feedback_text: "💬 Compartir Comentarios"
+  language_label: "Idioma:"
+  language_english: "English"
+  language_chinese: "中文"
+  language_spanish: "Español"
+
+categories:
+  - id: "investment"
+    name: "Inversión"
+    order: 1
+    questions:
+      - id: 1
+        text: "¿Quién construye su plataforma?"
+        field_name: "investment_1"
+        options:
+          - value: 1
+            level: "Grupos ad-hoc"
+            description: "Equipos temporales o individuos trabajando juntos informalmente"
+          - value: 2
+            level: "Equipo o grupo técnico"
+            description: "Equipo o grupo de plataforma dedicado, con habilidades técnicas generales"
+          - value: 3
+            level: "Equipo o grupo enfocado en producto"
+            description: "Equipo o grupo dedicado con habilidades técnicas, de producto y diseño"
+          - value: 4
+            level: "Equipo o grupo de especialistas completo"
+            description: "Equipo o grupo dedicado con roles especializados comprensivos"
+
+      - id: 2
+        text: "¿De dónde vienen las nuevas necesidades de capacidades de plataforma?"
+        field_name: "investment_2"
+        options:
+          - value: 1
+            level: "Impulsado por crisis"
+            description: "Necesidades urgentes e inmediatas"
+          - value: 2
+            level: "Impulsado por problemas"
+            description: "Arreglar problemas existentes"
+          - value: 3
+            level: "Impulsado por estrategia"
+            description: "Hoja de ruta planificada de características"
+          - value: 4
+            level: "Impulsado por usuarios"
+            description: "Solicitudes e ideas de los usuarios finales"
+
+      - id: 3
+        text: "¿Cómo priorizan las nuevas características de la plataforma?"
+        field_name: "investment_3"
+        options:
+          - value: 1
+            level: "Ad-hoc"
+            description: "Sin proceso formal"
+          - value: 2
+            level: "Basado en esfuerzo"
+            description: "Estimaciones de tiempo/recursos"
+          - value: 3
+            level: "Basado en valor"
+            description: "Impacto estimado vs esfuerzo"
+          - value: 4
+            level: "Basado en datos"
+            description: "Métricas medidas de uso e impacto"
+
+  - id: "adoption"
+    name: "Adopción"
+    order: 2
+    questions:
+      - id: 4
+        text: "¿Cómo descubren los usuarios las capacidades de la plataforma?"
+        field_name: "adoption_1"
+        options:
+          - value: 1
+            level: "Palabra boca a boca"
+            description: "Los usuarios se enteran informalmente unos de otros"
+          - value: 2
+            level: "Documentación ad-hoc"
+            description: "Documentación dispersa e inconsistente"
+          - value: 3
+            level: "Documentación centralizada"
+            description: "Portal de documentación único y consistente"
+          - value: 4
+            level: "Catálogo de servicios"
+            description: "Catálogo completo con ejemplos y tutoriales"
+
+      - id: 5
+        text: "¿Cómo acceden los usuarios a las capacidades de la plataforma?"
+        field_name: "adoption_2"
+        options:
+          - value: 1
+            level: "Solicitudes manuales"
+            description: "Proceso manual con tickets o solicitudes"
+          - value: 2
+            level: "Scripts o herramientas básicas"
+            description: "Herramientas simples para acceso automatizado"
+          - value: 3
+            level: "Portal de autoservicio"
+            description: "Interface web para provisión de servicios"
+          - value: 4
+            level: "API programática"
+            description: "APIs completas para integración automatizada"
+
+      - id: 6
+        text: "¿Cómo aprenden los usuarios a usar la plataforma?"
+        field_name: "adoption_3"
+        options:
+          - value: 1
+            level: "Ensayo y error"
+            description: "Los usuarios descubren por sí mismos"
+          - value: 2
+            level: "Documentación básica"
+            description: "Guías de inicio rápido y documentación básica"
+          - value: 3
+            level: "Tutoriales y ejemplos"
+            description: "Tutoriales paso a paso y código de ejemplo"
+          - value: 4
+            level: "Entrenamiento y soporte"
+            description: "Programas de entrenamiento formal y soporte dedicado"
+
+  - id: "interfaces"
+    name: "Interfaces"
+    order: 3
+    questions:
+      - id: 7
+        text: "¿Cómo interactúan los usuarios con la plataforma?"
+        field_name: "interfaces_1"
+        options:
+          - value: 1
+            level: "Herramientas específicas del proveedor"
+            description: "Herramientas nativas del proveedor de nube"
+          - value: 2
+            level: "Scripts e infraestructura como código"
+            description: "Scripts personalizados y plantillas IaC"
+          - value: 3
+            level: "Interfaces unificadas"
+            description: "Interfaces consistentes a través de servicios"
+          - value: 4
+            level: "Abstracciones de plataforma"
+            description: "APIs de alto nivel que ocultan la complejidad subyacente"
+
+      - id: 8
+        text: "¿Cómo se gestionan los secretos y la configuración?"
+        field_name: "interfaces_2"
+        options:
+          - value: 1
+            level: "Archivos de configuración estáticos"
+            description: "Configuración hardcodeada en archivos"
+          - value: 2
+            level: "Variables de entorno"
+            description: "Configuración a través de variables de entorno"
+          - value: 3
+            level: "Almacenes de configuración centralizados"
+            description: "Sistemas dedicados de gestión de configuración"
+          - value: 4
+            level: "Gestión de secretos dinámica"
+            description: "Rotación automatizada de secretos y configuración dinámica"
+
+      - id: 9
+        text: "¿Cómo se despliegan las aplicaciones?"
+        field_name: "interfaces_3"
+        options:
+          - value: 1
+            level: "Proceso manual"
+            description: "Despliegues manuales paso a paso"
+          - value: 2
+            level: "Scripts de despliegue"
+            description: "Scripts automatizados para despliegue"
+          - value: 3
+            level: "Pipelines CI/CD"
+            description: "Pipelines automatizados de integración y despliegue"
+          - value: 4
+            level: "Despliegue GitOps"
+            description: "Despliegues declarativos impulsados por Git"
+
+  - id: "operations"
+    name: "Operaciones"
+    order: 4
+    questions:
+      - id: 10
+        text: "¿Cómo se manejan los incidentes?"
+        field_name: "operations_1"
+        options:
+          - value: 1
+            level: "Respuesta reactiva"
+            description: "Respuesta ad-hoc cuando ocurren problemas"
+          - value: 2
+            level: "Procedimientos básicos"
+            description: "Runbooks básicos y procedimientos de escalación"
+          - value: 3
+            level: "Gestión de incidentes estructurada"
+            description: "Procesos formales de gestión de incidentes"
+          - value: 4
+            level: "Respuesta automatizada"
+            description: "Detección automática y respuesta a incidentes"
+
+      - id: 11
+        text: "¿Cómo se monitorea el rendimiento de la plataforma?"
+        field_name: "operations_2"
+        options:
+          - value: 1
+            level: "Monitoreo reactivo"
+            description: "Verificación manual cuando se reportan problemas"
+          - value: 2
+            level: "Monitoreo básico"
+            description: "Métricas básicas del sistema y alertas"
+          - value: 3
+            level: "Monitoreo comprensivo"
+            description: "Métricas de aplicación y infraestructura unificadas"
+          - value: 4
+            level: "Observabilidad completa"
+            description: "Trazas distribuidas, métricas y logs correlacionados"
+
+      - id: 12
+        text: "¿Cómo se manejan las actualizaciones de la plataforma?"
+        field_name: "operations_3"
+        options:
+          - value: 1
+            level: "Actualizaciones manuales"
+            description: "Actualizaciones manuales planificadas durante ventanas de mantenimiento"
+          - value: 2
+            level: "Actualizaciones automatizadas"
+            description: "Scripts automatizados para actualizaciones de componentes"
+          - value: 3
+            level: "Despliegues continuos"
+            description: "Actualizaciones frecuentes y automatizadas con rollback"
+          - value: 4
+            level: "Gestión de versiones automática"
+            description: "Actualizaciones automáticas con políticas y controles de calidad"
+
+  - id: "measurement"
+    name: "Medición"
+    order: 5
+    questions:
+      - id: 13
+        text: "¿Cómo miden el éxito de la plataforma?"
+        field_name: "measurement_1"
+        options:
+          - value: 1
+            level: "Sin medición formal"
+            description: "Sin métricas o medición sistemática"
+          - value: 2
+            level: "Métricas básicas"
+            description: "Métricas técnicas básicas como tiempo de actividad"
+          - value: 3
+            level: "Métricas de productividad"
+            description: "Tiempo de entrega y métricas de velocidad del desarrollador"
+          - value: 4
+            level: "Métricas de resultado de negocio"
+            description: "Impacto medido en resultados de negocio y satisfacción del usuario"
+
+      - id: 14
+        text: "¿Con qué frecuencia revisan las métricas de la plataforma?"
+        field_name: "measurement_2"
+        options:
+          - value: 1
+            level: "Ad-hoc"
+            description: "Revisión irregular cuando se necesita"
+          - value: 2
+            level: "Mensual"
+            description: "Revisiones mensuales de métricas clave"
+          - value: 3
+            level: "Semanal"
+            description: "Revisiones semanales con equipos de partes interesadas"
+          - value: 4
+            level: "Continua"
+            description: "Monitoreo en tiempo real con dashboards automatizados"
+
+      - id: 15
+        text: "¿Cómo usan las métricas para mejorar?"
+        field_name: "measurement_3"
+        options:
+          - value: 1
+            level: "Sin mejora sistemática"
+            description: "Las métricas no impulsan cambios sistemáticos"
+          - value: 2
+            level: "Mejoras reactivas"
+            description: "Cambios hechos en respuesta a problemas específicos"
+          - value: 3
+            level: "Mejora planificada"
+            description: "Mejoras regulares basadas en revisiones de métricas"
+          - value: 4
+            level: "Mejora continua"
+            description: "Bucles de retroalimentación automatizados que impulsan mejoras"
