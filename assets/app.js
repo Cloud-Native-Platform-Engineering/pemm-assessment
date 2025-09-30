@@ -202,16 +202,20 @@ let categoryPages = [];
     {
       code: "en",
       name: "English",
-      url: "/pemm-assessment/",
       copySuccess: "📋 Copied!",
       copyFail: "Failed! Please copy from address bar."
     },
     {
       code: "zh",
       name: "中文(Chinese)",
-      url: "/pemm-assessment/zh/",
       copySuccess: "📋 已复制！",
       copyFail: "复制失败！请尝试从地址栏复制。"
+    },
+    {
+      code: "es",
+      name: "Español",
+      copySuccess: "📋 ¡Copiado!",
+      copyFail: "¡Error! Por favor copia desde la barra de direcciones."
     }
   ];
 
@@ -266,15 +270,30 @@ let categoryPages = [];
   }
 
   function getLanguage() {
-    const path = window.location.pathname;
-    for (let lang of languages) {
-      if (lang.url === path) {
-        console.log("Detected language:", lang.code);
-        return lang;
-      }
+    // Get language from URL parameter, hash, or default to English
+    const params = new URLSearchParams(window.location.search);
+    const hash = window.location.hash;
+    let langCode = 'en';
+
+    // Check query parameter
+    if (params.get('lang') === 'zh') {
+      langCode = 'zh';
+    } else if (params.get('lang') === 'es') {
+      langCode = 'es';
+    }
+    // Check hash parameter
+    else if (hash.includes('lang=zh')) {
+      langCode = 'zh';
+    } else if (hash.includes('lang=es')) {
+      langCode = 'es';
+    }
+    // Check for legacy Chinese path
+    else if (window.location.pathname.includes('/zh/')) {
+      langCode = 'zh';
     }
 
-    return null;
+    // Find and return the language object
+    return languages.find(lang => lang.code === langCode) || languages[0];
   }
 
   const lang = getLanguage();
@@ -514,19 +533,50 @@ let categoryPages = [];
   }
 
   function copyURLToClipboard(elem) {
+    const lang = getLanguage();
     const originalText = elem.innerText;
+    
+    // Build URL with all answers from localStorage
+    const params = new URLSearchParams(window.location.search);
+    
+    // Remove existing answer parameters but keep language parameter
+    const answersToRemove = [];
+    for (const [key] of params.entries()) {
+      if (key !== 'lang') {
+        answersToRemove.push(key);
+      }
+    }
+    answersToRemove.forEach(key => params.delete(key));
+    
+    // Add all answers from localStorage
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.includes('_')) { // Answer keys follow pattern "category_questionId"
+        const value = localStorage.getItem(key);
+        if (value !== null) {
+          params.set(key, value);
+        }
+      }
+    }
+    
+    const shareableURL = window.location.origin + window.location.pathname + '?' + params.toString();
+    
     navigator.clipboard
-      .writeText(window.location.href)
+      .writeText(shareableURL)
       .then(function () {
         elem.innerText = lang.copySuccess;
         console.log('copied');
         window.setTimeout(() => revert(elem, originalText), 2000);
       })
       .catch(function (err) {
-        elem.innerText = lang.copySuccess;
+        elem.innerText = lang.copyFail;
+        console.log('copy failed:', err);
         window.setTimeout(() => revert(elem, originalText), 2000);
       });
   }
+
+  // Make copyURLToClipboard globally accessible
+  window.copyURLToClipboard = copyURLToClipboard;
 
   // Radio button clicks (removed - now handled in handleRadioChange)
 
