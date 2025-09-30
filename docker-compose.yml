@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./assets/nginx.conf:/etc/nginx/nginx.conf:ro
       - .:/usr/share/nginx/html/pemm-assessment:ro
     container_name: pemm-assessment-dev
     restart: unless-stopped

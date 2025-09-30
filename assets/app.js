@@ -1,4 +1,9 @@
-{
+// Pagination variables (global scope)
+let currentPage = 0;
+let totalPages = 0;
+let categoryPages = [];
+
+(function() {
   // YAML data storage
   let questionsData = null;
 
@@ -68,7 +73,7 @@
     console.error('Could not load YAML data from any path');
     console.log('Falling back to static HTML structure');
     return null;
-  }  // Generate form HTML from YAML data
+  }    // Generate form HTML from YAML data with pagination
   function generateFormFromData(data) {
     if (!data) return;
 
@@ -103,44 +108,14 @@
       languageDropdownElement.value = data.metadata.language;
     }
 
-    // Generate form HTML
-    let formHTML = '';
+    // Store categories for pagination
+    categoryPages = data.categories.sort((a, b) => a.order - b.order);
+    totalPages = categoryPages.length;
+    currentPage = 0;
 
-    data.categories.forEach(category => {
-      formHTML += `
-        <fieldset>
-          <legend data-category="${category.id}">${category.name}</legend>
-      `;
-
-      category.questions.forEach(question => {
-        formHTML += `
-          <div class="question-group">
-            <div class="question">${question.text}</div>
-            <div class="options">
-        `;
-
-        question.options.forEach(option => {
-          formHTML += `
-            <label class="option">
-              <input type="radio" name="${question.field_name}" value="${option.value}" />
-              <div class="option-text">
-                <span class="option-level">${option.level}</span><br />
-                <span class="option-description">${option.description}</span>
-              </div>
-            </label>
-          `;
-        });
-
-        formHTML += `
-            </div>
-          </div>
-        `;
-      });
-
-      formHTML += `</fieldset>`;
-    });
-
-    form.innerHTML = formHTML;
+    // Initialize pagination
+    renderCurrentPage();
+    updatePaginationControls();
 
     // Reinitialize after form generation
     initializeAfterFormGeneration();
@@ -148,8 +123,8 @@
 
   // Reinitialize form listeners and data after dynamic generation
   function initializeAfterFormGeneration() {
-    // Update categories object
-    const legends = document.querySelectorAll("legend[data-category]");
+    // Update categories object from YAML data instead of DOM
+    // This ensures all categories are included, not just the current page
     const inputs = document.querySelectorAll("input");
 
     // Clear existing data
@@ -159,22 +134,43 @@
 
     maxValue = 0;
 
-    // Rebuild categories from new form
-    legends.forEach((legend) => {
-      const category = legend.dataset.category;
-      const text = legend.innerText;
+    // Rebuild categories from YAML data (categoryPages contains all categories)
+    if (categoryPages && categoryPages.length > 0) {
+      categoryPages.forEach((categoryData) => {
+        const categoryId = categoryData.id;
+        const categoryName = categoryData.name;
+        
+        categories[categoryId] = categoryName;
+        scores[categoryId] = 0;
+        counts[categoryId] = 0;
+      });
+    }
 
-      categories[category] = text;
-      scores[category] = 0;
-      counts[category] = 0;
-    });
-
+    // Calculate maxValue from all inputs across all pages
     inputs.forEach((input) => {
       const value = parseInt(input.value);
       if (!isNaN(value)) {
         maxValue = Math.max(maxValue, value);
       }
     });
+
+    // Also check YAML data for maxValue to ensure we get all possible values
+    if (categoryPages && categoryPages.length > 0) {
+      categoryPages.forEach((categoryData) => {
+        if (categoryData.questions) {
+          categoryData.questions.forEach((question) => {
+            if (question.options) {
+              question.options.forEach((option) => {
+                const value = parseInt(option.value);
+                if (!isNaN(value)) {
+                  maxValue = Math.max(maxValue, value);
+                }
+              });
+            }
+          });
+        }
+      });
+    }
 
     // Re-add event listeners for new radio buttons
     document.addEventListener("change", handleRadioChange);
@@ -420,37 +416,52 @@
   }
 
   function calculateCategoryScore(category) {
-    const inputs = maturityForm.querySelectorAll(
-      `input[name^="${category}_"]:checked`
-    );
-    if (inputs.length === 0) return 0;
-
+    // Read answers from localStorage to include all pages
+    const answeredQuestions = [];
     let total = 0;
-    inputs.forEach((input) => {
-      total += parseInt(input.value);
-    });
 
-    return (total / inputs.length).toFixed(2);
+    // Check localStorage for all questions in this category
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(`${category}_`)) {
+        const value = localStorage.getItem(key);
+        if (value !== null) {
+          answeredQuestions.push(key);
+          total += parseInt(value);
+        }
+      }
+    }
+
+    if (answeredQuestions.length === 0) return 0;
+    return (total / answeredQuestions.length).toFixed(2);
   }
 
   function calculateCategoryCount(category) {
-    const inputs = maturityForm.querySelectorAll(
-      `input[name^="${category}_"]:checked`
-    );
-    if (inputs.length === 0) return 0;
-
+    // Read answers from localStorage to include all pages
     const count = {};
 
+    // Initialize count object
     for (let i = 1; i <= maxValue; i++) {
       count[i] = 0;
     }
 
-    inputs.forEach((input) => {
-      const value = parseInt(input.value ?? 0).toString();
-      count[value]++;
-    });
+    // Check localStorage for all questions in this category
+    let hasAnswers = false;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(`${category}_`)) {
+        const value = localStorage.getItem(key);
+        if (value !== null) {
+          hasAnswers = true;
+          const intValue = parseInt(value ?? 0).toString();
+          if (count[intValue] !== undefined) {
+            count[intValue]++;
+          }
+        }
+      }
+    }
 
-    return count;
+    return hasAnswers ? count : 0;
   }
 
   function updateScores() {
@@ -537,6 +548,107 @@
 
   // Initial chart draw
   draw();
+})(); // End of IIFE
+
+// Render the current page content (global scope for access from pagination functions)
+function renderCurrentPage() {
+  const form = document.getElementById('maturity-form');
+  const pageIndicator = document.getElementById('page-indicator');
+  const introSection = document.getElementById('intro-section');
+  
+  if (!form || !categoryPages.length) return;
+  
+  // Update page indicator
+  if (pageIndicator) {
+    pageIndicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
+  }
+  
+  // Show/hide intro based on page
+  if (introSection) {
+    introSection.style.display = currentPage === 0 ? 'block' : 'none';
+  }
+  
+  // Get current category
+  const category = categoryPages[currentPage];
+  
+  // Generate HTML for current page
+  let formHTML = `
+    <fieldset>
+      <legend data-category="${category.id}">${category.name}</legend>
+  `;
+
+  category.questions.forEach(question => {
+    formHTML += `
+      <div class="question-group">
+        <div class="question">${question.text}</div>
+        <div class="options">
+    `;
+
+    question.options.forEach(option => {
+      formHTML += `
+        <label class="option">
+          <input type="radio" name="${question.field_name}" value="${option.value}" />
+          <div class="option-text">
+            <span class="option-level">${option.level}</span><br />
+            <span class="option-description">${option.description}</span>
+          </div>
+        </label>
+      `;
+    });
+
+    formHTML += `
+        </div>
+      </div>
+    `;
+  });
+
+  formHTML += `</fieldset>`;
+  form.innerHTML = formHTML;
+  
+  // Restore answers for current page
+  restoreCurrentPageAnswers();
+}
+
+// Update pagination button states (global scope)
+function updatePaginationControls() {
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const submitBtn = document.getElementById('submit-btn');
+  
+  if (prevBtn) prevBtn.disabled = currentPage === 0;
+  
+  if (currentPage === totalPages - 1) {
+    if (nextBtn) nextBtn.style.display = 'none';
+    if (submitBtn) submitBtn.style.display = 'inline-block';
+  } else {
+    if (nextBtn) nextBtn.style.display = 'inline-block';
+    if (submitBtn) submitBtn.style.display = 'none';
+  }
+}
+
+// Save answers for current page (global scope)
+function saveCurrentPageAnswers() {
+  const form = document.getElementById('maturity-form');
+  if (!form) return;
+  
+  const inputs = form.querySelectorAll('input[type="radio"]:checked');
+  inputs.forEach(input => {
+    localStorage.setItem(input.name, input.value);
+  });
+}
+
+// Restore answers for current page (global scope)
+function restoreCurrentPageAnswers() {
+  const form = document.getElementById('maturity-form');
+  if (!form) return;
+  
+  const inputs = form.querySelectorAll('input[type="radio"]');
+  inputs.forEach(input => {
+    const savedValue = localStorage.getItem(input.name);
+    if (savedValue && input.value === savedValue) {
+      input.checked = true;
+    }
+  });
 }
 
 // Global function for language switching (accessible from HTML onclick)
@@ -579,3 +691,82 @@ document.addEventListener('DOMContentLoaded', function() {
   // Small delay to ensure dropdown is rendered
   setTimeout(window.updateLanguageDropdown, 100);
 });
+
+// Global pagination functions (accessible from HTML)
+window.nextPage = function() {
+  if (currentPage < totalPages - 1) {
+    saveCurrentPageAnswers();
+    currentPage++;
+    renderCurrentPage();
+    updatePaginationControls();
+    restoreCurrentPageAnswers();
+  }
+};
+
+window.previousPage = function() {
+  if (currentPage > 0) {
+    saveCurrentPageAnswers();
+    currentPage--;
+    renderCurrentPage();
+    updatePaginationControls();
+    restoreCurrentPageAnswers();
+  }
+};
+
+window.submitAssessment = function() {
+  saveCurrentPageAnswers();
+  showResults();
+};
+
+window.returnToAssessment = function() {
+  const formSection = document.querySelector('.form-section');
+  const resultsSection = document.getElementById('results-section');
+
+  if (resultsSection) resultsSection.style.display = 'none';
+  if (formSection) {
+    formSection.style.display = 'block';
+    // Restore the current page and answers
+    renderCurrentPage();
+    updatePaginationControls();
+    restoreCurrentPageAnswers();
+  }
+};
+
+// Save answers for current page
+function saveCurrentPageAnswers() {
+  const form = document.getElementById('maturity-form');
+  if (!form) return;
+
+  const inputs = form.querySelectorAll('input[type="radio"]:checked');
+  inputs.forEach(input => {
+    localStorage.setItem(input.name, input.value);
+  });
+}
+
+// Restore answers for current page
+function restoreCurrentPageAnswers() {
+  const form = document.getElementById('maturity-form');
+  if (!form) return;
+
+  const inputs = form.querySelectorAll('input[type="radio"]');
+  inputs.forEach(input => {
+    const savedValue = localStorage.getItem(input.name);
+    if (savedValue && input.value === savedValue) {
+      input.checked = true;
+    }
+  });
+}
+
+// Show results section
+function showResults() {
+  const formSection = document.querySelector('.form-section');
+  const resultsSection = document.getElementById('results-section');
+
+  if (formSection) formSection.style.display = 'none';
+  if (resultsSection) resultsSection.style.display = 'block';
+
+  // Trigger the existing chart and scores calculation
+  draw();
+  updateScores();
+}
+

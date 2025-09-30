@@ -266,6 +266,31 @@ nav.languages select:focus {
     text-decoration: none;
 }
 
+.action-buttons {
+    padding-block-start: 1em;
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.return-button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: 16px;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 160px;
+}
+
+.return-button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
 .question-group {
     margin-block-end: var(--spacing-3xl);
     padding: var(--spacing-2xl);
@@ -316,6 +341,70 @@ nav.languages select:focus {
 .option-text {
     flex: 1;
     line-height: 1.5;
+}
+
+/** Pagination Controls */
+.progress-indicator {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    color: var(--text-heading-medium);
+    font-size: 14px;
+    font-weight: var(--font-weight-medium);
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--spacing-4xl);
+    padding-top: var(--spacing-xl);
+    border-top: 2px solid var(--bg-primary-light);
+}
+
+.pagination-controls button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: 16px;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.pagination-controls button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.pagination-controls #submit-btn {
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    font-weight: var(--font-weight-semibold);
+}
+
+.pagination-controls #submit-btn:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--bg-gradient-end));
+}
+
+@media (max-width: 600px) {
+    .pagination-controls {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .pagination-controls button {
+        width: 100%;
+    }
 }
 
 .option-level {
