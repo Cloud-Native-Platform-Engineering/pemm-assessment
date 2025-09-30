@@ -229,7 +229,56 @@ nav.languages select:focus {
 }
 
 .intro {
-    margin-block-end: var(--spacing-xl);
+    background: var(--bg-white-translucent);
+    padding: var(--spacing-2xl);
+    margin-block-end: var(--spacing-3xl);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    border-left: 5px solid var(--primary-color);
+}
+
+.intro h3 {
+    color: var(--primary-color);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.intro h3::before {
+    content: "🏗️";
+    font-size: var(--font-size-xl);
+}
+
+.intro p {
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+}
+
+.intro p:last-child {
+    margin-bottom: 0;
+}
+
+.intro a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    transition: var(--transition-smooth);
+}
+
+.intro a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.intro .highlight {
+    background: var(--bg-primary-light);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 4px;
+    font-weight: var(--font-weight-medium);
 }
 
 .feedback-message {

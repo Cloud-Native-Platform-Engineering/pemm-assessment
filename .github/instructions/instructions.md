@@ -57,8 +57,10 @@ metadata:
   feedback_message: "Thank you message"
   copy_link_text: "📋 Copy Shareable Link"
   share_feedback_text: "💬 Share Feedback"
+  language_label: "Language:"
   language_english: "English"
   language_chinese: "中文"
+  language_spanish: "Español"
 ```
 
 ### Categories and Questions
@@ -84,13 +86,14 @@ categories:
 ### URL Structure
 - **English**: `/pemm-assessment/` or `/pemm-assessment/?lang=en`
 - **Chinese**: `/pemm-assessment/?lang=zh`
+- **Spanish**: `/pemm-assessment/?lang=es`
 - **Legacy**: `/pemm-assessment/zh/` (redirects to main template)
 
 ### Language Detection
 The JavaScript automatically detects language from:
-1. URL parameter: `?lang=zh`
+1. URL parameter: `?lang=zh` or `?lang=es`
 2. Legacy path: `/zh/` (redirects)
-3. Hash parameter: `#lang=zh`
+3. Hash parameter: `#lang=zh` or `#lang=es`
 4. Default: English
 
 ### Adding New Languages
@@ -99,6 +102,7 @@ To add a new language:
 2. Update JavaScript language detection in `loadQuestionsData()`
 3. Add option to language dropdown in HTML template
 4. Update `changeLanguage()` function if needed
+5. **Follow translation workflow**: Ensure all content is properly translated and synchronized
 
 ## Dynamic Content Loading
 
@@ -163,6 +167,60 @@ nav.languages select {
 
 ## Content Management
 
+### Translation Management and Synchronization
+
+**⚠️ CRITICAL: All translation files must be kept synchronized when updating content.**
+
+The assessment now supports three languages with separate YAML files:
+- `data/questions-en.yaml` - English (primary/source language)  
+- `data/questions-zh.yaml` - Chinese translation
+- `data/questions-es.yaml` - Spanish translation
+
+#### Mandatory Translation Workflow
+
+When updating ANY content in the assessment, you MUST follow this workflow:
+
+1. **Always start with English source**: Make changes to `data/questions-en.yaml` first
+2. **Update Chinese translation**: Apply equivalent changes to `data/questions-zh.yaml`
+3. **Update Spanish translation**: Apply equivalent changes to `data/questions-es.yaml`
+4. **Verify structural consistency**: Ensure all files maintain identical:
+   - Category IDs and order
+   - Question IDs within each category
+   - Option values (1-5) for consistent scoring
+   - Field names for form compatibility
+
+#### What Must Be Translated
+
+When updating content, ensure these elements are properly translated:
+
+**Metadata Section:**
+- `title`, `intro`, `results_title`, `feedback_message`
+- All UI text (`copy_link_text`, `share_feedback_text`, etc.)
+- Language labels (`language_english`, `language_chinese`, `language_spanish`)
+
+**Content Structure:**
+- Category `name` fields
+- Question `text` content  
+- Option `level` names and `description` text
+
+#### Translation Quality Assurance
+
+After updating translations:
+
+1. **Test each language**: Use URL parameters `?lang=en`, `?lang=zh`, `?lang=es`
+2. **Verify functionality**: Complete full assessment in each language
+3. **Check UI elements**: Ensure all buttons, labels, and messages display correctly
+4. **Validate scoring**: Confirm results calculation works across all languages
+5. **Test language switching**: Verify dropdown selector preserves functionality
+
+#### Common Translation Pitfalls
+
+- **Forgetting to update all three files** when changing English content
+- **Changing structural elements** (IDs, values) instead of just text
+- **Breaking HTML markup** in translated intro/feedback messages  
+- **Inconsistent option values** that break scoring calculations
+- **Missing UI text translations** that leave English text in other languages
+
 ### Updating Questions
 1. Edit appropriate YAML file in `/data/` directory
 2. Maintain consistent structure for categories and questions
@@ -183,10 +241,12 @@ nav.languages select {
 ## Best Practices
 
 ### YAML Maintenance
-- Keep English and Chinese files synchronized in structure
+- **CRITICAL**: Keep all three language files (EN/ZH/ES) synchronized in structure
+- Always update English source first, then translate to other languages
 - Use consistent indentation (2 spaces)
 - Quote strings containing special characters
 - Test YAML validity after changes
+- Verify identical category/question IDs and option values across all languages
 
 ### JavaScript Development
 - Use `console.log()` for debugging YAML loading
