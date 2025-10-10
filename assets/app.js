@@ -7,8 +7,27 @@ let categoryPages = [];
   // YAML data storage
   let questionsData = null;
 
+  // Cache for discovered languages to avoid repeated scans
+  let discoveredLanguagesCache = null;
+  let isDiscovering = false;
+
   // Discover available languages by scanning the data directory
   async function discoverAvailableLanguages() {
+    // Return cached result if available
+    if (discoveredLanguagesCache) {
+      return discoveredLanguagesCache;
+    }
+
+    // Prevent multiple simultaneous discovery operations
+    if (isDiscovering) {
+      // Wait for the current discovery to complete
+      while (isDiscovering) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+      return discoveredLanguagesCache || [];
+    }
+
+    isDiscovering = true;
     const availableLanguages = [];
 
     // Common language codes to scan for automatically
@@ -71,46 +90,85 @@ let categoryPages = [];
     });
 
     console.log(`Discovered ${availableLanguages.length} languages:`, availableLanguages.map(l => l.code));
+
+    // Cache the result
+    discoveredLanguagesCache = availableLanguages;
+    isDiscovering = false;
+
     return availableLanguages;
   }  // Build language dropdown dynamically from discovered languages
-  async function buildLanguageDropdown(currentLanguage = 'en') {
+  async function buildLanguageDropdown(currentLanguage = 'en', lazy = false) {
     const languageDropdownElement = document.getElementById('language-dropdown');
     if (!languageDropdownElement) return;
 
     try {
-      const availableLanguages = await discoverAvailableLanguages();
+      // If lazy loading is enabled and we haven't discovered languages yet, show current language only
+      if (lazy && !discoveredLanguagesCache) {
+        // Get current language info to show proper name
+        const currentLangInfo = await getCurrentLanguageInfo(currentLanguage);
+        const currentLangName = currentLangInfo ?
+          getLanguageDisplayName(currentLangInfo.metadata, currentLanguage) :
+          currentLanguage.toUpperCase();
 
-      if (availableLanguages.length === 0) {
-        console.warn('No language files found');
-        languageDropdownElement.innerHTML = '<option value="">No languages found</option>';
+        languageDropdownElement.innerHTML = `<option value="${currentLanguage}">${currentLangName}</option>`;
+
+        // Set up event listener for when user interacts with dropdown
+        if (!languageDropdownElement.hasAttribute('data-lazy-loaded')) {
+          languageDropdownElement.setAttribute('data-lazy-loaded', 'true');
+
+          // Load languages when dropdown is focused or clicked
+          const loadLanguages = async () => {
+            languageDropdownElement.innerHTML = '<option value="">Loading languages...</option>';
+            const availableLanguages = await discoverAvailableLanguages();
+            await populateDropdown(availableLanguages, currentLanguage);
+          };
+
+          languageDropdownElement.addEventListener('focus', loadLanguages, { once: true });
+          languageDropdownElement.addEventListener('click', loadLanguages, { once: true });
+        }
         return;
       }
 
-      // Sort languages to ensure consistent order (English first, then alphabetical)
-      availableLanguages.sort((a, b) => {
-        if (a.code === 'en') return -1;
-        if (b.code === 'en') return 1;
-        return a.code.localeCompare(b.code);
-      });
-
-      // Build dropdown options
-      const options = availableLanguages.map(lang => {
-        // Try to get the language name from metadata, fall back to language code
-        const languageName = getLanguageDisplayName(lang.metadata, lang.code);
-        return `<option value="${lang.code}">${languageName}</option>`;
-      }).join('');
-
-      languageDropdownElement.innerHTML = options;
-      languageDropdownElement.value = currentLanguage;
-
-      console.log(`Built dropdown with ${availableLanguages.length} languages:`,
-                  availableLanguages.map(l => l.code));
+      const availableLanguages = await discoverAvailableLanguages();
+      await populateDropdown(availableLanguages, currentLanguage);
 
     } catch (error) {
       console.error('Error building language dropdown:', error);
       // No fallback - if there's an error, show empty dropdown
       languageDropdownElement.innerHTML = '<option value="">Error loading languages</option>';
     }
+  }
+
+  // Helper function to populate the dropdown with language options
+  async function populateDropdown(availableLanguages, currentLanguage) {
+    const languageDropdownElement = document.getElementById('language-dropdown');
+    if (!languageDropdownElement) return;
+
+    if (availableLanguages.length === 0) {
+      console.warn('No language files found');
+      languageDropdownElement.innerHTML = '<option value="">No languages found</option>';
+      return;
+    }
+
+    // Sort languages to ensure consistent order (English first, then alphabetical)
+    availableLanguages.sort((a, b) => {
+      if (a.code === 'en') return -1;
+      if (b.code === 'en') return 1;
+      return a.code.localeCompare(b.code);
+    });
+
+    // Build dropdown options
+    const options = availableLanguages.map(lang => {
+      // Try to get the language name from metadata, fall back to language code
+      const languageName = getLanguageDisplayName(lang.metadata, lang.code);
+      return `<option value="${lang.code}">${languageName}</option>`;
+    }).join('');
+
+    languageDropdownElement.innerHTML = options;
+    languageDropdownElement.value = currentLanguage;
+
+    console.log(`Built dropdown with ${availableLanguages.length} languages:`,
+                availableLanguages.map(l => l.code));
   }
 
   // Get display name for a language from its metadata
@@ -122,6 +180,38 @@ let categoryPages = [];
 
     // Fall back to language code in uppercase if no metadata is available
     return langCode.toUpperCase();
+  }
+
+  // Get current language info without full discovery (for initial load)
+  async function getCurrentLanguageInfo(langCode) {
+    const yamlPaths = [
+      `/pemm-assessment/data/questions-${langCode}.yaml`,
+      `./data/questions-${langCode}.yaml`,
+      `../data/questions-${langCode}.yaml`,
+      `/data/questions-${langCode}.yaml`
+    ];
+
+    for (const yamlPath of yamlPaths) {
+      try {
+        const response = await fetch(yamlPath, { method: 'HEAD' });
+        if (response.ok) {
+          const fullResponse = await fetch(yamlPath);
+          if (fullResponse.ok) {
+            const yamlText = await fullResponse.text();
+            const data = jsyaml.load(yamlText);
+            if (data && data.metadata) {
+              return {
+                code: langCode,
+                metadata: data.metadata
+              };
+            }
+          }
+        }
+      } catch (err) {
+        // Continue to next path
+      }
+    }
+    return null;
   }
 
   // Load YAML data
@@ -205,8 +295,8 @@ let categoryPages = [];
     if (copyLinkElement) copyLinkElement.textContent = data.metadata.copy_link_text;
     if (shareFeedbackElement) shareFeedbackElement.textContent = data.metadata.share_feedback_text;
 
-    // Update language selector dynamically
-    await buildLanguageDropdown(data.metadata.language);
+    // Update language selector dynamically with lazy loading
+    await buildLanguageDropdown(data.metadata.language, true);
 
     // Store categories for pagination
     categoryPages = data.categories.sort((a, b) => a.order - b.order);
