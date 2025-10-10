@@ -770,6 +770,8 @@ window.previousPage = function() {
 window.submitAssessment = function() {
   saveCurrentPageAnswers();
   showResults();
+  // Scroll to top to show results section
+  window.scrollTo(0, 0);
 };
 
 window.returnToAssessment = function() {
