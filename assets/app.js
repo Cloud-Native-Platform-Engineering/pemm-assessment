@@ -139,7 +139,7 @@ let categoryPages = [];
       categoryPages.forEach((categoryData) => {
         const categoryId = categoryData.id;
         const categoryName = categoryData.name;
-        
+
         categories[categoryId] = categoryName;
         scores[categoryId] = 0;
         counts[categoryId] = 0;
@@ -535,10 +535,10 @@ let categoryPages = [];
   function copyURLToClipboard(elem) {
     const lang = getLanguage();
     const originalText = elem.innerText;
-    
+
     // Build URL with all answers from localStorage
     const params = new URLSearchParams(window.location.search);
-    
+
     // Remove existing answer parameters but keep language parameter
     const answersToRemove = [];
     for (const [key] of params.entries()) {
@@ -547,7 +547,7 @@ let categoryPages = [];
       }
     }
     answersToRemove.forEach(key => params.delete(key));
-    
+
     // Add all answers from localStorage
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -558,9 +558,9 @@ let categoryPages = [];
         }
       }
     }
-    
+
     const shareableURL = window.location.origin + window.location.pathname + '?' + params.toString();
-    
+
     navigator.clipboard
       .writeText(shareableURL)
       .then(function () {
@@ -605,22 +605,22 @@ function renderCurrentPage() {
   const form = document.getElementById('maturity-form');
   const pageIndicator = document.getElementById('page-indicator');
   const introSection = document.getElementById('intro-section');
-  
+
   if (!form || !categoryPages.length) return;
-  
+
   // Update page indicator
   if (pageIndicator) {
     pageIndicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
   }
-  
+
   // Show/hide intro based on page
   if (introSection) {
     introSection.style.display = currentPage === 0 ? 'block' : 'none';
   }
-  
+
   // Get current category
   const category = categoryPages[currentPage];
-  
+
   // Generate HTML for current page
   let formHTML = `
     <fieldset>
@@ -654,7 +654,7 @@ function renderCurrentPage() {
 
   formHTML += `</fieldset>`;
   form.innerHTML = formHTML;
-  
+
   // Restore answers for current page
   restoreCurrentPageAnswers();
 }
@@ -664,9 +664,9 @@ function updatePaginationControls() {
   const prevBtn = document.getElementById('prev-btn');
   const nextBtn = document.getElementById('next-btn');
   const submitBtn = document.getElementById('submit-btn');
-  
+
   if (prevBtn) prevBtn.disabled = currentPage === 0;
-  
+
   if (currentPage === totalPages - 1) {
     if (nextBtn) nextBtn.style.display = 'none';
     if (submitBtn) submitBtn.style.display = 'inline-block';
@@ -680,7 +680,7 @@ function updatePaginationControls() {
 function saveCurrentPageAnswers() {
   const form = document.getElementById('maturity-form');
   if (!form) return;
-  
+
   const inputs = form.querySelectorAll('input[type="radio"]:checked');
   inputs.forEach(input => {
     localStorage.setItem(input.name, input.value);
@@ -691,7 +691,7 @@ function saveCurrentPageAnswers() {
 function restoreCurrentPageAnswers() {
   const form = document.getElementById('maturity-form');
   if (!form) return;
-  
+
   const inputs = form.querySelectorAll('input[type="radio"]');
   inputs.forEach(input => {
     const savedValue = localStorage.getItem(input.name);
@@ -750,6 +750,8 @@ window.nextPage = function() {
     renderCurrentPage();
     updatePaginationControls();
     restoreCurrentPageAnswers();
+    // Scroll to top of page for better UX
+    window.scrollTo(0, 0);
   }
 };
 
@@ -760,6 +762,8 @@ window.previousPage = function() {
     renderCurrentPage();
     updatePaginationControls();
     restoreCurrentPageAnswers();
+    // Scroll to top of page for better UX
+    window.scrollTo(0, 0);
   }
 };
 

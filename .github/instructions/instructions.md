@@ -172,7 +172,7 @@ nav.languages select {
 **⚠️ CRITICAL: All translation files must be kept synchronized when updating content.**
 
 The assessment now supports three languages with separate YAML files:
-- `data/questions-en.yaml` - English (primary/source language)  
+- `data/questions-en.yaml` - English (primary/source language)
 - `data/questions-zh.yaml` - Chinese translation
 - `data/questions-es.yaml` - Spanish translation
 
@@ -200,7 +200,7 @@ When updating content, ensure these elements are properly translated:
 
 **Content Structure:**
 - Category `name` fields
-- Question `text` content  
+- Question `text` content
 - Option `level` names and `description` text
 
 #### Translation Quality Assurance
@@ -217,7 +217,7 @@ After updating translations:
 
 - **Forgetting to update all three files** when changing English content
 - **Changing structural elements** (IDs, values) instead of just text
-- **Breaking HTML markup** in translated intro/feedback messages  
+- **Breaking HTML markup** in translated intro/feedback messages
 - **Inconsistent option values** that break scoring calculations
 - **Missing UI text translations** that leave English text in other languages
 
