@@ -7,6 +7,124 @@ let categoryPages = [];
   // YAML data storage
   let questionsData = null;
 
+  // Discover available languages by attempting to load their data files
+  async function discoverAvailableLanguages() {
+    const potentialLanguages = ['en', 'zh', 'es', 'fr', 'de', 'ja', 'ko', 'pt', 'it', 'ru', 'ar', 'hi'];
+    const availableLanguages = [];
+
+    for (const langCode of potentialLanguages) {
+      const yamlPaths = [
+        `/pemm-assessment/data/questions-${langCode}.yaml`,
+        `./data/questions-${langCode}.yaml`,
+        `../data/questions-${langCode}.yaml`,
+        `/data/questions-${langCode}.yaml`
+      ];
+
+      let success = false;
+      for (const yamlPath of yamlPaths) {
+        try {
+          const response = await fetch(yamlPath);
+          if (response.ok) {
+            const yamlText = await response.text();
+            const data = jsyaml.load(yamlText);
+            if (data && data.metadata) {
+              availableLanguages.push({
+                code: langCode,
+                metadata: data.metadata
+              });
+              success = true;
+              break;
+            }
+          }
+        } catch (err) {
+          // Continue to next path
+        }
+      }
+
+      if (success) {
+        console.log(`Found language: ${langCode}`);
+      }
+    }
+
+    return availableLanguages;
+  }
+
+  // Build language dropdown dynamically from discovered languages
+  async function buildLanguageDropdown(currentLanguage = 'en') {
+    const languageDropdownElement = document.getElementById('language-dropdown');
+    if (!languageDropdownElement) return;
+
+    try {
+      const availableLanguages = await discoverAvailableLanguages();
+
+      if (availableLanguages.length === 0) {
+        console.warn('No language files found, falling back to English only');
+        languageDropdownElement.innerHTML = '<option value="en">English</option>';
+        return;
+      }
+
+      // Sort languages to ensure consistent order (English first, then alphabetical)
+      availableLanguages.sort((a, b) => {
+        if (a.code === 'en') return -1;
+        if (b.code === 'en') return 1;
+        return a.code.localeCompare(b.code);
+      });
+
+      // Build dropdown options
+      const options = availableLanguages.map(lang => {
+        // Try to get the language name from metadata, fall back to language code
+        const languageName = getLanguageDisplayName(lang.metadata, lang.code);
+        return `<option value="${lang.code}">${languageName}</option>`;
+      }).join('');
+
+      languageDropdownElement.innerHTML = options;
+      languageDropdownElement.value = currentLanguage;
+
+      console.log(`Built dropdown with ${availableLanguages.length} languages:`,
+                  availableLanguages.map(l => l.code));
+
+    } catch (error) {
+      console.error('Error building language dropdown:', error);
+      // Fallback to basic dropdown
+      languageDropdownElement.innerHTML = `
+        <option value="en">English</option>
+        <option value="zh">中文</option>
+        <option value="es">Español</option>
+      `;
+    }
+  }
+
+  // Get display name for a language from its metadata
+  function getLanguageDisplayName(metadata, langCode) {
+    // Try to get the native language name from metadata
+    if (metadata.language_native) {
+      return metadata.language_native;
+    }
+
+    // Fall back to specific metadata fields
+    if (metadata.language_english && langCode === 'en') return metadata.language_english;
+    if (metadata.language_chinese && langCode === 'zh') return metadata.language_chinese;
+    if (metadata.language_spanish && langCode === 'es') return metadata.language_spanish;
+
+    // Ultimate fallback to language code mapping
+    const languageNames = {
+      'en': 'English',
+      'zh': '中文',
+      'es': 'Español',
+      'fr': 'Français',
+      'de': 'Deutsch',
+      'ja': '日本語',
+      'ko': '한국어',
+      'pt': 'Português',
+      'it': 'Italiano',
+      'ru': 'Русский',
+      'ar': 'العربية',
+      'hi': 'हिन्दी'
+    };
+
+    return languageNames[langCode] || langCode.toUpperCase();
+  }
+
   // Load YAML data
   async function loadQuestionsData() {
     // Determine language from URL path, query parameter, or default to English
@@ -14,35 +132,25 @@ let categoryPages = [];
     const path = window.location.pathname;
     const params = new URLSearchParams(window.location.search);
 
-    // Check for language parameter in URL
-    if (params.get('lang') === 'zh') {
-      langCode = 'zh';
-    } else if (params.get('lang') === 'es') {
-      langCode = 'es';
+    // Check for language parameter in URL query
+    const urlLang = params.get('lang');
+    if (urlLang) {
+      langCode = urlLang;
     }
     // Check for Chinese path (legacy support)
     else if (path.includes('/zh/') || path.endsWith('/zh')) {
       langCode = 'zh';
     }
     // Check for language parameter in hash
-    else if (window.location.hash.includes('lang=zh')) {
-      langCode = 'zh';
-    } else if (window.location.hash.includes('lang=es')) {
-      langCode = 'es';
+    else if (window.location.hash.includes('lang=')) {
+      const hashMatch = window.location.hash.match(/lang=([a-z]{2})/);
+      if (hashMatch) {
+        langCode = hashMatch[1];
+      }
     }
 
-    // Try different path patterns for GitHub Pages vs local development
-    let yamlFileName;
-    switch(langCode) {
-      case 'zh':
-        yamlFileName = 'questions-zh.yaml';
-        break;
-      case 'es':
-        yamlFileName = 'questions-es.yaml';
-        break;
-      default:
-        yamlFileName = 'questions-en.yaml';
-    }
+    // Build filename dynamically
+    const yamlFileName = `questions-${langCode}.yaml`;
 
     const yamlPaths = [
       `/pemm-assessment/data/${yamlFileName}`,
@@ -74,7 +182,7 @@ let categoryPages = [];
     console.log('Falling back to static HTML structure');
     return null;
   }    // Generate form HTML from YAML data with pagination
-  function generateFormFromData(data) {
+  async function generateFormFromData(data) {
     if (!data) return;
 
     const form = document.getElementById('maturity-form');
@@ -98,15 +206,8 @@ let categoryPages = [];
     if (copyLinkElement) copyLinkElement.textContent = data.metadata.copy_link_text;
     if (shareFeedbackElement) shareFeedbackElement.textContent = data.metadata.share_feedback_text;
 
-    // Update language selector (dropdown only, no label)
-    if (languageDropdownElement) {
-      languageDropdownElement.innerHTML = `
-        <option value="en">${data.metadata.language_english}</option>
-        <option value="zh">${data.metadata.language_chinese}</option>
-        <option value="es">${data.metadata.language_spanish}</option>
-      `;
-      languageDropdownElement.value = data.metadata.language;
-    }
+    // Update language selector dynamically
+    await buildLanguageDropdown(data.metadata.language);
 
     // Store categories for pagination
     categoryPages = data.categories.sort((a, b) => a.order - b.order);
@@ -586,7 +687,7 @@ let categoryPages = [];
 
     if (yamlData) {
       // Generate form from YAML data
-      generateFormFromData(yamlData);
+      await generateFormFromData(yamlData);
     } else {
       // Fallback to existing HTML structure
       loadStateFromURL();
@@ -706,7 +807,7 @@ window.changeLanguage = function(langCode) {
   const currentUrl = new URL(window.location);
 
   // Update the language parameter
-  if (langCode === 'zh' || langCode === 'es') {
+  if (langCode && langCode !== 'en') {
     currentUrl.searchParams.set('lang', langCode);
   } else {
     currentUrl.searchParams.delete('lang');
@@ -721,15 +822,26 @@ window.updateLanguageDropdown = function() {
   const dropdown = document.getElementById('language-dropdown');
   if (!dropdown) return;
 
-  // Determine current language
+  // Determine current language dynamically
   const params = new URLSearchParams(window.location.search);
   const path = window.location.pathname;
   let currentLang = 'en';
 
-  if (params.get('lang') === 'zh' || path.includes('/zh/') || path.endsWith('/zh')) {
+  // Check URL parameter
+  const urlLang = params.get('lang');
+  if (urlLang) {
+    currentLang = urlLang;
+  }
+  // Check legacy Chinese path
+  else if (path.includes('/zh/') || path.endsWith('/zh')) {
     currentLang = 'zh';
-  } else if (params.get('lang') === 'es') {
-    currentLang = 'es';
+  }
+  // Check hash parameter
+  else if (window.location.hash.includes('lang=')) {
+    const hashMatch = window.location.hash.match(/lang=([a-z]{2})/);
+    if (hashMatch) {
+      currentLang = hashMatch[1];
+    }
   }
 
   // Set dropdown value
