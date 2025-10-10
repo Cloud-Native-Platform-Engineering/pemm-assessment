@@ -7,9 +7,8 @@ let categoryPages = [];
   // YAML data storage
   let questionsData = null;
 
-  // Discover available languages by attempting to load their data files
+  // Discover available languages by scanning the data directory
   async function discoverAvailableLanguages() {
-    const potentialLanguages = ['en', 'zh', 'es', 'fr', 'de', 'ja', 'ko', 'pt', 'it', 'ru', 'ar', 'hi'];
     const availableLanguages = [];
 
     for (const langCode of potentialLanguages) {
@@ -23,33 +22,46 @@ let categoryPages = [];
       let success = false;
       for (const yamlPath of yamlPaths) {
         try {
-          const response = await fetch(yamlPath);
+          const response = await fetch(yamlPath, { method: 'HEAD' });
           if (response.ok) {
-            const yamlText = await response.text();
-            const data = jsyaml.load(yamlText);
-            if (data && data.metadata) {
-              availableLanguages.push({
-                code: langCode,
-                metadata: data.metadata
-              });
-              success = true;
-              break;
+            // File exists, now load its metadata
+            try {
+              const fullResponse = await fetch(yamlPath);
+              if (fullResponse.ok) {
+                const yamlText = await fullResponse.text();
+                const data = jsyaml.load(yamlText);
+                if (data && data.metadata) {
+                  availableLanguages.push({
+                    code: langCode,
+                    metadata: data.metadata
+                  });
+                  found = true;
+                  console.log(`Found language: ${langCode}`);
+                  break;
+                }
+              }
+            } catch (err) {
+              // Continue to next language
             }
           }
         } catch (err) {
-          // Continue to next path
+          // Continue to next path/language
         }
       }
 
-      if (success) {
-        console.log(`Found language: ${langCode}`);
-      }
+      if (found) continue;
     }
 
-    return availableLanguages;
-  }
+    // Sort by priority: English first, then alphabetical
+    availableLanguages.sort((a, b) => {
+      if (a.code === 'en') return -1;
+      if (b.code === 'en') return 1;
+      return a.code.localeCompare(b.code);
+    });
 
-  // Build language dropdown dynamically from discovered languages
+    console.log(`Discovered ${availableLanguages.length} languages:`, availableLanguages.map(l => l.code));
+    return availableLanguages;
+  }  // Build language dropdown dynamically from discovered languages
   async function buildLanguageDropdown(currentLanguage = 'en') {
     const languageDropdownElement = document.getElementById('language-dropdown');
     if (!languageDropdownElement) return;
@@ -298,27 +310,57 @@ let categoryPages = [];
     }
   }
 
-  // Languages
-  const languages = [
-    {
-      code: "en",
-      name: "English",
+  // Get copy messages from current language dynamically
+  async function getCurrentLanguageCopyMessages() {
+    // Determine current language
+    const params = new URLSearchParams(window.location.search);
+    const path = window.location.pathname;
+    let currentLang = 'en';
+
+    const urlLang = params.get('lang');
+    if (urlLang) {
+      currentLang = urlLang;
+    } else if (path.includes('/zh/') || path.endsWith('/zh')) {
+      currentLang = 'zh';
+    } else if (window.location.hash.includes('lang=')) {
+      const hashMatch = window.location.hash.match(/lang=([a-z]{2})/);
+      if (hashMatch) {
+        currentLang = hashMatch[1];
+      }
+    }
+
+    // Try to load the current language's metadata for copy messages
+    const yamlPaths = [
+      `/pemm-assessment/data/questions-${currentLang}.yaml`,
+      `./data/questions-${currentLang}.yaml`,
+      `../data/questions-${currentLang}.yaml`,
+      `/data/questions-${currentLang}.yaml`
+    ];
+
+    for (const yamlPath of yamlPaths) {
+      try {
+        const response = await fetch(yamlPath);
+        if (response.ok) {
+          const yamlText = await response.text();
+          const data = jsyaml.load(yamlText);
+          if (data && data.metadata) {
+            return {
+              copySuccess: data.metadata.copy_success || data.metadata.copy_link_text || "📋 Copied!",
+              copyFail: data.metadata.copy_fail || "Failed! Please copy from address bar."
+            };
+          }
+        }
+      } catch (err) {
+        // Continue to next path
+      }
+    }
+
+    // Fallback messages
+    return {
       copySuccess: "📋 Copied!",
       copyFail: "Failed! Please copy from address bar."
-    },
-    {
-      code: "zh",
-      name: "中文(Chinese)",
-      copySuccess: "📋 已复制！",
-      copyFail: "复制失败！请尝试从地址栏复制。"
-    },
-    {
-      code: "es",
-      name: "Español",
-      copySuccess: "📋 ¡Copiado!",
-      copyFail: "¡Error! Por favor copia desde la barra de direcciones."
-    }
-  ];
+    };
+  }
 
   // Chart setup
   const canvas = document.getElementById("maturity-spider");
@@ -369,35 +411,6 @@ let categoryPages = [];
       </ul>
       </nav>`);
   }
-
-  function getLanguage() {
-    // Get language from URL parameter, hash, or default to English
-    const params = new URLSearchParams(window.location.search);
-    const hash = window.location.hash;
-    let langCode = 'en';
-
-    // Check query parameter
-    if (params.get('lang') === 'zh') {
-      langCode = 'zh';
-    } else if (params.get('lang') === 'es') {
-      langCode = 'es';
-    }
-    // Check hash parameter
-    else if (hash.includes('lang=zh')) {
-      langCode = 'zh';
-    } else if (hash.includes('lang=es')) {
-      langCode = 'es';
-    }
-    // Check for legacy Chinese path
-    else if (window.location.pathname.includes('/zh/')) {
-      langCode = 'zh';
-    }
-
-    // Find and return the language object
-    return languages.find(lang => lang.code === langCode) || languages[0];
-  }
-
-  const lang = getLanguage();
 
   function drawSpiderChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -633,8 +646,8 @@ let categoryPages = [];
     elem.innerText = text;
   }
 
-  function copyURLToClipboard(elem) {
-    const lang = getLanguage();
+  async function copyURLToClipboard(elem) {
+    const copyMessages = await getCurrentLanguageCopyMessages();
     const originalText = elem.innerText;
 
     // Build URL with all answers from localStorage
@@ -665,12 +678,12 @@ let categoryPages = [];
     navigator.clipboard
       .writeText(shareableURL)
       .then(function () {
-        elem.innerText = lang.copySuccess;
+        elem.innerText = copyMessages.copySuccess;
         console.log('copied');
         window.setTimeout(() => revert(elem, originalText), 2000);
       })
       .catch(function (err) {
-        elem.innerText = lang.copyFail;
+        elem.innerText = copyMessages.copyFail;
         console.log('copy failed:', err);
         window.setTimeout(() => revert(elem, originalText), 2000);
       });

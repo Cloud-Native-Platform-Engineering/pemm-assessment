@@ -9,6 +9,8 @@ metadata:
   results_title: "Resultados de la Evaluación"
   feedback_message: "¡Gracias por usar nuestra evaluación del Modelo de Madurez de Ingeniería de Plataforma! Esperamos que la haya encontrado valiosa. Ya que está aquí, nos encantaría escuchar sus pensamientos y comentarios para ayudarnos a mejorar esta herramienta."
   copy_link_text: "📋 Copiar Enlace Compartible"
+  copy_success: "📋 ¡Copiado!"
+  copy_fail: "¡Error! Por favor copia desde la barra de direcciones."
   share_feedback_text: "💬 Compartir Comentarios"
   language_label: "Idioma:"
   language_english: "English"
