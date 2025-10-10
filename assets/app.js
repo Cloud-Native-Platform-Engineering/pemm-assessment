@@ -11,7 +11,18 @@ let categoryPages = [];
   async function discoverAvailableLanguages() {
     const availableLanguages = [];
 
-    for (const langCode of potentialLanguages) {
+    // Common language codes to scan for automatically
+    const commonLanguageCodes = [
+      'en', 'zh', 'es', 'fr', 'de', 'ja', 'ko', 'pt', 'it', 'ru', 'ar', 'hi',
+      'th', 'vi', 'tr', 'pl', 'nl', 'sv', 'da', 'no', 'fi', 'hu', 'cs', 'sk',
+      'bg', 'ro', 'hr', 'sl', 'et', 'lv', 'lt', 'el', 'he', 'fa', 'ur', 'bn',
+      'ta', 'te', 'kn', 'ml', 'gu', 'pa', 'or', 'as', 'ne', 'si', 'my', 'km',
+      'lo', 'ka', 'am', 'sw', 'zu', 'af', 'sq', 'eu', 'be', 'bs', 'ca', 'cy',
+      'eo', 'fo', 'fy', 'ga', 'gd', 'gl', 'is', 'lb', 'mk', 'mt', 'rm', 'sc',
+      'tl', 'cy', 'yi', 'zu'
+    ];
+
+    for (const langCode of commonLanguageCodes) {
       const yamlPaths = [
         `/pemm-assessment/data/questions-${langCode}.yaml`,
         `./data/questions-${langCode}.yaml`,
@@ -19,7 +30,7 @@ let categoryPages = [];
         `/data/questions-${langCode}.yaml`
       ];
 
-      let success = false;
+      let found = false;
       for (const yamlPath of yamlPaths) {
         try {
           const response = await fetch(yamlPath, { method: 'HEAD' });
@@ -70,8 +81,8 @@ let categoryPages = [];
       const availableLanguages = await discoverAvailableLanguages();
 
       if (availableLanguages.length === 0) {
-        console.warn('No language files found, falling back to English only');
-        languageDropdownElement.innerHTML = '<option value="en">English</option>';
+        console.warn('No language files found');
+        languageDropdownElement.innerHTML = '<option value="">No languages found</option>';
         return;
       }
 
@@ -97,44 +108,20 @@ let categoryPages = [];
 
     } catch (error) {
       console.error('Error building language dropdown:', error);
-      // Fallback to basic dropdown
-      languageDropdownElement.innerHTML = `
-        <option value="en">English</option>
-        <option value="zh">中文</option>
-        <option value="es">Español</option>
-      `;
+      // No fallback - if there's an error, show empty dropdown
+      languageDropdownElement.innerHTML = '<option value="">Error loading languages</option>';
     }
   }
 
   // Get display name for a language from its metadata
   function getLanguageDisplayName(metadata, langCode) {
     // Try to get the native language name from metadata
-    if (metadata.language_native) {
+    if (metadata && metadata.language_native) {
       return metadata.language_native;
     }
 
-    // Fall back to specific metadata fields
-    if (metadata.language_english && langCode === 'en') return metadata.language_english;
-    if (metadata.language_chinese && langCode === 'zh') return metadata.language_chinese;
-    if (metadata.language_spanish && langCode === 'es') return metadata.language_spanish;
-
-    // Ultimate fallback to language code mapping
-    const languageNames = {
-      'en': 'English',
-      'zh': '中文',
-      'es': 'Español',
-      'fr': 'Français',
-      'de': 'Deutsch',
-      'ja': '日本語',
-      'ko': '한국어',
-      'pt': 'Português',
-      'it': 'Italiano',
-      'ru': 'Русский',
-      'ar': 'العربية',
-      'hi': 'हिन्दी'
-    };
-
-    return languageNames[langCode] || langCode.toUpperCase();
+    // Fall back to language code in uppercase if no metadata is available
+    return langCode.toUpperCase();
   }
 
   // Load YAML data
