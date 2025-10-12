@@ -14,6 +14,13 @@
       url: "/pemm-assessment/zh/",
       copySuccess: "📋 已复制！",
       copyFail: "复制失败！请尝试从地址栏复制。"
+    },
+    {
+      code: "pt",
+      name: "Português(Portuguese)",
+      url: "/pemm-assessment/pt/",
+      copySuccess: "📋 Copiado!",
+      copyFail: "Erro! Por favor, copie da barra de endereços."
     }
   ];
 
