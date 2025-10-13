@@ -59,18 +59,18 @@ For the output, you need the following:
 
 The assessment content is now managed through YAML files in the `/data/` directory for easy updates and translations:
 
-- `questions-en.yaml` - English (primary/source language)
-- `questions-zh.yaml` - Chinese translation
-- `questions-es.yaml` - Spanish translation
+- `questions-en.yaml` - English (default language)
+- `questions-[lang].yaml` - Translations
+
+To add a language, add the YAML file and add the language to the list in `index.html`.
 
 ### Updating Questions and Content
 
 **⚠️ IMPORTANT: When updating `questions-en.yaml`, you MUST also update the corresponding translations:**
 
 1. **Make changes to the English source file first**: Edit `data/questions-en.yaml`
-2. **Update Chinese translation**: Apply equivalent changes to `data/questions-zh.yaml`
-3. **Update Spanish translation**: Apply equivalent changes to `data/questions-es.yaml`
-4. **Verify consistency**: Ensure all three files have:
+2. **Update translation**: Apply equivalent changes to `data/questions-[lang].yaml`
+3. **Verify consistency**: Ensure all three files have:
    - Same category IDs and structure
    - Same question IDs within each category
    - Same option values (1-5) for scoring consistency
@@ -88,6 +88,7 @@ When updating content, ensure these elements are translated in all language file
 ### Testing Translations
 
 After updating translations:
+
 1. Test each language using URL parameters: `?lang=en`, `?lang=zh`, `?lang=es`
 2. Verify all text displays correctly
 3. Ensure functionality works across all languages
