@@ -655,12 +655,12 @@ function renderCurrentPage() {
   };
 
   window.returnToAssessment = function () {
-    const formSection = document.querySelector(".form-section");
-    const resultsSection = document.getElementById("results-section");
+    const formSection = document.querySelector('.form-section');
+    const resultsSection = document.getElementById('results-section');
 
-    if (resultsSection) resultsSection.style.display = "none";
+    if (resultsSection) resultsSection.style.display = 'none';
     if (formSection) {
-      formSection.style.display = "block";
+      formSection.style.display = 'block';
       // Restore the current page and answers
       renderCurrentPage();
       updatePaginationControls();
@@ -670,7 +670,7 @@ function renderCurrentPage() {
 
   // Save answers for current page
   function saveCurrentPageAnswers() {
-    const form = document.getElementById("maturity-form");
+    const form = document.getElementById('maturity-form');
     if (!form) return;
 
     const inputs = form.querySelectorAll('input[type="radio"]:checked');
@@ -681,7 +681,7 @@ function renderCurrentPage() {
 
   // Restore answers for current page
   function restoreCurrentPageAnswers() {
-    const form = document.getElementById("maturity-form");
+    const form = document.getElementById('maturity-form');
     if (!form) return;
 
     const inputs = form.querySelectorAll('input[type="radio"]');
@@ -695,11 +695,16 @@ function renderCurrentPage() {
 
   // Show results section
   function showResults() {
-    const formSection = document.querySelector(".form-section");
-    const resultsSection = document.getElementById("results-section");
+    const formSection = document.querySelector('.form-section');
+    const resultsSection = document.getElementById('results-section');
 
-    if (formSection) formSection.style.display = "none";
-    if (resultsSection) resultsSection.style.display = "block";
+    if (formSection) {
+      formSection.style.display = 'none';
+    }
+
+    if (resultsSection) {
+      resultsSection.style.display = 'block';
+    }
 
     // Trigger the existing chart and scores calculation
     draw();
