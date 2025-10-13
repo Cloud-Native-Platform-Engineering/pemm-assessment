@@ -13,9 +13,10 @@ metadata:
   copy_fail: "Fehlgeschlagen! Bitte kopieren Sie aus der Adresszeile."
   share_feedback_text: "💬 Feedback teilen"
   language_label: "Sprache:"
-  language_english: "English"
-  language_chinese: "中文"
-  language_spanish: "Español"
+  previous_button_text: "Vorherige Seite"
+  next_button_text: "Nächste Seite"
+  submit_button_text: "Beurteilung abgeben"
+  back_to_assessment: "Zurück zur Bewertung"
 
 categories:
   - id: "investment"

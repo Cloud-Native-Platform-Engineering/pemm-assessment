@@ -13,9 +13,10 @@ metadata:
   copy_fail: "Failed! Please copy from address bar."
   share_feedback_text: "💬 Share Feedback"
   language_label: "Language:"
-  language_english: "English"
-  language_chinese: "中文"
-  language_spanish: "Español"
+  previous_button_text: "Previous"
+  next_button_text: "Next"
+  submit_button_text: "Submit assessment"
+  back_to_assessment: "Return to assessment"
 
 categories:
   - id: "investment"

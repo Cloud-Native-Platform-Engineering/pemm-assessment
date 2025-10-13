@@ -13,9 +13,10 @@ metadata:
   copy_fail: "复制失败！请尝试从地址栏复制。"
   share_feedback_text: "💬 分享反馈"
   language_label: "语言："
-  language_english: "English"
-  language_chinese: "中文"
-  language_spanish: "Español"
+  previous_button_text: "上一页"
+  next_button_text: "下一页"
+  submit_button_text: "提交评估"
+  back_to_assessment: "返回评估"
 
 categories:
   - id: "investment"

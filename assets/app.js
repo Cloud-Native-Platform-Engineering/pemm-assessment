@@ -3,279 +3,93 @@ let currentPage = 0;
 let totalPages = 0;
 let categoryPages = [];
 
-(function() {
+{
   // YAML data storage
   let questionsData = null;
 
-  // Cache for discovered languages to avoid repeated scans
-  let discoveredLanguagesCache = null;
-  let isDiscovering = false;
-
-  // Discover available languages by scanning the data directory
-  async function discoverAvailableLanguages() {
-    // Return cached result if available
-    if (discoveredLanguagesCache) {
-      return discoveredLanguagesCache;
-    }
-
-    // Prevent multiple simultaneous discovery operations
-    if (isDiscovering) {
-      // Wait for the current discovery to complete
-      while (isDiscovering) {
-        await new Promise(resolve => setTimeout(resolve, 100));
-      }
-      return discoveredLanguagesCache || [];
-    }
-
-    isDiscovering = true;
-    const availableLanguages = [];
-
-    // Common language codes to scan for automatically
-    const commonLanguageCodes = [
-      'en', 'zh', 'es', 'fr', 'de', 'ja', 'ko', 'pt', 'it', 'ru', 'ar', 'hi',
-      'th', 'vi', 'tr', 'pl', 'nl', 'sv', 'da', 'no', 'fi', 'hu', 'cs', 'sk',
-      'bg', 'ro', 'hr', 'sl', 'et', 'lv', 'lt', 'el', 'he', 'fa', 'ur', 'bn',
-      'ta', 'te', 'kn', 'ml', 'gu', 'pa', 'or', 'as', 'ne', 'si', 'my', 'km',
-      'lo', 'ka', 'am', 'sw', 'zu', 'af', 'sq', 'eu', 'be', 'bs', 'ca', 'cy',
-      'eo', 'fo', 'fy', 'ga', 'gd', 'gl', 'is', 'lb', 'mk', 'mt', 'rm', 'sc',
-      'tl', 'cy', 'yi', 'zu'
-    ];
-
-    for (const langCode of commonLanguageCodes) {
-      const yamlPaths = [
-        `/pemm-assessment/data/questions-${langCode}.yaml`,
-        `./data/questions-${langCode}.yaml`,
-        `../data/questions-${langCode}.yaml`,
-        `/data/questions-${langCode}.yaml`
-      ];
-
-      let found = false;
-      for (const yamlPath of yamlPaths) {
-        try {
-          const response = await fetch(yamlPath, { method: 'HEAD' });
-          if (response.ok) {
-            // File exists, now load its metadata
-            try {
-              const fullResponse = await fetch(yamlPath);
-              if (fullResponse.ok) {
-                const yamlText = await fullResponse.text();
-                const data = jsyaml.load(yamlText);
-                if (data && data.metadata) {
-                  availableLanguages.push({
-                    code: langCode,
-                    metadata: data.metadata
-                  });
-                  found = true;
-                  console.log(`Found language: ${langCode}`);
-                  break;
-                }
-              }
-            } catch (err) {
-              // Continue to next language
-            }
-          }
-        } catch (err) {
-          // Continue to next path/language
-        }
-      }
-
-      if (found) continue;
-    }
-
-    // Sort by priority: English first, then alphabetical
-    availableLanguages.sort((a, b) => {
-      if (a.code === 'en') return -1;
-      if (b.code === 'en') return 1;
-      return a.code.localeCompare(b.code);
-    });
-
-    console.log(`Discovered ${availableLanguages.length} languages:`, availableLanguages.map(l => l.code));
-
-    // Cache the result
-    discoveredLanguagesCache = availableLanguages;
-    isDiscovering = false;
-
-    return availableLanguages;
-  }  // Build language dropdown dynamically from discovered languages
-  async function buildLanguageDropdown(currentLanguage = 'en', lazy = false) {
-    const languageDropdownElement = document.getElementById('language-dropdown');
-    if (!languageDropdownElement) return;
-
-    try {
-      // If lazy loading is enabled and we haven't discovered languages yet, show current language only
-      if (lazy && !discoveredLanguagesCache) {
-        // Get current language info to show proper name
-        const currentLangInfo = await getCurrentLanguageInfo(currentLanguage);
-        const currentLangName = currentLangInfo ?
-          getLanguageDisplayName(currentLangInfo.metadata, currentLanguage) :
-          currentLanguage.toUpperCase();
-
-        languageDropdownElement.innerHTML = `<option value="${currentLanguage}">${currentLangName}</option>`;
-
-        // Set up event listener for when user interacts with dropdown
-        if (!languageDropdownElement.hasAttribute('data-lazy-loaded')) {
-          languageDropdownElement.setAttribute('data-lazy-loaded', 'true');
-
-          // Load languages when dropdown is focused or clicked
-          const loadLanguages = async () => {
-            languageDropdownElement.innerHTML = '<option value="">Loading languages...</option>';
-            const availableLanguages = await discoverAvailableLanguages();
-            await populateDropdown(availableLanguages, currentLanguage);
-          };
-
-          languageDropdownElement.addEventListener('focus', loadLanguages, { once: true });
-          languageDropdownElement.addEventListener('click', loadLanguages, { once: true });
-        }
-        return;
-      }
-
-      const availableLanguages = await discoverAvailableLanguages();
-      await populateDropdown(availableLanguages, currentLanguage);
-
-    } catch (error) {
-      console.error('Error building language dropdown:', error);
-      // No fallback - if there's an error, show empty dropdown
-      languageDropdownElement.innerHTML = '<option value="">Error loading languages</option>';
-    }
-  }
-
-  // Helper function to populate the dropdown with language options
-  async function populateDropdown(availableLanguages, currentLanguage) {
-    const languageDropdownElement = document.getElementById('language-dropdown');
-    if (!languageDropdownElement) return;
-
-    if (availableLanguages.length === 0) {
-      console.warn('No language files found');
-      languageDropdownElement.innerHTML = '<option value="">No languages found</option>';
-      return;
-    }
-
-    // Sort languages to ensure consistent order (English first, then alphabetical)
-    availableLanguages.sort((a, b) => {
-      if (a.code === 'en') return -1;
-      if (b.code === 'en') return 1;
-      return a.code.localeCompare(b.code);
-    });
-
-    // Build dropdown options
-    const options = availableLanguages.map(lang => {
-      // Try to get the language name from metadata, fall back to language code
-      const languageName = getLanguageDisplayName(lang.metadata, lang.code);
-      return `<option value="${lang.code}">${languageName}</option>`;
-    }).join('');
-
-    languageDropdownElement.innerHTML = options;
-    languageDropdownElement.value = currentLanguage;
-
-    console.log(`Built dropdown with ${availableLanguages.length} languages:`,
-                availableLanguages.map(l => l.code));
-  }
-
-  // Get display name for a language from its metadata
-  function getLanguageDisplayName(metadata, langCode) {
-    // Try to get the native language name from metadata
-    if (metadata && metadata.language_native) {
-      return metadata.language_native;
-    }
-
-    // Fall back to language code in uppercase if no metadata is available
-    return langCode.toUpperCase();
-  }
-
-  // Get current language info without full discovery (for initial load)
-  async function getCurrentLanguageInfo(langCode) {
-    const yamlPaths = [
-      `/pemm-assessment/data/questions-${langCode}.yaml`,
-      `./data/questions-${langCode}.yaml`,
-      `../data/questions-${langCode}.yaml`,
-      `/data/questions-${langCode}.yaml`
-    ];
-
-    for (const yamlPath of yamlPaths) {
-      try {
-        const response = await fetch(yamlPath, { method: 'HEAD' });
-        if (response.ok) {
-          const fullResponse = await fetch(yamlPath);
-          if (fullResponse.ok) {
-            const yamlText = await fullResponse.text();
-            const data = jsyaml.load(yamlText);
-            if (data && data.metadata) {
-              return {
-                code: langCode,
-                metadata: data.metadata
-              };
-            }
-          }
-        }
-      } catch (err) {
-        // Continue to next path
-      }
-    }
-    return null;
+  function getLanguageCode() {
+    const params = new URLSearchParams(window.location.search);
+    const urlLang = params.get('lang');
+    return urlLang || 'en';
   }
 
   // Load YAML data
   async function loadQuestionsData() {
-    // Determine language from URL path, query parameter, or default to English
-    let langCode = 'en';
-    const path = window.location.pathname;
-    const params = new URLSearchParams(window.location.search);
-
-    // Check for language parameter in URL query
-    const urlLang = params.get('lang');
-    if (urlLang) {
-      langCode = urlLang;
-    }
-    // Check for Chinese path (legacy support)
-    else if (path.includes('/zh/') || path.endsWith('/zh')) {
-      langCode = 'zh';
-    }
-    // Check for language parameter in hash
-    else if (window.location.hash.includes('lang=')) {
-      const hashMatch = window.location.hash.match(/lang=([a-z]{2})/);
-      if (hashMatch) {
-        langCode = hashMatch[1];
-      }
-    }
+    langCode = getLanguageCode();
+    let loadSuccess = false;
 
     // Build filename dynamically
-    const yamlFileName = `questions-${langCode}.yaml`;
+    const yamlPath = `./data/questions-${langCode}.yaml`;
 
-    const yamlPaths = [
-      `/pemm-assessment/data/${yamlFileName}`,
-      `./data/${yamlFileName}`,
-      `../data/${yamlFileName}`,
-      `data/${yamlFileName}`
-    ];
+    try {
+      const response = await fetch(yamlPath);
 
-    for (const yamlPath of yamlPaths) {
-      try {
-        console.log('Attempting to load YAML file:', yamlPath);
-        const response = await fetch(yamlPath);
-        if (response.ok) {
-          const yamlText = await response.text();
-          questionsData = jsyaml.load(yamlText);
-          console.log('Successfully loaded questions data from:', yamlPath);
+      if (response.ok) {
+        const yamlText = await response.text();
+        questionsData = jsyaml.load(yamlText);
 
-          // Update page language attribute
-          document.documentElement.lang = langCode;
+        // Only update document language once language successfully loaded
+        document.documentElement.lang = langCode;
+        loadSuccess = true;
 
-          return questionsData;
-        }
-      } catch (error) {
-        console.log('Failed to load from:', yamlPath, error.message);
+        return questionsData;
+      }
+    } catch { }
+
+    if (!loadSuccess) {
+      console.warn('Failed to load from:', yamlPath);
+    }
+  }
+
+  // Update pagination button states (global scope)
+  function updatePaginationControls() {
+    const previous = document.getElementById('prev-btn');
+    const next = document.getElementById('next-btn');
+    const submit = document.getElementById('submit-btn');
+    const backToAssessment = document.getElementById('app-return-button');
+
+    if (previous) {
+      previous.innerText = questionsData?.metadata?.previous_button_text || 'Previous';
+      previous.disabled = currentPage === 0;
+    }
+
+    if (next) {
+      next.innerText = questionsData?.metadata?.next_button_text || 'Next';
+
+      if (currentPage === totalPages - 1) {
+        next.style.display = 'none';
+      } else {
+        next.style.display = 'inline-block';
       }
     }
 
-    console.error('Could not load YAML data from any path');
-    console.log('Falling back to static HTML structure');
-    return null;
-  }    // Generate form HTML from YAML data with pagination
+    if (submit) {
+      submit.innerText = questionsData?.metadata?.submit_button_text || 'Submit assessment';
+
+      if (currentPage === totalPages - 1) {
+        submit.style.display = "inline-block";
+      } else {
+        submit.style.display = "none";
+      }
+    }
+
+    if (backToAssessment) {
+      backToAssessment.innerText = questionsData?.metadata?.back_to_assessment || 'Return to Assessment';
+    }
+  }
+  
+  // Generate form HTML from YAML data with pagination
   async function generateFormFromData(data) {
-    if (!data) return;
+    if (!data) {
+      console.warn('No data provided for form generation');
+      return;
+    }
 
     const form = document.getElementById('maturity-form');
-    if (!form) return;
+    if (!form) {
+      console.warn('Form element with id "maturity-form" not found');
+      return;
+    }
 
     // Update page metadata using the new IDs
     const titleElement = document.getElementById('app-title');
@@ -285,8 +99,8 @@ let categoryPages = [];
     const feedbackMessageElement = document.getElementById('app-feedback-message');
     const copyLinkElement = document.getElementById('app-copy-link');
     const shareFeedbackElement = document.getElementById('app-share-feedback');
-    const languageDropdownElement = document.getElementById('language-dropdown');
-
+    const languageLabelElement = document.getElementById('app-language-label');
+    
     if (titleElement) titleElement.textContent = data.metadata.title;
     if (mainTitleElement) mainTitleElement.textContent = data.metadata.title;
     if (introElement) introElement.innerHTML = data.metadata.intro;
@@ -294,9 +108,7 @@ let categoryPages = [];
     if (feedbackMessageElement) feedbackMessageElement.textContent = data.metadata.feedback_message;
     if (copyLinkElement) copyLinkElement.textContent = data.metadata.copy_link_text;
     if (shareFeedbackElement) shareFeedbackElement.textContent = data.metadata.share_feedback_text;
-
-    // Update language selector dynamically with lazy loading
-    await buildLanguageDropdown(data.metadata.language, true);
+    if (languageLabelElement) languageLabelElement.textContent = data.metadata.language_label;
 
     // Store categories for pagination
     categoryPages = data.categories.sort((a, b) => a.order - b.order);
@@ -336,34 +148,16 @@ let categoryPages = [];
       });
     }
 
-    // Calculate maxValue from all inputs across all pages
-    inputs.forEach((input) => {
-      const value = parseInt(input.value);
-      if (!isNaN(value)) {
-        maxValue = Math.max(maxValue, value);
-      }
-    });
-
-    // Also check YAML data for maxValue to ensure we get all possible values
-    if (categoryPages && categoryPages.length > 0) {
-      categoryPages.forEach((categoryData) => {
-        if (categoryData.questions) {
-          categoryData.questions.forEach((question) => {
-            if (question.options) {
-              question.options.forEach((option) => {
-                const value = parseInt(option.value);
-                if (!isNaN(value)) {
-                  maxValue = Math.max(maxValue, value);
-                }
-              });
-            }
-          });
-        }
+    // Check YAML data for maxValue to ensure we get all possible values
+    categoryPages?.flatMap(cat => cat.questions ?? [])
+      .flatMap(q => q.options ?? [])
+      .forEach(opt => {
+        const value = parseInt(opt.value);
+        if (!isNaN(value)) maxValue = Math.max(maxValue, value);
       });
-    }
 
     // Re-add event listeners for new radio buttons
-    document.addEventListener("change", handleRadioChange);
+    document.addEventListener('change', handleRadioChange);
 
     // Load state from URL and draw charts
     loadStateFromURL();
@@ -371,16 +165,7 @@ let categoryPages = [];
 
   // Handle radio button changes
   function handleRadioChange(e) {
-    if (e.target.type === "radio") {
-      // Remove selected class from all options in the same question group
-      const questionGroup = e.target.closest(".question-group");
-      questionGroup
-        .querySelectorAll(".option")
-        .forEach((opt) => opt.classList.remove("selected"));
-
-      // Add selected class to chosen option
-      e.target.closest(".option").classList.add("selected");
-
+    if (e.target.type === 'radio') {
       // Update scores and chart
       updateScores();
       saveStateToURL();
@@ -389,66 +174,32 @@ let categoryPages = [];
 
   // Get copy messages from current language dynamically
   async function getCurrentLanguageCopyMessages() {
-    // Determine current language
-    const params = new URLSearchParams(window.location.search);
-    const path = window.location.pathname;
-    let currentLang = 'en';
+    const defaultCopyText = {
+      copySuccess: '📋 Copied!',
+      copyFail: 'Failed! Please copy from address bar.'
+    };
 
-    const urlLang = params.get('lang');
-    if (urlLang) {
-      currentLang = urlLang;
-    } else if (path.includes('/zh/') || path.endsWith('/zh')) {
-      currentLang = 'zh';
-    } else if (window.location.hash.includes('lang=')) {
-      const hashMatch = window.location.hash.match(/lang=([a-z]{2})/);
-      if (hashMatch) {
-        currentLang = hashMatch[1];
-      }
-    }
-
-    // Try to load the current language's metadata for copy messages
-    const yamlPaths = [
-      `/pemm-assessment/data/questions-${currentLang}.yaml`,
-      `./data/questions-${currentLang}.yaml`,
-      `../data/questions-${currentLang}.yaml`,
-      `/data/questions-${currentLang}.yaml`
-    ];
-
-    for (const yamlPath of yamlPaths) {
-      try {
-        const response = await fetch(yamlPath);
-        if (response.ok) {
-          const yamlText = await response.text();
-          const data = jsyaml.load(yamlText);
-          if (data && data.metadata) {
-            return {
-              copySuccess: data.metadata.copy_success || data.metadata.copy_link_text || "📋 Copied!",
-              copyFail: data.metadata.copy_fail || "Failed! Please copy from address bar."
-            };
-          }
-        }
-      } catch (err) {
-        // Continue to next path
-      }
+    if (questionsData && questionsData.metadata) {
+      return {
+        copySuccess: questionsData.metadata.copy_success || questionsData.metadata.copy_link_text || defaultCopyText.copySuccess,
+        copyFail: questionsData.metadata.copy_fail || defaultCopyText.copyFail
+      };
     }
 
     // Fallback messages
-    return {
-      copySuccess: "📋 Copied!",
-      copyFail: "Failed! Please copy from address bar."
-    };
+    return defaultCopyText;
   }
 
   // Chart setup
-  const canvas = document.getElementById("maturity-spider");
-  const ctx = canvas.getContext("2d");
+  const canvas = document.getElementById('maturity-spider');
+  const ctx = canvas.getContext('2d');
 
   // Elements
-  const maturityForm = document.getElementById("maturity-form");
-  const legends = maturityForm ? maturityForm.querySelectorAll("legend[data-category]") : [];
-  const inputs = maturityForm ? maturityForm.querySelectorAll("input") : [];
-  const matrix = document.getElementById("maturity-matrix");
-  const scoreList = document.getElementById("maturity-scores");
+  const maturityForm = document.getElementById('maturity-form');
+  const legends = maturityForm ? maturityForm.querySelectorAll('legend[data-category]') : [];
+  const inputs = maturityForm ? maturityForm.querySelectorAll('input') : [];
+  const matrix = document.getElementById('maturity-matrix');
+  const scoreList = document.getElementById('maturity-scores');
 
   // Categories are used to drive the app
   const categories = {};
@@ -706,9 +457,6 @@ let categoryPages = [];
 
       if (radio) {
         radio.checked = true;
-
-        // Add selected class to the option
-        radio.closest(".option").classList.add("selected");
       }
     }
 
@@ -789,13 +537,13 @@ let categoryPages = [];
 
   // Initial chart draw
   draw();
-})(); // End of IIFE
+}
 
 // Render the current page content (global scope for access from pagination functions)
 function renderCurrentPage() {
-  const form = document.getElementById('maturity-form');
-  const pageIndicator = document.getElementById('page-indicator');
-  const introSection = document.getElementById('intro-section');
+  const form = document.getElementById("maturity-form");
+  const pageIndicator = document.getElementById("page-indicator");
+  const introSection = document.getElementById("intro-section");
 
   if (!form || !categoryPages.length) return;
 
@@ -806,7 +554,7 @@ function renderCurrentPage() {
 
   // Show/hide intro based on page
   if (introSection) {
-    introSection.style.display = currentPage === 0 ? 'block' : 'none';
+    introSection.style.display = currentPage === 0 ? "block" : "none";
   }
 
   // Get current category
@@ -818,14 +566,14 @@ function renderCurrentPage() {
       <legend data-category="${category.id}">${category.name}</legend>
   `;
 
-  category.questions.forEach(question => {
+  category.questions.forEach((question) => {
     formHTML += `
       <div class="question-group">
         <div class="question">${question.text}</div>
         <div class="options">
     `;
 
-    question.options.forEach(option => {
+    question.options.forEach((option) => {
       formHTML += `
         <label class="option">
           <input type="radio" name="${question.field_name}" value="${option.value}" />
@@ -848,183 +596,113 @@ function renderCurrentPage() {
 
   // Restore answers for current page
   restoreCurrentPageAnswers();
-}
 
-// Update pagination button states (global scope)
-function updatePaginationControls() {
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
-  const submitBtn = document.getElementById('submit-btn');
+  // Save answers for current page (global scope)
+  function saveCurrentPageAnswers() {
+    const form = document.getElementById("maturity-form");
+    if (!form) return;
 
-  if (prevBtn) prevBtn.disabled = currentPage === 0;
-
-  if (currentPage === totalPages - 1) {
-    if (nextBtn) nextBtn.style.display = 'none';
-    if (submitBtn) submitBtn.style.display = 'inline-block';
-  } else {
-    if (nextBtn) nextBtn.style.display = 'inline-block';
-    if (submitBtn) submitBtn.style.display = 'none';
+    const inputs = form.querySelectorAll('input[type="radio"]:checked');
+    inputs.forEach((input) => {
+      localStorage.setItem(input.name, input.value);
+    });
   }
-}
 
-// Save answers for current page (global scope)
-function saveCurrentPageAnswers() {
-  const form = document.getElementById('maturity-form');
-  if (!form) return;
+  // Restore answers for current page (global scope)
+  function restoreCurrentPageAnswers() {
+    const form = document.getElementById("maturity-form");
+    if (!form) return;
 
-  const inputs = form.querySelectorAll('input[type="radio"]:checked');
-  inputs.forEach(input => {
-    localStorage.setItem(input.name, input.value);
-  });
-}
+    const inputs = form.querySelectorAll('input[type="radio"]');
+    inputs.forEach((input) => {
+      const savedValue = localStorage.getItem(input.name);
+      if (savedValue && input.value === savedValue) {
+        input.checked = true;
+      }
+    });
+  }
 
-// Restore answers for current page (global scope)
-function restoreCurrentPageAnswers() {
-  const form = document.getElementById('maturity-form');
-  if (!form) return;
-
-  const inputs = form.querySelectorAll('input[type="radio"]');
-  inputs.forEach(input => {
-    const savedValue = localStorage.getItem(input.name);
-    if (savedValue && input.value === savedValue) {
-      input.checked = true;
+  // Global pagination functions (accessible from HTML)
+  window.nextPage = function () {
+    if (currentPage < totalPages - 1) {
+      saveCurrentPageAnswers();
+      currentPage++;
+      renderCurrentPage();
+      updatePaginationControls();
+      restoreCurrentPageAnswers();
+      // Scroll to top of page for better UX
+      window.scrollTo(0, 0);
     }
-  });
-}
+  };
 
-// Global function for language switching (accessible from HTML onclick)
-window.changeLanguage = function(langCode) {
-  const currentUrl = new URL(window.location);
-
-  // Update the language parameter
-  if (langCode && langCode !== 'en') {
-    currentUrl.searchParams.set('lang', langCode);
-  } else {
-    currentUrl.searchParams.delete('lang');
-  }
-
-  // Navigate to the new URL
-  window.location.href = currentUrl.toString();
-};
-
-// Function to set the dropdown to the current language
-window.updateLanguageDropdown = function() {
-  const dropdown = document.getElementById('language-dropdown');
-  if (!dropdown) return;
-
-  // Determine current language dynamically
-  const params = new URLSearchParams(window.location.search);
-  const path = window.location.pathname;
-  let currentLang = 'en';
-
-  // Check URL parameter
-  const urlLang = params.get('lang');
-  if (urlLang) {
-    currentLang = urlLang;
-  }
-  // Check legacy Chinese path
-  else if (path.includes('/zh/') || path.endsWith('/zh')) {
-    currentLang = 'zh';
-  }
-  // Check hash parameter
-  else if (window.location.hash.includes('lang=')) {
-    const hashMatch = window.location.hash.match(/lang=([a-z]{2})/);
-    if (hashMatch) {
-      currentLang = hashMatch[1];
+  window.previousPage = function () {
+    if (currentPage > 0) {
+      saveCurrentPageAnswers();
+      currentPage--;
+      renderCurrentPage();
+      updatePaginationControls();
+      restoreCurrentPageAnswers();
+      // Scroll to top of page for better UX
+      window.scrollTo(0, 0);
     }
-  }
+  };
 
-  // Set dropdown value
-  dropdown.value = currentLang;
-};
-
-// Update dropdown when page loads
-document.addEventListener('DOMContentLoaded', function() {
-  // Small delay to ensure dropdown is rendered
-  setTimeout(window.updateLanguageDropdown, 100);
-});
-
-// Global pagination functions (accessible from HTML)
-window.nextPage = function() {
-  if (currentPage < totalPages - 1) {
+  window.submitAssessment = function () {
     saveCurrentPageAnswers();
-    currentPage++;
-    renderCurrentPage();
-    updatePaginationControls();
-    restoreCurrentPageAnswers();
-    // Scroll to top of page for better UX
+    showResults();
+    // Scroll to top to show results section
     window.scrollTo(0, 0);
-  }
-};
+  };
 
-window.previousPage = function() {
-  if (currentPage > 0) {
-    saveCurrentPageAnswers();
-    currentPage--;
-    renderCurrentPage();
-    updatePaginationControls();
-    restoreCurrentPageAnswers();
-    // Scroll to top of page for better UX
-    window.scrollTo(0, 0);
-  }
-};
+  window.returnToAssessment = function () {
+    const formSection = document.querySelector(".form-section");
+    const resultsSection = document.getElementById("results-section");
 
-window.submitAssessment = function() {
-  saveCurrentPageAnswers();
-  showResults();
-  // Scroll to top to show results section
-  window.scrollTo(0, 0);
-};
-
-window.returnToAssessment = function() {
-  const formSection = document.querySelector('.form-section');
-  const resultsSection = document.getElementById('results-section');
-
-  if (resultsSection) resultsSection.style.display = 'none';
-  if (formSection) {
-    formSection.style.display = 'block';
-    // Restore the current page and answers
-    renderCurrentPage();
-    updatePaginationControls();
-    restoreCurrentPageAnswers();
-  }
-};
-
-// Save answers for current page
-function saveCurrentPageAnswers() {
-  const form = document.getElementById('maturity-form');
-  if (!form) return;
-
-  const inputs = form.querySelectorAll('input[type="radio"]:checked');
-  inputs.forEach(input => {
-    localStorage.setItem(input.name, input.value);
-  });
-}
-
-// Restore answers for current page
-function restoreCurrentPageAnswers() {
-  const form = document.getElementById('maturity-form');
-  if (!form) return;
-
-  const inputs = form.querySelectorAll('input[type="radio"]');
-  inputs.forEach(input => {
-    const savedValue = localStorage.getItem(input.name);
-    if (savedValue && input.value === savedValue) {
-      input.checked = true;
+    if (resultsSection) resultsSection.style.display = "none";
+    if (formSection) {
+      formSection.style.display = "block";
+      // Restore the current page and answers
+      renderCurrentPage();
+      updatePaginationControls();
+      restoreCurrentPageAnswers();
     }
-  });
+  };
+
+  // Save answers for current page
+  function saveCurrentPageAnswers() {
+    const form = document.getElementById("maturity-form");
+    if (!form) return;
+
+    const inputs = form.querySelectorAll('input[type="radio"]:checked');
+    inputs.forEach((input) => {
+      localStorage.setItem(input.name, input.value);
+    });
+  }
+
+  // Restore answers for current page
+  function restoreCurrentPageAnswers() {
+    const form = document.getElementById("maturity-form");
+    if (!form) return;
+
+    const inputs = form.querySelectorAll('input[type="radio"]');
+    inputs.forEach((input) => {
+      const savedValue = localStorage.getItem(input.name);
+      if (savedValue && input.value === savedValue) {
+        input.checked = true;
+      }
+    });
+  }
+
+  // Show results section
+  function showResults() {
+    const formSection = document.querySelector(".form-section");
+    const resultsSection = document.getElementById("results-section");
+
+    if (formSection) formSection.style.display = "none";
+    if (resultsSection) resultsSection.style.display = "block";
+
+    // Trigger the existing chart and scores calculation
+    draw();
+    updateScores();
+  }
 }
-
-// Show results section
-function showResults() {
-  const formSection = document.querySelector('.form-section');
-  const resultsSection = document.getElementById('results-section');
-
-  if (formSection) formSection.style.display = 'none';
-  if (resultsSection) resultsSection.style.display = 'block';
-
-  // Trigger the existing chart and scores calculation
-  draw();
-  updateScores();
-}
-

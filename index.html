@@ -4,14 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title id="app-title">Platform Engineering Maturity Model Assessment</title>
-    <link rel="stylesheet" href="/pemm-assessment/assets/style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
     <nav class="languages">
-      <select id="language-dropdown" onchange="changeLanguage(this.value)">
-        <!-- Language options will be dynamically populated by JavaScript -->
-      </select>
+      <span id="app-language-label">Language:</span>
+      <ul>
+        <a href="./">English</a>
+        <a href="./?lang=zh">中文</a>
+        <a href="./?lang=es">Español</a>
+      </ul>
     </nav>
 
     <main class="container">
@@ -67,6 +69,7 @@
       </article>
     </main>
 
-    <script src="/pemm-assessment/assets/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="./assets/app.js"></script>
   </body>
 </html>

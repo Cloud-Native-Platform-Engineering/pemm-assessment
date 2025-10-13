@@ -466,7 +466,7 @@ nav.languages select:focus {
     color: var(--text-heading-medium);
 }
 
-.option.selected {
+label:has(input[type="radio"]:checked) {
     border-color: var(--primary-color);
     background: var(--bg-primary-medium);
 }
