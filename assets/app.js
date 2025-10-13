@@ -229,17 +229,6 @@ let categoryPages = [];
   canvas.width = 350;
   canvas.height = 350;
 
-  function drawLanguageSwitcher() {
-    const options = languages
-      .map((lang) =>`<li><a href="${lang.url}">${lang.name}</option></li>`).join("");
-    document.body.insertAdjacentHTML('afterbegin', `
-      <nav class="languages">
-      <ul>
-      ${options}
-      </ul>
-      </nav>`);
-  }
-
   function drawSpiderChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -248,7 +237,7 @@ let categoryPages = [];
     const radius = 120;
 
     // Draw grid circles
-    ctx.strokeStyle = "#e2e8f0";
+    ctx.strokeStyle = '#e2e8f0';
     ctx.lineWidth = 1;
     for (let i = 1; i <= 4; i++) {
       ctx.beginPath();
@@ -257,15 +246,18 @@ let categoryPages = [];
     }
 
     // Draw grid lines and labels
-    ctx.strokeStyle = "#e2e8f0";
-    ctx.fillStyle = "#4a5568";
-    ctx.font = "12px Arial";
-    ctx.textAlign = "center";
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.fillStyle = '#4a5568';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
 
     const displayNames = Object.values(categories);
+    const entries = Object.entries(categories);
 
-    for (let i = 0; i < displayNames.length; i++) {
-      const angle = (i * 2 * Math.PI) / displayNames.length - Math.PI / 2;
+
+    for (let i = 0; i < entries.length; i++) {
+      const [categoryId, categoryName] = entries[i];
+      const angle = (i * 2 * Math.PI) / entries.length - Math.PI / 2;
       const x = centerX + Math.cos(angle) * radius;
       const y = centerY + Math.sin(angle) * radius;
 
@@ -278,27 +270,27 @@ let categoryPages = [];
       // Draw label
       const labelX = centerX + Math.cos(angle) * (radius + 20);
       const labelY = centerY + Math.sin(angle) * (radius + 20);
-      ctx.fillText(displayNames[i], labelX, labelY + 5);
+      ctx.fillText(categoryName, labelX, labelY + 5);
     }
 
     // Draw level numbers
-    ctx.fillStyle = "#718096";
-    ctx.font = "10px Arial";
+    ctx.fillStyle = '#718096';
+    ctx.font = '10px Arial';
     for (let i = 1; i <= 4; i++) {
       ctx.fillText(i.toString(), centerX + 5, centerY - (radius / 4) * i + 3);
     }
 
     // Draw data polygon
     if (Object.values(scores).some((score) => score > 0)) {
-      ctx.strokeStyle = "#667eea";
-      ctx.fillStyle = "rgba(102, 126, 234, 0.2)";
+      ctx.strokeStyle = '#667eea';
+      ctx.fillStyle = 'rgba(102, 126, 234, 0.2)';
       ctx.lineWidth = 3;
 
       ctx.beginPath();
-      for (let i = 0; i < displayNames.length; i++) {
-        const categoryKey = displayNames[i].toLowerCase();
-        const score = scores[categoryKey] || 0;
-        const angle = (i * 2 * Math.PI) / displayNames.length - Math.PI / 2;
+      for (let i = 0; i < entries.length; i++) {
+        const [categoryId, categoryName] = entries[i];
+        const score = scores[categoryId] || 0;
+        const angle = (i * 2 * Math.PI) / entries.length - Math.PI / 2;
         const distance = (score / 4) * radius;
         const x = centerX + Math.cos(angle) * distance;
         const y = centerY + Math.sin(angle) * distance;
@@ -315,10 +307,10 @@ let categoryPages = [];
 
       // Draw data points
       ctx.fillStyle = "#667eea";
-      for (let i = 0; i < displayNames.length; i++) {
-        const categoryKey = displayNames[i].toLowerCase();
-        const score = scores[categoryKey] || 0;
-        const angle = (i * 2 * Math.PI) / displayNames.length - Math.PI / 2;
+      for (let i = 0; i < entries.length; i++) {
+        const [categoryId, categoryName] = entries[i];
+        const score = scores[categoryId] || 0;
+        const angle = (i * 2 * Math.PI) / entries.length - Math.PI / 2;
         const distance = (score / 4) * radius;
         const x = centerX + Math.cos(angle) * distance;
         const y = centerY + Math.sin(angle) * distance;
@@ -531,7 +523,6 @@ let categoryPages = [];
       loadStateFromURL();
     }
 
-    // drawLanguageSwitcher(); // Now using static HTML nav instead
     draw();
   });
 
