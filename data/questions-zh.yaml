@@ -1,0 +1,380 @@
+# Platform Engineering Maturity Model Assessment - Chinese Data
+# This file contains all questions, answers, and metadata for the Chinese version
+
+metadata:
+  title: "平台工程成熟度模型评估"
+  language: "zh"
+  language_native: "中文"
+  intro: "<h3>关于平台工程</h3><p><span class=\"highlight\">平台工程</span>是规划和为开发人员及用户提供计算平台的实践，涵盖平台及其能力的所有部分——人员、流程、政策和技术；以及驱动它们的期望业务成果。</p><p>这个<span class=\"highlight\">平台工程成熟度模型</span>为反思和识别任何组织的改进机会提供了一个框架。通过将模式和观察结果组织成渐进式成熟度模型，我们旨在为平台团队指明他们可能面临的挑战和可以追求的机会。</p><p>此评估基于<a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">CNCF平台工程成熟度模型</a>，该模型评估五个关键方面：<strong>投入</strong>、<strong>采用</strong>、<strong>接口</strong>、<strong>运营</strong>和<strong>度量</strong>。</p><p>我们正在征询对此次试点评估的反馈意见，请与我们<a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">分享您的想法</a>。</p>"
+  results_title: "评估结果"
+  feedback_message: "感谢您使用我们的平台工程成熟度模型评估工具！希望它对您有所帮助。既然您在这里，我们很乐意听到您的想法和反馈，以帮助我们改进这个工具。"
+  copy_link_text: "📋 复制分享链接"
+  copy_success: "📋 已复制！"
+  copy_fail: "复制失败！请尝试从地址栏复制。"
+  share_feedback_text: "💬 分享反馈"
+  language_label: "语言："
+  previous_button_text: "上一页"
+  next_button_text: "下一页"
+  submit_button_text: "提交评估"
+  back_to_assessment: "返回评估"
+
+categories:
+  - id: "investment"
+    name: "投入"
+    order: 1
+    questions:
+      - id: 1
+        text: "谁在建设平台？"
+        field_name: "investment_1"
+        options:
+          - value: 1
+            level: "临时团队"
+            description: "临时小组或个人非正式合作"
+          - value: 2
+            level: "技术团队"
+            description: "具有一般技术技能的专门平台团队"
+          - value: 3
+            level: "以产品为中心的团队"
+            description: "具有技术、产品和设计技能的专业团队"
+          - value: 4
+            level: "完整的专家团队"
+            description: "具有全面专业角色的专业团队"
+
+      - id: 2
+        text: "新的平台功能需求从何而来？"
+        field_name: "investment_2"
+        options:
+          - value: 1
+            level: "危机驱动"
+            description: "紧急、迫切的需求"
+          - value: 2
+            level: "问题驱动"
+            description: "修复现有的问题"
+          - value: 3
+            level: "战略驱动"
+            description: "有计划的功能路线图"
+          - value: 4
+            level: "社区驱动"
+            description: "有计划的功能及社区意见"
+
+      - id: 3
+        text: "您如何通过平台用户验证新功能？"
+        field_name: "investment_3"
+        options:
+          - value: 1
+            level: "不参与"
+            description: "用户不参与验证过程"
+          - value: 2
+            level: "非正式反馈"
+            description: "我们以临时方式征求反馈"
+          - value: 3
+            level: "共创"
+            description: "用户帮助定义需要哪些功能"
+          - value: 4
+            level: "全面合作伙伴关系"
+            description: "用户在整个定义、测试和发布过程中参与"
+
+      - id: 4
+        text: "您的平台计划如何获得资助？"
+        field_name: "investment_4"
+        options:
+          - value: 1
+            level: "没有资金"
+            description: "没有直接投资或预算"
+          - value: 2
+            level: "基本资金"
+            description: "分配资金以组件专门团队"
+          - value: 3
+            level: "聚焦成果的资助"
+            description: "具有明确预期成果的资助团队"
+          - value: 4
+            level: "战略投资"
+            description: "有成果以及社区建设的资助团队"
+
+  - id: "adoption"
+    name: "采纳"
+    order: 2
+    questions:
+      - id: 1
+        text: "平台用户如何发现平台功能？"
+        field_name: "adoption_1"
+        options:
+          - value: 1
+            level: "偶然"
+            description: "用户偶然发现新功能"
+          - value: 2
+            level: "分散的信息来源"
+            description: "信息存在，但位置不一致"
+          - value: 3
+            level: "中央目录"
+            description: "用户从统一的信源开始查找功能"
+          - value: 4
+            level: "交互式目录"
+            description: "统一信源，并且支持用户请求缺失的功能"
+
+      - id: 2
+        text: "平台用户如何选择工具？"
+        field_name: "adoption_2"
+        options:
+          - value: 1
+            level: "用户自建"
+            description: "用户通常自行创建定制的解决方案"
+          - value: 2
+            level: "考虑平台"
+            description: "用户浏览和查看平台，但经常选择替代方案"
+          - value: 3
+            level: "评估平台"
+            description: "将平台与其他可选项公平对比"
+          - value: 4
+            level: "首选平台"
+            description: "相比于替代方案，优先选择平台作为首选"
+
+      - id: 3
+        text: "您的组织如何鼓励平台的使用？"
+        field_name: "adoption_3"
+        options:
+          - value: 1
+            level: "较小的支持"
+            description: "没有明确的指导，只有有限的局部建议"
+          - value: 2
+            level: "基础支持"
+            description: "用户了解该平台的价值，但是采用率依然较低"
+          - value: 3
+            level: "良好的支持"
+            description: "平台的使用是个人追求的明确目标，可创造动力"
+          - value: 4
+            level: "强有力的支持"
+            description: "每个人都了解其价值，并在基本使用的基础上积极参与平台建设"
+
+      - id: 4
+        text: "平台团队如何促进采纳行为？"
+        field_name: "adoption_4"
+        options:
+          - value: 1
+            level: "尽管建设，用户自然会采纳"
+            description: "假设好的功能自然会吸引用户"
+          - value: 2
+            level: "领导层参与"
+            description: "平台团队与用户团队的领导者合作"
+          - value: 3
+            level: "有计划地推广"
+            description: "每个新功能都有相应的采纳策略"
+          - value: 4
+            level: "聚焦社区"
+            description: "用户参与与建设新功能同等重要"
+
+  - id: "interfaces"
+    name: "接口"
+    order: 3
+    questions:
+      - id: 1
+        text: "用户如何访问使用平台功能？"
+        field_name: "interfaces_1"
+        options:
+          - value: 1
+            level: "基于请求"
+            description: "用户要求平台团队满足他们的需求"
+          - value: 2
+            level: "自服务工具"
+            description: "用户自助访问工具和组件"
+          - value: 3
+            level: "一键访问"
+            description: "用户从一个中央位置即时获取功能"
+          - value: 4
+            level: "定制访问"
+            description: "用户可以即时访问并能定制结果"
+
+      - id: 2
+        text: "平台团队是否会考虑开发者体验或生产力？"
+        field_name: "interfaces_2"
+        options:
+          - value: 1
+            level: "不考虑"
+            description: "开发者体验和生产力不是优先事项"
+          - value: 2
+            level: "偶尔考虑"
+            description: "有时会讨论但未系统地解决"
+          - value: 3
+            level: "常规关注"
+            description: "平台决策过程中会常态化地考虑开发者体验"
+          - value: 4
+            level: "核心优先事项"
+            description: "开发者体验和生产力驱动所有平台决策"
+
+      - id: 3
+        text: "如何向最终用户提供功能？"
+        field_name: "interfaces_3"
+        options:
+          - value: 1
+            level: "独立工具"
+            description: "独立的工具或组件"
+          - value: 2
+            level: "固定解决方案"
+            description: "预先核准的解决方案，不支持定制"
+          - value: 3
+            level: "自服务解决方案"
+            description: "用户可以自助访问已核准的解决方案"
+          - value: 4
+            level: "组合式解决方案"
+            description: "用户可以构建和定制属于自己的解决方案"
+
+      - id: 4
+        text: "如何支持新人上手？"
+        field_name: "interfaces_4"
+        options:
+          - value: 1
+            level: "需要深度支持"
+            description: "用户需要平台团队的深度帮助"
+          - value: 2
+            level: "需要部分支持"
+            description: "用户可以自助服务，但经常需要协助"
+          - value: 3
+            level: "需要少量支持"
+            description: "用户几乎无需帮助即可自助服务"
+          - value: 4
+            level: "无需支持"
+            description: "功能与现有工具可以无缝集成"
+
+  - id: "operations"
+    name: "运营"
+    order: 4
+    questions:
+      - id: 1
+        text: "用户如何了解到平台的更新信息？"
+        field_name: "operations_1"
+        options:
+          - value: 1
+            level: "无公告"
+            description: "不发布任何公告"
+          - value: 2
+            level: "固定位置更新"
+            description: "在固定的位置持续共享更新"
+          - value: 3
+            level: "发布更新以及路线图"
+            description: "在固定位置发布且包括未来的路线图"
+          - value: 4
+            level: "自动通知"
+            description: "在固定位置发布且主动通知"
+
+      - id: 2
+        text: "团队如何申请新的平台特性或功能？"
+        field_name: "operations_2"
+        options:
+          - value: 1
+            level: "个人评估"
+            description: "平台团队成员单独评估和计划每个请求"
+          - value: 2
+            level: "自服务"
+            description: "业务团队自行构建他们所需要的服务"
+          - value: 3
+            level: "集中式请求"
+            description: "业务团队要求平台团队为他们构建功能"
+          - value: 4
+            level: "共享所有权"
+            description: "具有明确定义角色的清晰流程，致力于基于服务的模型"
+
+      - id: 3
+        text: "您的平台团队如何交付和维护功能？"
+        field_name: "operations_3"
+        options:
+          - value: 1
+            level: "非正式支持"
+            description: "按需响应，在问题出现时及时解决"
+          - value: 2
+            level: "明确定义的流程"
+            description: "存在标准流程，但团队执行时会有不同的方式"
+          - value: 3
+            level: "集中式管理"
+            description: "集中管理标准流程，共同承担责任"
+          - value: 4
+            level: "自动化管理"
+            description: "标准化、自动化的方法，职责明确，中断最小"
+
+      - id: 4
+        text: "您如何管理平台的演进？"
+        field_name: "operations_4"
+        options:
+          - value: 1
+            level: "无明确计划"
+            description: "没有正式流程或长期规划"
+          - value: 2
+            level: "团队优先级"
+            description: "平台团队收集需求并确定其优先级"
+          - value: 3
+            level: "目标一致的流程"
+            description: "根据组织目标来评估需求的明确定义流程"
+          - value: 4
+            level: "产品经济性"
+            description: "将平台作为产品来管理，具有经济决策权"
+
+  - id: "measurement"
+    name: "度量"
+    order: 5
+    questions:
+      - id: 1
+        text: "您是否就如何度量平台成功已商定达成一致？"
+        field_name: "measurement_1"
+        options:
+          - value: 1
+            level: "成功不太明确"
+            description: "不确定成功是什么样的"
+          - value: 2
+            level: "相互冲突的观点"
+            description: "存在不同的意见，且没有一致对齐"
+          - value: 3
+            level: "广义上共识一致"
+            description: "在组织层面上就成功是什么达成一致"
+          - value: 4
+            level: "洞察驱动的指标"
+            description: "有用于学习和改进的数据，而不仅仅是目标"
+
+      - id: 2
+        text: "您如何度量平台的业务成果？"
+        field_name: "measurement_2"
+        options:
+          - value: 1
+            level: "没有度量"
+            description: "我们不根据业务目标进行汇报"
+          - value: 2
+            level: "代理式指标"
+            description: "我们使用采纳率或节省的时间来度量功能的成功"
+          - value: 3
+            level: "成功至上的方法"
+            description: "在我们搞懂如何度量成功之前，不会添加任何功能"
+          - value: 4
+            level: "持续改进"
+            description: "团队持续完善指标和数据收集"
+
+      - id: 3
+        text: "您如何收集和使用用户反馈？"
+        field_name: "measurement_3"
+        options:
+          - value: 1
+            level: "没有参与"
+            description: "用户不参与，感觉不被倾听"
+          - value: 2
+            level: "非正式反馈"
+            description: "存在用户反馈的临时机制"
+          - value: 3
+            level: "专职收集"
+            description: "产品经理或团队成员推动反馈数据收集"
+          - value: 4
+            level: "用户贡献"
+            description: "用户积极为平台做出贡献"
+
+      - id: 4
+        text: "您如何为平台收集其用户满意度？"
+        field_name: "measurement_4"
+        options:
+          - value: 1
+            level: "无结构化的收集"
+            description: "我们不会以结构化的方式收集用户满意度"
+          - value: 2
+            level: "调研和监测"
+            description: "我们使用调研或论坛来了解用户情绪"
+          - value: 3
+            level: "活跃的结构化方法"
+            description: "我们通过结构化的方法积极探索用户满意度"
+          - value: 4
+            level: "文化优先"
+            description: "用户满意度根植于我们的文化中"
