@@ -1,0 +1,379 @@
+# Platform Engineering Maturity Model Assessment - English Data
+# This file contains all questions, answers, and metadata for the English version
+
+metadata:
+  title: "Platform Engineering Maturity Model Assessment"
+  language: "en"
+  language_native: "English"
+  intro: "<h3>About Platform Engineering</h3><p><span class=\"highlight\">Platform engineering</span> is the practice of planning and providing computing platforms to developers and users, encompassing all parts of platforms and their capabilities — their people, processes, policies and technologies; as well as the desired business outcomes that drive them.</p><p>This <span class=\"highlight\">Platform Engineering Maturity Model</span> provides a framework for reflection and for identifying opportunities for improvement in any organization. By organizing patterns and observations into a progressive maturity model, we aim to orient platform teams to the challenges they may face and opportunities to aim for.</p><p>This assessment is based on the <a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">CNCF Platform Engineering Maturity Model</a>, which evaluates five key aspects: <strong>Investment</strong>, <strong>Adoption</strong>, <strong>Interfaces</strong>, <strong>Operations</strong>, and <strong>Measurement</strong>.</p><p>We are looking for feedback on this pilot assessment, so please <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">share your thoughts</a>.</p>"
+  results_title: "Assessment Results"
+  feedback_message: "Thank you for using our Platform Engineering Maturity Model assessment! We hope you found it valuable. While you're here, we'd love to hear your thoughts and feedback to help us improve this tool."
+  copy_link_text: "📋 Copy Shareable Link"
+  copy_success: "📋 Copied!"
+  copy_fail: "Failed! Please copy from address bar."
+  share_feedback_text: "💬 Share Feedback"
+  language_label: "Language:"
+  language_english: "English"
+  language_chinese: "中文"
+  language_spanish: "Español"
+
+categories:
+  - id: "investment"
+    name: "Investment"
+    order: 1
+    questions:
+      - id: 1
+        text: "Who builds your platform?"
+        field_name: "investment_1"
+        options:
+          - value: 1
+            level: "Ad-hoc groups"
+            description: "Temporary teams or individuals working together informally"
+          - value: 2
+            level: "Technical team or group"
+            description: "Dedicated platform team or group, with general technical skills"
+          - value: 3
+            level: "Product-focused team or group"
+            description: "Dedicated team or group with technical, product, and design skills"
+          - value: 4
+            level: "Full specialist team or group"
+            description: "Dedicated team or group with comprehensive specialized roles"
+
+      - id: 2
+        text: "Where do new platform capability needs come from?"
+        field_name: "investment_2"
+        options:
+          - value: 1
+            level: "Crisis-driven"
+            description: "Urgent, immediate needs"
+          - value: 2
+            level: "Problem-driven"
+            description: "Fixing existing issues"
+          - value: 3
+            level: "Strategy-driven"
+            description: "Planned roadmap of features"
+          - value: 4
+            level: "Community-driven"
+            description: "Planned features plus community input"
+
+      - id: 3
+        text: "How do you validate new capabilities with platform users?"
+        field_name: "investment_3"
+        options:
+          - value: 1
+            level: "No involvement"
+            description: "Users aren't part of the validation process"
+          - value: 2
+            level: "Informal feedback"
+            description: "We ask for feedback in an ad-hoc way"
+          - value: 3
+            level: "Co-creation"
+            description: "Users help define what capabilities are needed"
+          - value: 4
+            level: "Full partnership"
+            description: "Users involved throughout the entire define, test, and release"
+
+      - id: 4
+        text: "How is your platform initiative funded?"
+        field_name: "investment_4"
+        options:
+          - value: 1
+            level: "No funding"
+            description: "No direct investment or budget"
+          - value: 2
+            level: "Basic funding"
+            description: "Funding allocated to build a dedicated team"
+          - value: 3
+            level: "Outcome-focused funding"
+            description: "Funded team with clear expected outcomes"
+          - value: 4
+            level: "Strategic investment"
+            description: "Funded team with outcomes and community building"
+
+  - id: "adoption"
+    name: "Adoption"
+    order: 2
+    questions:
+      - id: 1
+        text: "How do platform users discover its capabilities?"
+        field_name: "adoption_1"
+        options:
+          - value: 1
+            level: "By accident"
+            description: "Users stumble across new capabilities"
+          - value: 2
+            level: "Scattered sources"
+            description: "Information exists but is inconsistently located"
+          - value: 3
+            level: "Central catalog"
+            description: "Users start from a single source to find capabilities"
+          - value: 4
+            level: "Interactive catalog"
+            description: "Single source plus users can request missing capabilities"
+
+      - id: 2
+        text: "How do platform users select tools?"
+        field_name: "adoption_2"
+        options:
+          - value: 1
+            level: "User build"
+            description: "Users typically create their own bespoke solutions"
+          - value: 2
+            level: "Platform browse"
+            description: "Users browse and look at platform, but often choose alternatives"
+          - value: 3
+            level: "Platform evaluate"
+            description: "Platform is fairly compared against alternatives"
+          - value: 4
+            level: "Platform preferred"
+            description: "Platform is preferred over alternatives as the default choice"
+
+      - id: 3
+        text: "How does your organization encourage platform use?"
+        field_name: "adoption_3"
+        options:
+          - value: 1
+            level: "Little support"
+            description: "No clear guidance, with limited local advice"
+          - value: 2
+            level: "Basic support"
+            description: "Users understand the platform value but adoption remains low"
+          - value: 3
+            level: "Good support"
+            description: "Platform use is an explicit goal in individual objectives, creating incentives"
+          - value: 4
+            level: "Strong support"
+            description: "Everyone understands the value and actively participates in platform building, beyond basic use"
+
+      - id: 4
+        text: "How does the platform team encourage adoption?"
+        field_name: "adoption_4"
+        options:
+          - value: 1
+            level: "Build it and they will come"
+            description: "Assumption that good capabilities will naturally attract users"
+          - value: 2
+            level: "Leadership engagement"
+            description: "Platform team works with leaders of user teams"
+          - value: 3
+            level: "Planned promotion"
+            description: "Every new capability comes with an adoption strategy"
+          - value: 4
+            level: "Community focus"
+            description: "User engagement is as important as building new capabilities"
+
+  - id: "interfaces"
+    name: "Interfaces"
+    order: 3
+    questions:
+      - id: 1
+        text: "How do users access the platform's capabilities?"
+        field_name: "interfaces_1"
+        options:
+          - value: 1
+            level: "Request-based"
+            description: "Users ask the platform team to fulfill their needs"
+          - value: 2
+            level: "Self-service tools"
+            description: "Users self-serve access to tools and components"
+          - value: 3
+            level: "One-click access"
+            description: "Users get instant access to capabilities from one central place"
+          - value: 4
+            level: "Customized access"
+            description: "Users get instant access and can customize the result"
+
+      - id: 2
+        text: "Does the platform team consider developer experience or productivity?"
+        field_name: "interfaces_2"
+        options:
+          - value: 1
+            level: "Not considered"
+            description: "Developer experience and productivity are not priorities"
+          - value: 2
+            level: "Occasionally considered"
+            description: "Sometimes discussed but not systematically addressed"
+          - value: 3
+            level: "Regularly considered"
+            description: "Developer experience is routinely considered in platform decisions"
+          - value: 4
+            level: "Core priority"
+            description: "Developer experience and productivity drive all platform decisions"
+
+      - id: 3
+        text: "How are capabilities offered to end users?"
+        field_name: "interfaces_3"
+        options:
+          - value: 1
+            level: "Standalone tools"
+            description: "Standalone tools or components"
+          - value: 2
+            level: "Fixed solutions"
+            description: "Pre-approved solutions with no customization"
+          - value: 3
+            level: "Self-service solutions"
+            description: "Users can self-serve access to approved solutions"
+          - value: 4
+            level: "Composable solutions"
+            description: "Users can build and customize their own solutions"
+
+      - id: 4
+        text: "How is onboarding supported?"
+        field_name: "interfaces_4"
+        options:
+          - value: 1
+            level: "Heavy support needed"
+            description: "Users need significant help from the platform team"
+          - value: 2
+            level: "Some support needed"
+            description: "Users can self-serve but often need assistance"
+          - value: 3
+            level: "Little support needed"
+            description: "Users can mostly self-serve with little help"
+          - value: 4
+            level: "No support needed"
+            description: "Capabilities integrate seamlessly with existing tools"
+
+  - id: "operations"
+    name: "Operations"
+    order: 4
+    questions:
+      - id: 1
+        text: "How do users find out about platform updates?"
+        field_name: "operations_1"
+        options:
+          - value: 1
+            level: "No announcements"
+            description: "No announcements are made"
+          - value: 2
+            level: "Fixed location updates"
+            description: "Updates are consistently shared in a fixed location"
+          - value: 3
+            level: "Releases plus roadmap"
+            description: "Fixed location plus includes future roadmap"
+          - value: 4
+            level: "Automated notifications"
+            description: "Fixed location plus proactive notifications"
+
+      - id: 2
+        text: "How do teams request new platform features or capabilities?"
+        field_name: "operations_2"
+        options:
+          - value: 1
+            level: "Individual assessment"
+            description: "Platform team members individually assess and plan each request"
+          - value: 2
+            level: "Self-service"
+            description: "Business teams build their own services they need"
+          - value: 3
+            level: "Centralized request"
+            description: "Business teams request the platform team to build capabilities for them"
+          - value: 4
+            level: "Shared ownership"
+            description: "Clear process with well-defined roles, committed to a service-based model"
+
+      - id: 3
+        text: "How does your platform team deliver and maintain capabilities?"
+        field_name: "operations_3"
+        options:
+          - value: 1
+            level: "Ad-hoc support"
+            description: "Reactive response, fixing things as they come up"
+          - value: 2
+            level: "Defined process"
+            description: "Standard process exists, but teams execute it differently"
+          - value: 3
+            level: "Centrally managed"
+            description: "Centrally managed standard process with shared responsibility"
+          - value: 4
+            level: "Automated management"
+            description: "Standardized, automated approach with clear responsibilities and minimal disruption"
+
+      - id: 4
+        text: "How is the platform's evolution managed?"
+        field_name: "operations_4"
+        options:
+          - value: 1
+            level: "No clear plan"
+            description: "No formal process or long-term planning"
+          - value: 2
+            level: "Team priorities"
+            description: "Platform team collects requirements and prioritizes them"
+          - value: 3
+            level: "Goal-aligned process"
+            description: "Well-defined process that evaluates requirements against organizational goals"
+          - value: 4
+            level: "Product economics"
+            description: "Platform is managed as a product with economic decision-making"
+
+  - id: "measurement"
+    name: "Measurement"
+    order: 5
+    questions:
+      - id: 1
+        text: "Have you agreed how platform success will be measured?"
+        field_name: "measurement_1"
+        options:
+          - value: 1
+            level: "Success is unclear"
+            description: "Unsure what success looks like"
+          - value: 2
+            level: "Conflicting views"
+            description: "Different opinions exist and are not aligned"
+          - value: 3
+            level: "Broad agreement"
+            description: "Organizational agreement on what success looks like"
+          - value: 4
+            level: "Insight-driven metrics"
+            description: "Data for learning and improvement, not just targets"
+
+      - id: 2
+        text: "How do you measure the business outcomes of platforms?"
+        field_name: "measurement_2"
+        options:
+          - value: 1
+            level: "No measurement"
+            description: "We don't report against business goals"
+          - value: 2
+            level: "Proxy metrics"
+            description: "We use adoption or time saved to measure capability success"
+          - value: 3
+            level: "Success-first approach"
+            description: "We don't add any capability until we figure out how to measure success"
+          - value: 4
+            level: "Continuous improvement"
+            description: "Teams continuously refine metrics and data collection"
+
+      - id: 3
+        text: "How is user feedback collected and used?"
+        field_name: "measurement_3"
+        options:
+          - value: 1
+            level: "No engagement"
+            description: "Users are not engaged and don't feel heard"
+          - value: 2
+            level: "Informal feedback"
+            description: "Ad-hoc mechanisms exist for user feedback"
+          - value: 3
+            level: "Dedicated collection"
+            description: "Product manager or team member drives feedback data collection"
+          - value: 4
+            level: "User contribution"
+            description: "Users actively contribute to the platform"
+
+      - id: 4
+        text: "How do you collect user satisfaction with the platform?"
+        field_name: "measurement_4"
+        options:
+          - value: 1
+            level: "No structured collection"
+            description: "We don't collect user satisfaction in a structured way"
+          - value: 2
+            level: "Surveys and monitoring"
+            description: "We use surveys or forums to understand user sentiment"
+          - value: 3
+            level: "Active structured approach"
+            description: "We actively explore user satisfaction through structured approaches"
+          - value: 4
+            level: "Culture-first"
+            description: "User satisfaction is embedded in our culture"
