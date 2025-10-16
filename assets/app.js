@@ -3,6 +3,9 @@ let currentPage = 0;
 let totalPages = 0;
 let categoryPages = [];
 
+// Global state to track all answers
+let answerState = {};
+
 {
   // YAML data storage
   let questionsData = null;
@@ -163,9 +166,12 @@ let categoryPages = [];
   // Handle radio button changes
   function handleRadioChange(e) {
     if (e.target.type === 'radio') {
+      // Save answer to state
+      answerState[e.target.name] = e.target.value;
+      
       // Update scores and chart
-      updateScores();
-      saveStateToURL();
+      window.updateScores();
+      window.saveStateToURL();
     }
   }
 
@@ -366,16 +372,15 @@ let categoryPages = [];
   }
 
   function calculateCategoryScore(category) {
-    // Read answers from localStorage to include all pages
+    // Read answers from answerState
     const answeredQuestions = [];
     let total = 0;
 
-    // Check localStorage for all questions in this category
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith(`${category}_`)) {
-        const value = localStorage.getItem(key);
-        if (value !== null) {
+    // Check answerState for all questions in this category
+    for (const key in answerState) {
+      if (key.startsWith(`${category}_`)) {
+        const value = answerState[key];
+        if (value !== null && value !== undefined) {
           answeredQuestions.push(key);
           total += parseInt(value);
         }
@@ -387,7 +392,7 @@ let categoryPages = [];
   }
 
   function calculateCategoryCount(category) {
-    // Read answers from localStorage to include all pages
+    // Read answers from answerState
     const count = {};
 
     // Initialize count object
@@ -395,13 +400,12 @@ let categoryPages = [];
       count[i] = 0;
     }
 
-    // Check localStorage for all questions in this category
+    // Check answerState for all questions in this category
     let hasAnswers = false;
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith(`${category}_`)) {
-        const value = localStorage.getItem(key);
-        if (value !== null) {
+    for (const key in answerState) {
+      if (key.startsWith(`${category}_`)) {
+        const value = answerState[key];
+        if (value !== null && value !== undefined) {
           hasAnswers = true;
           const intValue = parseInt(value ?? 0).toString();
           if (count[intValue] !== undefined) {
@@ -424,22 +428,72 @@ let categoryPages = [];
     draw();
   }
 
+  function updateLanguageSwitcher() {
+    // Update all language switcher links to include current answer state
+    const languageLinks = document.querySelectorAll('.languages a');
+    
+    if (!languageLinks.length) return; // No language switcher found
+    
+    languageLinks.forEach(link => {
+      const linkURL = new URL(link.href, window.location.origin);
+      const linkParams = new URLSearchParams(linkURL.search);
+      const targetLang = linkParams.get('lang'); // Get the target language from the link
+      
+      // Build new params with all answers
+      const newParams = new URLSearchParams();
+      
+      // Set language (or omit if it's the default/English)
+      if (targetLang) {
+        newParams.set('lang', targetLang);
+      }
+      
+      // Add all current answers
+      for (const key in answerState) {
+        newParams.set(key, answerState[key]);
+      }
+      
+      // Update the link
+      const queryString = newParams.toString();
+      link.href = window.location.pathname + (queryString ? '?' + queryString : '');
+    });
+  }
+
   function saveStateToURL() {
-    const formData = new FormData(maturityForm);
     const params = new URLSearchParams();
 
-    for (const [key, value] of formData.entries()) {
-      params.set(key, value);
+    // Preserve language parameter
+    const currentParams = new URLSearchParams(window.location.search);
+    const langParam = currentParams.get('lang');
+    if (langParam) {
+      params.set('lang', langParam);
+    }
+
+    // Add all answers from answerState
+    for (const key in answerState) {
+      params.set(key, answerState[key]);
     }
 
     const newURL = window.location.pathname + "?" + params.toString();
     window.history.replaceState({}, "", newURL);
+
+    updateLanguageSwitcher();
   }
 
   function loadStateFromURL() {
     const params = new URLSearchParams(window.location.search);
 
+    // Clear existing state
+    answerState = {};
+
+    // Load all parameters into answerState (except 'lang')
     for (const [key, value] of params.entries()) {
+      if (key !== 'lang') {
+        answerState[key] = value;
+      }
+    }
+
+    // Apply loaded state to visible form elements
+    for (const [key, value] of Object.entries(answerState)) {
       const radio = maturityForm.querySelector(
         `input[name="${key}"][value="${value}"]`
       );
@@ -451,6 +505,12 @@ let categoryPages = [];
 
     updateScores();
   }
+
+  // Make these functions globally accessible for pagination
+  window.saveStateToURL = saveStateToURL;
+  window.updateScores = updateScores;
+  window.draw = draw;
+  window.updatePaginationControls = updatePaginationControls;
 
   function getShareableURL() {
     return window.location.href;
@@ -464,30 +524,7 @@ let categoryPages = [];
     const copyMessages = await getCurrentLanguageCopyMessages();
     const originalText = elem.innerText;
 
-    // Build URL with all answers from localStorage
-    const params = new URLSearchParams(window.location.search);
-
-    // Remove existing answer parameters but keep language parameter
-    const answersToRemove = [];
-    for (const [key] of params.entries()) {
-      if (key !== 'lang') {
-        answersToRemove.push(key);
-      }
-    }
-    answersToRemove.forEach(key => params.delete(key));
-
-    // Add all answers from localStorage
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.includes('_')) { // Answer keys follow pattern "category_questionId"
-        const value = localStorage.getItem(key);
-        if (value !== null) {
-          params.set(key, value);
-        }
-      }
-    }
-
-    const shareableURL = window.location.origin + window.location.pathname + '?' + params.toString();
+    const shareableURL = getShareableURL();;
 
     navigator.clipboard
       .writeText(shareableURL)
@@ -505,8 +542,6 @@ let categoryPages = [];
 
   // Make copyURLToClipboard globally accessible
   window.copyURLToClipboard = copyURLToClipboard;
-
-  // Radio button clicks (removed - now handled in handleRadioChange)
 
   document.addEventListener("DOMContentLoaded", async function () {
     // Try to load YAML data first
@@ -579,118 +614,94 @@ function renderCurrentPage() {
 
   // Restore answers for current page
   restoreCurrentPageAnswers();
+}
 
-  // Save answers for current page (global scope)
-  function saveCurrentPageAnswers() {
-    const form = document.getElementById("maturity-form");
-    if (!form) return;
+// Save answers for current page to answerState
+function saveCurrentPageAnswers() {
+  const form = document.getElementById("maturity-form");
+  if (!form) return;
 
-    const inputs = form.querySelectorAll('input[type="radio"]:checked');
-    inputs.forEach((input) => {
-      localStorage.setItem(input.name, input.value);
-    });
-  }
+  const inputs = form.querySelectorAll('input[type="radio"]:checked');
+  inputs.forEach((input) => {
+    answerState[input.name] = input.value;
+  });
+  
+  // Update URL with all state
+  window.saveStateToURL();
+}
 
-  // Restore answers for current page (global scope)
-  function restoreCurrentPageAnswers() {
-    const form = document.getElementById("maturity-form");
-    if (!form) return;
+// Restore answers for current page from answerState
+function restoreCurrentPageAnswers() {
+  const form = document.getElementById("maturity-form");
+  if (!form) return;
 
-    const inputs = form.querySelectorAll('input[type="radio"]');
-    inputs.forEach((input) => {
-      const savedValue = localStorage.getItem(input.name);
-      if (savedValue && input.value === savedValue) {
-        input.checked = true;
-      }
-    });
-  }
-
-  // Global pagination functions (accessible from HTML)
-  window.nextPage = function () {
-    if (currentPage < totalPages - 1) {
-      saveCurrentPageAnswers();
-      currentPage++;
-      renderCurrentPage();
-      updatePaginationControls();
-      restoreCurrentPageAnswers();
-      // Scroll to top of page for better UX
-      window.scrollTo(0, 0);
+  const inputs = form.querySelectorAll('input[type="radio"]');
+  inputs.forEach((input) => {
+    const savedValue = answerState[input.name];
+    if (savedValue && input.value === savedValue) {
+      input.checked = true;
     }
-  };
+  });
+}
 
-  window.previousPage = function () {
-    if (currentPage > 0) {
-      saveCurrentPageAnswers();
-      currentPage--;
-      renderCurrentPage();
-      updatePaginationControls();
-      restoreCurrentPageAnswers();
-      // Scroll to top of page for better UX
-      window.scrollTo(0, 0);
-    }
-  };
-
-  window.submitAssessment = function () {
+// Global pagination functions (accessible from HTML)
+window.nextPage = function () {
+  if (currentPage < totalPages - 1) {
     saveCurrentPageAnswers();
-    showResults();
-    // Scroll to top to show results section
+    currentPage++;
+    renderCurrentPage();
+    window.updatePaginationControls();
+    // Scroll to top of page for better UX
     window.scrollTo(0, 0);
-  };
+  }
+};
 
-  window.returnToAssessment = function () {
-    const formSection = document.querySelector('.form-section');
-    const resultsSection = document.getElementById('results-section');
+window.previousPage = function () {
+  if (currentPage > 0) {
+    saveCurrentPageAnswers();
+    currentPage--;
+    renderCurrentPage();
+    window.updatePaginationControls();
+    // Scroll to top of page for better UX
+    window.scrollTo(0, 0);
+  }
+};
 
-    if (resultsSection) resultsSection.style.display = 'none';
-    if (formSection) {
-      formSection.style.display = 'block';
-      // Restore the current page and answers
-      renderCurrentPage();
-      updatePaginationControls();
-      restoreCurrentPageAnswers();
-    }
-  };
+window.submitAssessment = function () {
+  saveCurrentPageAnswers();
+  showResults();
+  // Scroll to top to show results section
+  window.scrollTo(0, 0);
+};
 
-  // Save answers for current page
-  function saveCurrentPageAnswers() {
-    const form = document.getElementById('maturity-form');
-    if (!form) return;
+window.returnToAssessment = function () {
+  const formSection = document.querySelector('.form-section');
+  const resultsSection = document.getElementById('results-section');
 
-    const inputs = form.querySelectorAll('input[type="radio"]:checked');
-    inputs.forEach((input) => {
-      localStorage.setItem(input.name, input.value);
-    });
+  if (resultsSection) resultsSection.style.display = 'none';
+  if (formSection) {
+    formSection.style.display = 'block';
+    // Restore the current page and answers
+    renderCurrentPage();
+    window.updatePaginationControls();
+    restoreCurrentPageAnswers();
+  }
+};
+
+// Show results section
+function showResults() {
+  const formSection = document.querySelector('.form-section');
+  const resultsSection = document.getElementById('results-section');
+
+  if (formSection) {
+    formSection.style.display = 'none';
   }
 
-  // Restore answers for current page
-  function restoreCurrentPageAnswers() {
-    const form = document.getElementById('maturity-form');
-    if (!form) return;
-
-    const inputs = form.querySelectorAll('input[type="radio"]');
-    inputs.forEach((input) => {
-      const savedValue = localStorage.getItem(input.name);
-      if (savedValue && input.value === savedValue) {
-        input.checked = true;
-      }
-    });
+  if (resultsSection) {
+    resultsSection.style.display = 'block';
   }
 
-  // Show results section
-  function showResults() {
-    const formSection = document.querySelector('.form-section');
-    const resultsSection = document.getElementById('results-section');
-
-    if (formSection) {
-      formSection.style.display = 'none';
-    }
-
-    if (resultsSection) {
-      resultsSection.style.display = 'block';
-    }
-
-    // Trigger the existing chart and scores calculation
-    draw();
-    updateScores();
-  }
+  // Trigger the existing chart and scores calculation
+  window.draw();
+  window.updateScores();
 }
