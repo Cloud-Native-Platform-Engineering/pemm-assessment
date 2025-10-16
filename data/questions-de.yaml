@@ -1,0 +1,380 @@
+# Platform Engineering Maturity Model Assessment - German Data
+# This file contains all questions, answers, and metadata for the German version
+
+metadata:
+  title: "Platform Engineering Reifegrad-Modell Bewertung"
+  language: "de"
+  language_native: "Deutsch"
+  intro: "<h3>Über Platform Engineering</h3><p><span class=\"highlight\">Platform Engineering</span> ist die Praxis der Planung und Bereitstellung von Computing-Plattformen für Entwickler und Benutzer, die alle Teile von Plattformen und ihre Fähigkeiten umfasst — ihre Menschen, Prozesse, Richtlinien und Technologien; sowie die gewünschten Geschäftsergebnisse, die sie antreiben.</p><p>Dieses <span class=\"highlight\">Platform Engineering Reifegrad-Modell</span> bietet einen Rahmen für Reflexion und zur Identifizierung von Verbesserungsmöglichkeiten in jeder Organisation. Durch die Organisation von Mustern und Beobachtungen in ein progressives Reifegrad-Modell zielen wir darauf ab, Plattform-Teams auf die Herausforderungen zu orientieren, denen sie begegnen könnten, und Chancen aufzuzeigen, die sie anstreben können.</p><p>Diese Bewertung basiert auf dem <a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">CNCF Platform Engineering Reifegrad-Modell</a>, das fünf Schlüsselaspekte bewertet: <strong>Investition</strong>, <strong>Adoption</strong>, <strong>Schnittstellen</strong>, <strong>Betrieb</strong> und <strong>Messung</strong>.</p><p>Wir sammeln Feedback zu dieser Pilotbewertung, also bitte <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">teilen Sie Ihre Gedanken</a>.</p>"
+  results_title: "Bewertungsergebnisse"
+  feedback_message: "Vielen Dank, dass Sie unsere Platform Engineering Reifegrad-Modell Bewertung verwendet haben! Wir hoffen, Sie fanden sie wertvoll. Da Sie hier sind, würden wir gerne Ihre Gedanken und Ihr Feedback hören, um uns bei der Verbesserung dieses Tools zu helfen."
+  copy_link_text: "📋 Teilbaren Link kopieren"
+  copy_success: "📋 Kopiert!"
+  copy_fail: "Fehlgeschlagen! Bitte kopieren Sie aus der Adresszeile."
+  share_feedback_text: "💬 Feedback teilen"
+  language_label: "Sprache:"
+  previous_button_text: "Vorherige Seite"
+  next_button_text: "Nächste Seite"
+  submit_button_text: "Beurteilung abgeben"
+  back_to_assessment: "Zurück zur Bewertung"
+
+categories:
+  - id: "investment"
+    name: "Investition"
+    order: 1
+    questions:
+      - id: 1
+        text: "Wer baut Ihre Plattform?"
+        field_name: "investment_1"
+        options:
+          - value: 1
+            level: "Ad-hoc Gruppen"
+            description: "Temporäre Teams oder Einzelpersonen, die informell zusammenarbeiten"
+          - value: 2
+            level: "Technisches Team oder Gruppe"
+            description: "Dediziertes Plattform-Team oder -Gruppe mit allgemeinen technischen Fähigkeiten"
+          - value: 3
+            level: "Produktfokussiertes Team oder Gruppe"
+            description: "Dediziertes Team oder Gruppe mit technischen, Produkt- und Design-Fähigkeiten"
+          - value: 4
+            level: "Vollständiges Spezialistenteam oder Gruppe"
+            description: "Dediziertes Team oder Gruppe mit umfassenden spezialisierten Rollen"
+
+      - id: 2
+        text: "Woher kommen neue Plattform-Funktionsbedarfe?"
+        field_name: "investment_2"
+        options:
+          - value: 1
+            level: "Krisengetrieben"
+            description: "Dringende, sofortige Bedürfnisse"
+          - value: 2
+            level: "Problemgetrieben"
+            description: "Behebung bestehender Probleme"
+          - value: 3
+            level: "Strategiegetrieben"
+            description: "Geplante Roadmap von Funktionen"
+          - value: 4
+            level: "Community-getrieben"
+            description: "Geplante Funktionen plus Community-Input"
+
+      - id: 3
+        text: "Wie validieren Sie neue Funktionen mit Plattform-Benutzern?"
+        field_name: "investment_3"
+        options:
+          - value: 1
+            level: "Keine Beteiligung"
+            description: "Benutzer sind nicht Teil des Validierungsprozesses"
+          - value: 2
+            level: "Informelles Feedback"
+            description: "Wir fragen ad-hoc nach Feedback"
+          - value: 3
+            level: "Co-Creation"
+            description: "Benutzer helfen zu definieren, welche Funktionen benötigt werden"
+          - value: 4
+            level: "Vollständige Partnerschaft"
+            description: "Benutzer sind während des gesamten Definierungs-, Test- und Release-Prozesses beteiligt"
+
+      - id: 4
+        text: "Wie wird Ihre Plattform-Initiative finanziert?"
+        field_name: "investment_4"
+        options:
+          - value: 1
+            level: "Keine Finanzierung"
+            description: "Keine direkte Investition oder Budget"
+          - value: 2
+            level: "Grundfinanzierung"
+            description: "Finanzierung für den Aufbau eines dedizierten Teams zugeteilt"
+          - value: 3
+            level: "Ergebnisorientierte Finanzierung"
+            description: "Finanziertes Team mit klaren erwarteten Ergebnissen"
+          - value: 4
+            level: "Strategische Investition"
+            description: "Finanziertes Team mit Ergebnissen und Community-Aufbau"
+
+  - id: "adoption"
+    name: "Adoption"
+    order: 2
+    questions:
+      - id: 1
+        text: "Wie entdecken Plattform-Benutzer ihre Funktionen?"
+        field_name: "adoption_1"
+        options:
+          - value: 1
+            level: "Mundpropaganda"
+            description: "Benutzer erfahren informell von anderen"
+          - value: 2
+            level: "Dokumentation"
+            description: "Benutzer konsultieren Dokumentation oder Wikis"
+          - value: 3
+            level: "Self-Service-Portal"
+            description: "Benutzer durchsuchen ein Portal oder eine Schnittstelle"
+          - value: 4
+            level: "Intelligente Empfehlungen"
+            description: "Die Plattform schlägt relevante Funktionen vor"
+
+      - id: 2
+        text: "Wie greifen Benutzer auf Plattform-Funktionen zu?"
+        field_name: "adoption_2"
+        options:
+          - value: 1
+            level: "Manuelle Prozesse"
+            description: "Benutzer müssen jemanden bitten oder ein Ticket einreichen"
+          - value: 2
+            level: "Self-Service-Tools"
+            description: "Benutzer können Funktionen selbst bereitstellen"
+          - value: 3
+            level: "Automatisierte Workflows"
+            description: "Funktionen werden automatisch durch Benutzeraktionen ausgelöst"
+          - value: 4
+            level: "Intelligente Automatisierung"
+            description: "Die Plattform antizipiert Bedürfnisse und stellt Funktionen proaktiv bereit"
+
+      - id: 3
+        text: "Wie lernen Benutzer, Plattform-Funktionen zu nutzen?"
+        field_name: "adoption_3"
+        options:
+          - value: 1
+            level: "Ausprobieren"
+            description: "Benutzer lernen durch Experimentieren"
+          - value: 2
+            level: "Dokumentation und Beispiele"
+            description: "Benutzer folgen schriftlichen Anleitungen"
+          - value: 3
+            level: "Interaktive Anleitungen"
+            description: "Benutzer folgen geführten Tutorials oder Walkthroughs"
+          - value: 4
+            level: "Kontextuelle Hilfe"
+            description: "Die Plattform bietet relevante Hilfe basierend auf der aktuellen Aufgabe"
+
+      - id: 4
+        text: "Wie werden Plattform-Benutzer über neue Funktionen informiert?"
+        field_name: "adoption_4"
+        options:
+          - value: 1
+            level: "Sie werden nicht informiert"
+            description: "Benutzer entdecken neue Funktionen zufällig"
+          - value: 2
+            level: "Passive Kommunikation"
+            description: "Release-Notizen, Changelogs oder E-Mails"
+          - value: 3
+            level: "Aktive Kommunikation"
+            description: "Gezielte Benachrichtigungen und Ankündigungen"
+          - value: 4
+            level: "Personalisierte Empfehlungen"
+            description: "Maßgeschneiderte Vorschläge basierend auf Benutzerverhalten"
+
+  - id: "interfaces"
+    name: "Schnittstellen"
+    order: 3
+    questions:
+      - id: 1
+        text: "Wie stellen Sie Plattform-Funktionen bereit?"
+        field_name: "interfaces_1"
+        options:
+          - value: 1
+            level: "Dokumentierte Verfahren"
+            description: "Schritt-für-Schritt-Anleitungen oder Runbooks"
+          - value: 2
+            level: "Command-Line-Tools"
+            description: "Skripte oder CLI-Tools"
+          - value: 3
+            level: "Web-Benutzeroberflächen"
+            description: "Web-basierte Portale oder Dashboards"
+          - value: 4
+            level: "APIs und Integrationen"
+            description: "Programmierbare Schnittstellen und Integrationen"
+
+      - id: 2
+        text: "Wie konsistent sind Ihre Plattform-Schnittstellen?"
+        field_name: "interfaces_2"
+        options:
+          - value: 1
+            level: "Inkonsistent"
+            description: "Verschiedene Funktionen haben unterschiedliche Schnittstellen"
+          - value: 2
+            level: "Teilweise konsistent"
+            description: "Einige gemeinsame Muster, aber Unterschiede bleiben bestehen"
+          - value: 3
+            level: "Standardisiert"
+            description: "Konsistente Schnittstellen über die meisten Funktionen hinweg"
+          - value: 4
+            level: "Vollständig einheitlich"
+            description: "Alle Funktionen folgen den gleichen Schnittstellenstandards"
+
+      - id: 3
+        text: "Wie erhalten Benutzer Feedback von der Plattform?"
+        field_name: "interfaces_3"
+        options:
+          - value: 1
+            level: "Kein Feedback"
+            description: "Benutzer wissen nicht, ob Aktionen erfolgreich waren"
+          - value: 2
+            level: "Grundlegendes Feedback"
+            description: "Einfache Erfolgs-/Fehlermeldungen"
+          - value: 3
+            level: "Ausführliches Feedback"
+            description: "Detaillierte Status-Updates und Fortschrittsinformationen"
+          - value: 4
+            level: "Proaktives Feedback"
+            description: "Die Plattform antizipiert Probleme und stellt präventive Anleitungen bereit"
+
+      - id: 4
+        text: "Wie verwalten Sie die Plattform-API-Evolution?"
+        field_name: "interfaces_4"
+        options:
+          - value: 1
+            level: "Keine API-Verwaltung"
+            description: "APIs ändern sich ohne Benachrichtigung oder Versioning"
+          - value: 2
+            level: "Ad-hoc-Versioning"
+            description: "APIs werden versioniert, aber inkonsistent verwaltet"
+          - value: 3
+            level: "Verwaltete Evolution"
+            description: "Klare Versioning-Strategien und Migrationspfade"
+          - value: 4
+            level: "Abwärtskompatibilität"
+            description: "APIs entwickeln sich unter Beibehaltung der Kompatibilität weiter"
+
+  - id: "operations"
+    name: "Betrieb"
+    order: 4
+    questions:
+      - id: 1
+        text: "Wie überwachen Sie die Plattform-Gesundheit?"
+        field_name: "operations_1"
+        options:
+          - value: 1
+            level: "Keine Überwachung"
+            description: "Keine systematische Überwachung der Plattform-Gesundheit"
+          - value: 2
+            level: "Grundlegende Überwachung"
+            description: "Einfache Uptime- und Leistungsmetriken"
+          - value: 3
+            level: "Umfassende Überwachung"
+            description: "Detaillierte Metriken über Gesundheit, Leistung und Benutzung"
+          - value: 4
+            level: "Prädiktive Überwachung"
+            description: "Proaktive Problemerkennung und automatisierte Reaktion"
+
+      - id: 2
+        text: "Wie verwalten Sie Plattform-Incidents?"
+        field_name: "operations_2"
+        options:
+          - value: 1
+            level: "Reaktiv"
+            description: "Probleme werden behoben, wenn sie gemeldet werden"
+          - value: 2
+            level: "Incident-Response"
+            description: "Formelle Incident-Response-Verfahren"
+          - value: 3
+            level: "Proaktive Behebung"
+            description: "Probleme werden vor Auswirkungen auf Benutzer identifiziert und behoben"
+          - value: 4
+            level: "Selbstheilend"
+            description: "Die Plattform identifiziert und behebt Probleme automatisch"
+
+      - id: 3
+        text: "Wie verwalten Sie Plattform-Kapazität?"
+        field_name: "operations_3"
+        options:
+          - value: 1
+            level: "Keine Kapazitätsplanung"
+            description: "Kapazität wird nur bei Bedarf hinzugefügt"
+          - value: 2
+            level: "Reaktive Skalierung"
+            description: "Kapazität wird als Reaktion auf Nachfrage hinzugefügt"
+          - value: 3
+            level: "Geplante Kapazität"
+            description: "Kapazität wird basierend auf prognostizierter Nachfrage geplant"
+          - value: 4
+            level: "Automatische Skalierung"
+            description: "Die Plattform skaliert automatisch basierend auf Nachfrage"
+
+      - id: 4
+        text: "Wie verwalten Sie Plattform-Sicherheit?"
+        field_name: "operations_4"
+        options:
+          - value: 1
+            level: "Ad-hoc-Sicherheit"
+            description: "Sicherheit wird reaktiv behandelt"
+          - value: 2
+            level: "Grundlegende Sicherheit"
+            description: "Standard-Sicherheitspraktiken sind vorhanden"
+          - value: 3
+            level: "Umfassende Sicherheit"
+            description: "Sicherheit ist in alle Plattform-Aspekte integriert"
+          - value: 4
+            level: "Automatisierte Sicherheit"
+            description: "Sicherheitsrichtlinien werden automatisch durchgesetzt und überwacht"
+
+  - id: "measurement"
+    name: "Messung"
+    order: 5
+    questions:
+      - id: 1
+        text: "Wie messen Sie die Plattform-Nutzung?"
+        field_name: "measurement_1"
+        options:
+          - value: 1
+            level: "Keine Messung"
+            description: "Keine systematische Verfolgung der Plattform-Nutzung"
+          - value: 2
+            level: "Grundlegende Metriken"
+            description: "Einfache Nutzungsstatistiken und Anzahl der Benutzer"
+          - value: 3
+            level: "Detaillierte Analytik"
+            description: "Umfassende Benutzerverhalten- und Funktionsnutzungs-Analytik"
+          - value: 4
+            level: "Vorausschauende Analytik"
+            description: "Verwendung von Daten zur Vorhersage zukünftiger Bedürfnisse und Trends"
+
+      - id: 2
+        text: "Wie messen Sie die Benutzer-Zufriedenheit?"
+        field_name: "measurement_2"
+        options:
+          - value: 1
+            level: "Keine Messung"
+            description: "Keine systematische Sammlung von Benutzer-Feedback"
+          - value: 2
+            level: "Ad-hoc-Feedback"
+            description: "Gelegentliche Umfragen oder informelles Feedback"
+          - value: 3
+            level: "Regelmäßige Umfragen"
+            description: "Systematische und regelmäßige Benutzer-Zufriedenheitsumfragen"
+          - value: 4
+            level: "Kontinuierliches Feedback"
+            description: "Echtzeitfeedback-Schleifen und kontinuierliche Verbesserung"
+
+      - id: 3
+        text: "Wie messen Sie die Geschäfts-Auswirkungen?"
+        field_name: "measurement_3"
+        options:
+          - value: 1
+            level: "Keine Messung"
+            description: "Keine Verbindung zwischen Plattform und Geschäftsergebnissen"
+          - value: 2
+            level: "Grundlegende Metriken"
+            description: "Einfache Kosteneinsparungen oder Effizienzgewinne"
+          - value: 3
+            level: "Umfassende ROI"
+            description: "Detaillierte Analyse der Geschäfts-Auswirkungen und ROI"
+          - value: 4
+            level: "Strategische Wertschöpfung"
+            description: "Plattform ermöglicht neue Geschäftsmöglichkeiten und Innovation"
+
+      - id: 4
+        text: "Wie nutzen Sie Metriken für Entscheidungsfindung?"
+        field_name: "measurement_4"
+        options:
+          - value: 1
+            level: "Intuitive Entscheidungen"
+            description: "Entscheidungen basieren auf Gefühl oder Vermutung"
+          - value: 2
+            level: "Datengestützte Entscheidungen"
+            description: "Entscheidungen werden durch verfügbare Daten informiert"
+          - value: 3
+            level: "Datengetriebene Entscheidungen"
+            description: "Entscheidungen basieren hauptsächlich auf Datenanalyse"
+          - value: 4
+            level: "Automatisierte Entscheidungen"
+            description: "Die Plattform trifft automatisch Entscheidungen basierend auf Daten"
