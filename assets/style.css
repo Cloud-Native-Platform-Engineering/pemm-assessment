@@ -231,6 +231,7 @@ fieldset {
     padding: var(--spacing-2xl);
     margin-block-end: var(--spacing-4xl);
     box-shadow: var(--shadow-card);
+    border-radius: var(--radius-md);;
 }
 
 .intro h3 {
