@@ -91,24 +91,12 @@ let categoryPages = [];
       return;
     }
 
-    // Update page metadata using the new IDs
-    const titleElement = document.getElementById('app-title');
-    const mainTitleElement = document.getElementById('app-main-title');
-    const introElement = document.getElementById('app-intro');
-    const resultsTitleElement = document.getElementById('app-results-title');
-    const feedbackMessageElement = document.getElementById('app-feedback-message');
-    const copyLinkElement = document.getElementById('app-copy-link');
-    const shareFeedbackElement = document.getElementById('app-share-feedback');
-    const languageLabelElement = document.getElementById('app-language-label');
-    
-    if (titleElement) titleElement.textContent = data.metadata.title;
-    if (mainTitleElement) mainTitleElement.textContent = data.metadata.title;
-    if (introElement) introElement.innerHTML = data.metadata.intro;
-    if (resultsTitleElement) resultsTitleElement.textContent = data.metadata.results_title;
-    if (feedbackMessageElement) feedbackMessageElement.textContent = data.metadata.feedback_message;
-    if (copyLinkElement) copyLinkElement.textContent = data.metadata.copy_link_text;
-    if (shareFeedbackElement) shareFeedbackElement.textContent = data.metadata.share_feedback_text;
-    if (languageLabelElement) languageLabelElement.textContent = data.metadata.language_label;
+    document.querySelectorAll('[data-text]').forEach(elem => {
+      const key = elem.getAttribute('data-text');
+      if (data.metadata[key]) {
+        elem.innerHTML = data.metadata[key];
+      }
+    });
 
     // Store categories for pagination
     categoryPages = data.categories.sort((a, b) => a.order - b.order);
