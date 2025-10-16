@@ -231,7 +231,7 @@ let answerState = {};
     const radius = 120;
 
     // Draw grid circles
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#c4c4c4';
     ctx.lineWidth = 1;
     for (let i = 1; i <= 4; i++) {
       ctx.beginPath();
@@ -240,7 +240,7 @@ let answerState = {};
     }
 
     // Draw grid lines and labels
-    ctx.strokeStyle = '#e2e8f0';
+    ctx.strokeStyle = '#c4c4c4';
     ctx.fillStyle = '#4a5568';
     ctx.font = '12px Arial';
     ctx.textAlign = 'center';
@@ -268,7 +268,7 @@ let answerState = {};
     }
 
     // Draw level numbers
-    ctx.fillStyle = '#718096';
+    ctx.fillStyle = '#c4c4c4';
     ctx.font = '10px Arial';
     for (let i = 1; i <= 4; i++) {
       ctx.fillText(i.toString(), centerX + 5, centerY - (radius / 4) * i + 3);
@@ -276,8 +276,8 @@ let answerState = {};
 
     // Draw data polygon
     if (Object.values(scores).some((score) => score > 0)) {
-      ctx.strokeStyle = '#667eea';
-      ctx.fillStyle = 'rgba(102, 126, 234, 0.2)';
+      ctx.strokeStyle = '#d62293';
+      ctx.fillStyle = 'rgba(120, 120, 120, 0.2)';
       ctx.lineWidth = 3;
 
       ctx.beginPath();
@@ -300,7 +300,7 @@ let answerState = {};
       ctx.stroke();
 
       // Draw data points
-      ctx.fillStyle = "#667eea";
+      ctx.fillStyle = "#d62293";
       for (let i = 0; i < entries.length; i++) {
         const [categoryId, categoryName] = entries[i];
         const score = scores[categoryId] || 0;
