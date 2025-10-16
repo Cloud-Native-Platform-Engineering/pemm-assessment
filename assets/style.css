@@ -117,7 +117,7 @@ legend {
 }
 
 /** Language Switcher */
-nav.languages {
+.languages {
     background-color: var(--bg-white-translucent);
     padding-block: var(--spacing-sm);
     margin-inline: calc(var(--spacing-xl) * -1);
@@ -129,37 +129,11 @@ nav.languages {
     padding-right: var(--spacing-xl);
 }
 
-nav.languages select {
-    background: var(--bg-white);
-    border: 2px solid var(--primary-color);
-    border-radius: var(--radius-sm);
-    padding: var(--spacing-xs) var(--spacing-md);
-    color: var(--text-primary);
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-nav.languages select:hover {
-    background: var(--bg-primary-light);
-    border-color: var(--primary-dark);
-}
-
-nav.languages select:focus {
-    outline: none;
-    border-color: var(--primary-dark);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-@media (max-width: 600px) {
-    nav.languages {
-        padding-right: var(--spacing-md);
-    }
-
-    nav.languages select {
-        padding: var(--spacing-xs) var(--spacing-sm);
-        font-size: 13px;
-    }
+.languages ul {
+    list-style: none;
+    display: flex;
+    gap: var(--spacing-md);
+    margin-inline-start: var(--spacing-md);
 }
 
 .container {
