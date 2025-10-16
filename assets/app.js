@@ -47,6 +47,7 @@ let categoryPages = [];
     const next = document.getElementById('next-btn');
     const submit = document.getElementById('submit-btn');
     const backToAssessment = document.getElementById('app-return-button');
+    const pageIndicator = document.getElementById('page-indicator');
 
     if (previous) {
       previous.innerText = questionsData?.metadata?.previous_button_text || 'Previous';
@@ -75,6 +76,14 @@ let categoryPages = [];
 
     if (backToAssessment) {
       backToAssessment.innerText = questionsData?.metadata?.back_to_assessment || 'Return to Assessment';
+    }
+
+    // Update page indicator text with translation support
+    if (pageIndicator) {
+      const template = questionsData?.metadata?.page_indicator_text || 'Page {current} of {total}';
+      pageIndicator.textContent = template
+        .replace('{current}', String(currentPage + 1))
+        .replace('{total}', String(totalPages));
     }
   }
   
@@ -525,11 +534,6 @@ function renderCurrentPage() {
   const introSection = document.getElementById("intro-section");
 
   if (!form || !categoryPages.length) return;
-
-  // Update page indicator
-  if (pageIndicator) {
-    pageIndicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
-  }
 
   // Show/hide intro based on page
   if (introSection) {
