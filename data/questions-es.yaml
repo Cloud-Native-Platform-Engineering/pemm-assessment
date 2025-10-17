@@ -7,21 +7,21 @@ metadata:
   language_native: "Español"
   intro: >
     <h3>Acerca de la Ingeniería de Plataforma</h3>
-    <p><span class=\"highlight\">La ingeniería de plataforma</span> es la práctica de planificar y proporcionar 
+    <p><span class="highlight">La ingeniería de plataforma</span> es la práctica de planificar y proporcionar 
     plataformas de computación a desarrolladores y usuarios, abarcando todas las partes de las plataformas y sus 
     capacidades — su gente, procesos, políticas y tecnologías; así como los resultados empresariales deseados que 
     las impulsan.</p>
-    <p>Este <span class=\"highlight\">Modelo de Madurez de Ingeniería de Plataforma</span> proporciona un marco 
+    <p>Este <span class="highlight">Modelo de Madurez de Ingeniería de Plataforma</span> proporciona un marco 
     para la reflexión e identificación de oportunidades de mejora en cualquier organización. Al organizar patrones 
     y observaciones en un modelo de madurez progresivo, buscamos orientar a los equipos de plataforma hacia los 
     desafíos que pueden enfrentar y las oportunidades que pueden perseguir.</p>
     <p>Esta evaluación se basa en el 
-    <a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">Modelo de Madurez de 
+    <a href="https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/" target="_blank">Modelo de Madurez de 
     Ingeniería de Plataforma de CNCF</a>, 
     que evalúa cinco aspectos clave: <strong>Inversión</strong>, <strong>Adopción</strong>, <strong>Interfaces</strong>, 
     <strong>Operaciones</strong> y <strong>Medición</strong>.</p>
     <p>Estamos buscando comentarios sobre esta evaluación piloto, así que por favor 
-    <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">comparta 
+    <a href="https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform" target="_blank">comparta 
     sus pensamientos</a>.</p>
   results_title: "Resultados de la Evaluación"
   feedback_message: >

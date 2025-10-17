@@ -7,14 +7,14 @@ metadata:
   language_native: "中文"
   intro: >
     <h3>关于平台工程</h3>
-    <p><span class=\"highlight\">平台工程</span>是规划和为开发人员及用户提供计算平台的实践，涵盖平台及其能力的所有部分——人员、流程、政策和技术；以及驱动它们的期望业务成果。</p>
-    <p>这个<span class=\"highlight\">平台工程成熟度模型</span>为反思和识别任何组织的改进机会提供了一个框架。通过将模式和观察结果组织成渐进式成熟度模型，
+    <p><span class="highlight">平台工程</span>是规划和为开发人员及用户提供计算平台的实践，涵盖平台及其能力的所有部分——人员、流程、政策和技术；以及驱动它们的期望业务成果。</p>
+    <p>这个<span class="highlight">平台工程成熟度模型</span>为反思和识别任何组织的改进机会提供了一个框架。通过将模式和观察结果组织成渐进式成熟度模型，
     我们旨在为平台团队指明他们可能面临的挑战和可以追求的机会。</p>
     <p>此评估基于
-    <a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">CNCF平台工程成熟度模型</a>，
+    <a href="https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/" target="_blank">CNCF平台工程成熟度模型</a>, 
     该模型评估五个关键方面：<strong>投入</strong>、<strong>采用</strong>、<strong>接口</strong>、<strong>运营</strong>和<strong>度量</strong>。</p>
     <p>我们正在征询对此次试点评估的反馈意见，请与我们
-    <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">分享您的想法</a>。</p>
+    <a href="https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform" target="_blank">分享您的想法</a>。</p>
   results_title: "评估结果"
   feedback_message: >
     感谢您使用我们的平台工程成熟度模型评估工具！希望它对您有所帮助。既然您在这里，我们很乐意听到您的想法和反馈，以帮助我们改进这个工具。
