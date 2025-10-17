@@ -5,9 +5,28 @@ metadata:
   title: "Platform Engineering Reifegrad-Modell Bewertung"
   language: "de"
   language_native: "Deutsch"
-  intro: "<h3>Über Platform Engineering</h3><p><span class=\"highlight\">Platform Engineering</span> ist die Praxis der Planung und Bereitstellung von Computing-Plattformen für Entwickler und Benutzer, die alle Teile von Plattformen und ihre Fähigkeiten umfasst — ihre Menschen, Prozesse, Richtlinien und Technologien; sowie die gewünschten Geschäftsergebnisse, die sie antreiben.</p><p>Dieses <span class=\"highlight\">Platform Engineering Reifegrad-Modell</span> bietet einen Rahmen für Reflexion und zur Identifizierung von Verbesserungsmöglichkeiten in jeder Organisation. Durch die Organisation von Mustern und Beobachtungen in ein progressives Reifegrad-Modell zielen wir darauf ab, Plattform-Teams auf die Herausforderungen zu orientieren, denen sie begegnen könnten, und Chancen aufzuzeigen, die sie anstreben können.</p><p>Diese Bewertung basiert auf dem <a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">CNCF Platform Engineering Reifegrad-Modell</a>, das fünf Schlüsselaspekte bewertet: <strong>Investition</strong>, <strong>Adoption</strong>, <strong>Schnittstellen</strong>, <strong>Betrieb</strong> und <strong>Messung</strong>.</p><p>Wir sammeln Feedback zu dieser Pilotbewertung, also bitte <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">teilen Sie Ihre Gedanken</a>.</p>"
+  intro: >
+    <h3>Über Platform Engineering</h3>
+    <p><span class=\"highlight\">Platform Engineering</span> ist die Praxis der Planung und Bereitstellung von 
+    Computing-Plattformen für Entwickler und Benutzer, die alle Teile von Plattformen und ihre Fähigkeiten 
+    umfasst — ihre Menschen, Prozesse, Richtlinien und Technologien; sowie die gewünschten Geschäftsergebnisse, 
+    die sie antreiben.</p>
+    <p>Dieses <span class=\"highlight\">Platform Engineering Reifegrad-Modell</span> bietet einen Rahmen für 
+    Reflexion und zur Identifizierung von Verbesserungsmöglichkeiten in jeder Organisation. Durch die Organisation 
+    von Mustern und Beobachtungen in ein progressives Reifegrad-Modell zielen wir darauf ab, Plattform-Teams auf 
+    die Herausforderungen zu orientieren, denen sie begegnen könnten, und Chancen aufzuzeigen, die sie anstreben 
+    können.</p>
+    <p>Diese Bewertung basiert auf dem 
+    <a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">CNCF Platform Engineering Reifegrad-Modell</a>, 
+    das fünf Schlüsselaspekte bewertet: <strong>Investition</strong>, <strong>Adoption</strong>, <strong>Schnittstellen</strong>, 
+    <strong>Betrieb</strong> und <strong>Messung</strong>.</p>
+    <p>Wir sammeln Feedback zu dieser Pilotbewertung, also bitte 
+    <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">teilen Sie Ihre Gedanken</a>.</p>
   results_title: "Bewertungsergebnisse"
-  feedback_message: "Vielen Dank, dass Sie unsere Platform Engineering Reifegrad-Modell Bewertung verwendet haben! Wir hoffen, Sie fanden sie wertvoll. Da Sie hier sind, würden wir gerne Ihre Gedanken und Ihr Feedback hören, um uns bei der Verbesserung dieses Tools zu helfen."
+  feedback_message: >
+    Vielen Dank, dass Sie unsere Platform Engineering Reifegrad-Modell Bewertung verwendet haben! Wir hoffen, 
+    Sie fanden sie wertvoll. Da Sie hier sind, würden wir gerne Ihre Gedanken und Ihr Feedback hören, um uns 
+    bei der Verbesserung dieses Tools zu helfen.
   copy_link_text: "📋 Teilbaren Link kopieren"
   copy_success: "📋 Kopiert!"
   copy_fail: "Fehlgeschlagen! Bitte kopieren Sie aus der Adresszeile."
