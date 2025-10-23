@@ -5,9 +5,9 @@ metadata:
   title: "Avaliação do Modelo de Maturidade em Engenharia de Plataforma"
   language: "pt"
   language_native: "Português"
-  intro: "<h3>Sobre Engenharia de Plataforma</h3><p><span class=\"highlight\">Engenharia de plataforma</span> é a prática de planejar e fornecer plataformas de computação para desenvolvedores e usuários, abrangendo todas as partes das plataformas e suas capacidades — suas pessoas, processos, políticas e tecnologias; bem como os resultados comerciais desejados que as impulsionam.</p><p>Este <span class=\"highlight\">Modelo de Maturidade em Engenharia de Plataforma</span> fornece uma estrutura para reflexão e para identificar oportunidades de melhoria em qualquer organização. Ao organizar padrões e observações em um modelo de maturidade progressivo, nosso objetivo é orientar as equipes de plataforma sobre os desafios que podem enfrentar e as oportunidades a serem buscadas.</p><p>Esta avaliação é baseada no <a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">Modelo de Maturidade em Engenharia de Plataforma da CNCF</a>, que avalia cinco aspectos-chave: <strong>Investimento</strong>, <strong>Adoção</strong>, <strong>Interfaces de Usuário</strong>, <strong>Modelo Operacional</strong> e <strong>Medição</strong>.</p><p>Estamos em busca de feedback sobre esta avaliação piloto, então, por favor, <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">compartilhe sua opinião</a>.</p>"
+  intro: "<h3>Sobre Engenharia de Plataforma</h3><p><span class=\"highlight\">Engenharia de plataforma</span> é a prática de planejar e fornecer plataformas de computação para desenvolvedores e usuários, abrangendo todas as partes das plataformas e suas capacidades — suas pessoas, processos, políticas e tecnologias; bem como os resultados comerciais desejados que as impulsionam.</p><p>Este <span class=\"highlight\">Modelo de Maturidade em Engenharia de Plataforma</span> fornece uma estrutura para reflexão e para identificar oportunidades de melhoria em qualquer organização. Ao organizar padrões e observações em um modelo de maturidade progressivo, nosso objetivo é orientar as equipes de plataforma sobre os desafios que podem enfrentar e as oportunidades a serem buscadas.</p><p>Esta avaliação é baseada no <a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">Modelo de Maturidade em Engenharia de Plataforma da CNCF</a>, que avalia cinco aspectos-chave: <strong>Investimento</strong>, <strong>Adoção</strong>, <strong>Interfaces de Usuário</strong>, <strong>Modelo Operacional</strong> e <strong>Métricas e Indicadores</strong>.</p><p>Estamos em busca de feedback sobre esta avaliação piloto, então, por favor, <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">compartilhe sua opinião</a>.</p>"
   results_title: "Resultados da Avaliação"
-  feedback_message: "Obrigado por usar nossa avaliação do Modelo de Maturidade em Engenharia de Plataforma! Esperamos que tenha sido útil. Adoraríamos ouvir suas opiniões e feedback para nos ajudar a melhorar esta ferramenta."
+  feedback_message: "Obrigado por usar nossa avaliação do Modelo de Maturidade em Engenharia de Plataforma! Esperamos que tenha sido útil. Adoraríamos ouvir suas opiniões e feedbacks para nos ajudar a melhorar esta ferramenta."
   copy_link_text: "📋 Copiar Link Compartilhável"
   copy_success: "📋 Copiado!"
   copy_fail: "Erro! Por favor, copie da barra de endereços."
@@ -25,357 +25,357 @@ categories:
     order: 1
     questions:
       - id: 1
-        text: "Who builds your platform?"
+        text: "Quem constrói sua plataforma?"
         field_name: "investment_1"
         options:
           - value: 1
-            level: "Ad-hoc groups"
-            description: "Temporary teams or individuals working together informally"
+            level: "Grupos Ad-hoc"
+            description: "Equipes ou indivíduos temporários trabalhando juntos informalmente"
           - value: 2
-            level: "Technical team or group"
-            description: "Dedicated platform team or group, with general technical skills"
+            level: "Equipe ou grupo técnico"
+            description: "Equipe ou grupo de plataforma dedicado, com habilidades técnicas gerais"
           - value: 3
-            level: "Product-focused team or group"
-            description: "Dedicated team or group with technical, product, and design skills"
+            level: "Equipe ou grupo focado em produtos"
+            description: "Equipe ou grupo dedicado com habilidades técnicas, de produto e de design"
           - value: 4
-            level: "Full specialist team or group"
-            description: "Dedicated team or group with comprehensive specialized roles"
+            level: "Equipe ou grupo de especialistas completo"
+            description: "Equipe ou grupo dedicado com funções especializadas abrangentes"
 
       - id: 2
-        text: "Where do new platform capability needs come from?"
+        text: "De onde vêm as novas necessidades de capacidade da plataforma?"
         field_name: "investment_2"
         options:
           - value: 1
-            level: "Crisis-driven"
-            description: "Urgent, immediate needs"
+            level: "Orientado a crises"
+            description: "Necessidades urgentes e imediatas"
           - value: 2
-            level: "Problem-driven"
-            description: "Fixing existing issues"
+            level: "Orientado a problemas"
+            description: "Resolvendo problemas existentes"
           - value: 3
-            level: "Strategy-driven"
-            description: "Planned roadmap of features"
+            level: "Orientado a estratégia"
+            description: "Roteiro planejado de recursos"
           - value: 4
-            level: "Community-driven"
-            description: "Planned features plus community input"
+            level: "Orientado à comunidade"
+            description: "Recursos planejados e contribuições da comunidade"
 
       - id: 3
-        text: "How do you validate new capabilities with platform users?"
+        text: "Como você valida novas capacidades com os usuários da plataforma?"
         field_name: "investment_3"
         options:
           - value: 1
-            level: "No involvement"
-            description: "Users aren't part of the validation process"
+            level: "Sem envolvimento"
+            description: "Os usuários não fazem parte do processo de validação"
           - value: 2
-            level: "Informal feedback"
-            description: "We ask for feedback in an ad-hoc way"
+            level: "Feedback informal"
+            description: "Pedimos feedback de forma ad-hoc"
           - value: 3
-            level: "Co-creation"
-            description: "Users help define what capabilities are needed"
+            level: "Co-criação"
+            description: "Os usuários ajudam a definir quais capacidades são necessárias"
           - value: 4
-            level: "Full partnership"
-            description: "Users involved throughout the entire define, test, and release"
+            level: "Parceria total"
+            description: "Os usuários estão envolvidos em todo o processo de definição, teste e lançamento"
 
       - id: 4
-        text: "How is your platform initiative funded?"
+        text: "Como sua iniciativa de plataforma é financiada?"
         field_name: "investment_4"
         options:
           - value: 1
-            level: "No funding"
-            description: "No direct investment or budget"
+            level: "Sem financiamento"
+            description: "Sem investimento ou orçamento direto"
           - value: 2
-            level: "Basic funding"
-            description: "Funding allocated to build a dedicated team"
+            level: "Financiamento básico"
+            description: "Financiamento alocado para construir uma equipe dedicada"
           - value: 3
-            level: "Outcome-focused funding"
-            description: "Funded team with clear expected outcomes"
+            level: "Financiamento focado em resultados"
+            description: "Equipe financiada com resultados esperados claros"
           - value: 4
-            level: "Strategic investment"
-            description: "Funded team with outcomes and community building"
+            level: "Investimento estratégico"
+            description: "Equipe financiada com resultados e construção de comunidade"
 
   - id: "adoption"
     name: "Adoção"
     order: 2
     questions:
       - id: 1
-        text: "How do platform users discover its capabilities?"
+        text: "Como os usuários da plataforma descobrem suas capacidades?"
         field_name: "adoption_1"
         options:
           - value: 1
-            level: "By accident"
-            description: "Users stumble across new capabilities"
+            level: "Acidentalmente"
+            description: "Os usuários encontram novas capacidades por acaso"
           - value: 2
-            level: "Scattered sources"
-            description: "Information exists but is inconsistently located"
+            level: "Fontes dispersas"
+            description: "As informações existem, mas estão localizadas de forma inconsistente"
           - value: 3
-            level: "Central catalog"
-            description: "Users start from a single source to find capabilities"
+            level: "Catálogo central"
+            description: "Os usuários começam a partir de uma única fonte para encontrar capacidades"
           - value: 4
-            level: "Interactive catalog"
-            description: "Single source plus users can request missing capabilities"
+            level: "Catálogo interativo"
+            description: "Fonte única, e usuários também podem solicitar capacidades ausentes"
 
       - id: 2
-        text: "How do platform users select tools?"
+        text: "Como os usuários da plataforma selecionam ferramentas?"
         field_name: "adoption_2"
         options:
           - value: 1
-            level: "User build"
-            description: "Users typically create their own bespoke solutions"
+            level: "Construído pelos usuários"
+            description: "Os usuários geralmente criam suas próprias soluções sob medida"
           - value: 2
-            level: "Platform browse"
-            description: "Users browse and look at platform, but often choose alternatives"
+            level: "Navegação na plataforma"
+            description: "Os usuários navegam e olham para a plataforma, mas muitas vezes escolhem alternativas"
           - value: 3
-            level: "Platform evaluate"
-            description: "Platform is fairly compared against alternatives"
+            level: "Avaliação da plataforma"
+            description: "A plataforma é comparada de forma justa com alternativas"
           - value: 4
-            level: "Platform preferred"
-            description: "Platform is preferred over alternatives as the default choice"
+            level: "Preferência pela plataforma"
+            description: "A plataforma é preferida em relação às alternativas como a escolha padrão"
 
       - id: 3
-        text: "How does your organization encourage platform use?"
+        text: "Como sua organização incentiva o uso da plataforma?"
         field_name: "adoption_3"
         options:
           - value: 1
-            level: "Little support"
-            description: "No clear guidance, with limited local advice"
+            level: "Pouco suporte"
+            description: "Sem orientação clara, com aconselhamento local limitado"
           - value: 2
-            level: "Basic support"
-            description: "Users understand the platform value but adoption remains low"
+            level: "Suporte básico"
+            description: "Os usuários entendem o valor da plataforma, mas a adoção permanece baixa"
           - value: 3
-            level: "Good support"
-            description: "Platform use is an explicit goal in individual objectives, creating incentives"
+            level: "Bom suporte"
+            description: "O uso da plataforma é um objetivo explícito nos objetivos individuais, criando incentivos"
           - value: 4
-            level: "Strong support"
-            description: "Everyone understands the value and actively participates in platform building, beyond basic use"
+            level: "Ótimo suporte"
+            description: "Todos entendem o valor e participam ativamente da construção da plataforma, além do uso básico"
 
       - id: 4
-        text: "How does the platform team encourage adoption?"
+        text: "Como a equipe de plataforma incentiva a adoção?"
         field_name: "adoption_4"
         options:
           - value: 1
-            level: "Build it and they will come"
-            description: "Assumption that good capabilities will naturally attract users"
+            level: "Construa e eles virão"
+            description: "Pressuposição de que boas capacidades naturalmente atrairão usuários"
           - value: 2
-            level: "Leadership engagement"
-            description: "Platform team works with leaders of user teams"
+            level: "Envolvimento da liderança"
+            description: "A equipe da plataforma trabalha com líderes das equipes de usuários"
           - value: 3
-            level: "Planned promotion"
-            description: "Every new capability comes with an adoption strategy"
+            level: "Promoção planejada"
+            description: "Cada nova capacidade vem com uma estratégia de adoção"
           - value: 4
-            level: "Community focus"
-            description: "User engagement is as important as building new capabilities"
+            level: "Foco na comunidade"
+            description: "O engajamento do usuário é tão importante quanto a construção de novas capacidades"
 
   - id: "interfaces"
     name: "Interfaces de Usuário"
     order: 3
     questions:
       - id: 1
-        text: "How do users access the platform's capabilities?"
+        text: "Como os usuários acessam as capacidades da plataforma?"
         field_name: "interfaces_1"
         options:
           - value: 1
-            level: "Request-based"
-            description: "Users ask the platform team to fulfill their needs"
+            level: "Baseado em solicitação"
+            description: "Os usuários pedem à equipe da plataforma para atender às suas necessidades"
           - value: 2
-            level: "Self-service tools"
-            description: "Users self-serve access to tools and components"
+            level: "Ferramentas de autoatendimento"
+            description: "Os usuários têm acesso a ferramentas e componentes de autoatendimento"
           - value: 3
-            level: "One-click access"
-            description: "Users get instant access to capabilities from one central place"
+            level: "Acesso com um clique"
+            description: "Os usuários obtêm acesso instantâneo às capacidades a partir de um local central"
           - value: 4
-            level: "Customized access"
-            description: "Users get instant access and can customize the result"
+            level: "Acesso personalizado"
+            description: "Os usuários obtêm acesso instantâneo e podem personalizar o resultado"
 
       - id: 2
-        text: "Does the platform team consider developer experience or productivity?"
+        text: "A equipe da plataforma considera a experiência do desenvolvedor ou a produtividade?"
         field_name: "interfaces_2"
         options:
           - value: 1
-            level: "Not considered"
-            description: "Developer experience and productivity are not priorities"
+            level: "Não considerado"
+            description: "A experiência do desenvolvedor e a produtividade não são prioridades"
           - value: 2
-            level: "Occasionally considered"
-            description: "Sometimes discussed but not systematically addressed"
+            level: "Considerado ocasionalmente"
+            description: "Às vezes discutido, mas não abordado sistematicamente"
           - value: 3
-            level: "Regularly considered"
-            description: "Developer experience is routinely considered in platform decisions"
+            level: "Considerado regularmente"
+            description: "A experiência do desenvolvedor é rotineiramente considerada nas decisões da plataforma"
           - value: 4
-            level: "Core priority"
-            description: "Developer experience and productivity drive all platform decisions"
+            level: "Prioridade central"
+            description: "A experiência do desenvolvedor e a produtividade orientam todas as decisões da plataforma"
 
       - id: 3
-        text: "How are capabilities offered to end users?"
+        text: "Como as capacidades são oferecidas aos usuários finais?"
         field_name: "interfaces_3"
         options:
           - value: 1
-            level: "Standalone tools"
-            description: "Standalone tools or components"
+            level: "Ferramentas independentes"
+            description: "Ferramentas ou componentes independentes"
           - value: 2
-            level: "Fixed solutions"
-            description: "Pre-approved solutions with no customization"
+            level: "Soluções fixas"
+            description: "Soluções pré-aprovadas sem personalização"
           - value: 3
-            level: "Self-service solutions"
-            description: "Users can self-serve access to approved solutions"
+            level: "Soluções de autoatendimento"
+            description: "Os usuários podem acessar soluções aprovadas de forma autônoma"
           - value: 4
-            level: "Composable solutions"
-            description: "Users can build and customize their own solutions"
+            level: "Soluções compostas"
+            description: "Os usuários podem construir e personalizar suas próprias soluções"
 
       - id: 4
-        text: "How is onboarding supported?"
+        text: "Como o onboarding é suportado?"
         field_name: "interfaces_4"
         options:
           - value: 1
-            level: "Heavy support needed"
-            description: "Users need significant help from the platform team"
+            level: "Suporte intenso necessário"
+            description: "Os usuários precisam de ajuda significativa da equipe da plataforma"
           - value: 2
-            level: "Some support needed"
-            description: "Users can self-serve but often need assistance"
+            level: "Algum suporte necessário"
+            description: "Os usuários podem se autoatender, mas frequentemente precisam de assistência"
           - value: 3
-            level: "Little support needed"
-            description: "Users can mostly self-serve with little help"
+            level: "Pouco suporte necessário"
+            description: "Os usuários podem se autoatender com pouca ajuda"
           - value: 4
-            level: "No support needed"
-            description: "Capabilities integrate seamlessly with existing tools"
+            level: "Nenhum suporte necessário"
+            description: "As capacidades se integram perfeitamente com as ferramentas existentes"
 
   - id: "operations"
     name: "Modelo Operacional"
     order: 4
     questions:
       - id: 1
-        text: "How do users find out about platform updates?"
+        text: "Como os usuários descobrem as atualizações da plataforma?"
         field_name: "operations_1"
         options:
           - value: 1
-            level: "No announcements"
-            description: "No announcements are made"
+            level: "Sem notificações"
+            description: "Nenhuma notificação ou comunicação formal"
           - value: 2
-            level: "Fixed location updates"
-            description: "Updates are consistently shared in a fixed location"
+            level: "Atualizações em local fixo"
+            description: "As atualizações são compartilhadas consistentemente em um local fixo"
           - value: 3
-            level: "Releases plus roadmap"
-            description: "Fixed location plus includes future roadmap"
+            level: "Releases com roadmap incluso"
+            description: "Local fixo e inclui roadmap futuro"
           - value: 4
-            level: "Automated notifications"
-            description: "Fixed location plus proactive notifications"
+            level: "Notificações automatizadas"
+            description: "Local fixo e notificações proativas"
 
       - id: 2
-        text: "How do teams request new platform features or capabilities?"
+        text: "Como as equipes solicitam novos recursos ou capacidades da plataforma?"
         field_name: "operations_2"
         options:
           - value: 1
-            level: "Individual assessment"
-            description: "Platform team members individually assess and plan each request"
+            level: "Avaliação individual"
+            description: "Os membros da equipe da plataforma avaliam e planejam individualmente cada solicitação"
           - value: 2
-            level: "Self-service"
-            description: "Business teams build their own services they need"
+            level: "Autoatendimento"
+            description: "As equipes de negócios constroem seus próprios serviços conforme necessário"
           - value: 3
-            level: "Centralized request"
-            description: "Business teams request the platform team to build capabilities for them"
+            level: "Solicitação centralizada"
+            description: "As equipes de negócios solicitam à equipe da plataforma que construa capacidades para elas"
           - value: 4
-            level: "Shared ownership"
-            description: "Clear process with well-defined roles, committed to a service-based model"
+            level: "Propriedade compartilhada"
+            description: "Processo claro com papéis bem definidos, comprometido com um modelo baseado em serviços"
 
       - id: 3
-        text: "How does your platform team deliver and maintain capabilities?"
+        text: "Como sua equipe de plataforma entrega e mantém capacidades?"
         field_name: "operations_3"
         options:
           - value: 1
-            level: "Ad-hoc support"
-            description: "Reactive response, fixing things as they come up"
+            level: "Suporte ad-hoc"
+            description: "Resposta reativa, corrigindo problemas à medida que surgem"
           - value: 2
-            level: "Defined process"
-            description: "Standard process exists, but teams execute it differently"
+            level: "Processo definido"
+            description: "Processo padrão existe, mas as equipes o executam de maneira diferente"
           - value: 3
-            level: "Centrally managed"
-            description: "Centrally managed standard process with shared responsibility"
+            level: "Processo centralizado"
+            description: "Processo padrão centralizado mas com responsabilidade compartilhada"
           - value: 4
-            level: "Automated management"
-            description: "Standardized, automated approach with clear responsibilities and minimal disruption"
+            level: "Processo automatizado"
+            description: "Processo padronizado e automatizado com responsabilidades claras e mínima interrupção"
 
       - id: 4
-        text: "How is the platform's evolution managed?"
+        text: "Como a evolução da plataforma é gerenciada?"
         field_name: "operations_4"
         options:
           - value: 1
-            level: "No clear plan"
-            description: "No formal process or long-term planning"
+            level: "Sem plano claro"
+            description: "Sem processo formal ou planejamento de longo prazo"
           - value: 2
-            level: "Team priorities"
-            description: "Platform team collects requirements and prioritizes them"
+            level: "Prioridades da equipe"
+            description: "A equipe da plataforma coleta requisitos e os prioriza"
           - value: 3
-            level: "Goal-aligned process"
-            description: "Well-defined process that evaluates requirements against organizational goals"
+            level: "Processo alinhado a objetivos"
+            description: "Processo bem definido que avalia requisitos em relação aos objetivos organizacionais"
           - value: 4
-            level: "Product economics"
-            description: "Platform is managed as a product with economic decision-making"
+            level: "Economia de produto"
+            description: "A plataforma é gerenciada como um produto com tomada de decisão econômica"
 
   - id: "measurement"
-    name: "Medição"
+    name: "Métricas e Indicadores"
     order: 5
     questions:
       - id: 1
-        text: "Have you agreed how platform success will be measured?"
+        text: "Existe um acordo sobre como o sucesso da plataforma será medido?"
         field_name: "measurement_1"
         options:
           - value: 1
-            level: "Success is unclear"
-            description: "Unsure what success looks like"
+            level: "O sucesso é incerto"
+            description: "Incerteza sobre a definição de sucesso da plataforma"
           - value: 2
-            level: "Conflicting views"
-            description: "Different opinions exist and are not aligned"
+            level: "Visões conflitantes"
+            description: "Opiniões diferentes existem e não estão alinhadas"
           - value: 3
-            level: "Broad agreement"
-            description: "Organizational agreement on what success looks like"
+            level: "Ampla concordância"
+            description: "Existe concordância organizacional sobre a definição de sucesso da plataforma"
           - value: 4
-            level: "Insight-driven metrics"
-            description: "Data for learning and improvement, not just targets"
+            level: "Métricas orientadas por insights"
+            description: "Dados para aprendizado e melhoria, não apenas metas"
 
       - id: 2
-        text: "How do you measure the business outcomes of platforms?"
+        text: "Como você mede os resultados de negócio das plataformas?"
         field_name: "measurement_2"
         options:
           - value: 1
-            level: "No measurement"
-            description: "We don't report against business goals"
+            level: "Sem medição"
+            description: "Não relatamos em relação às metas de negócio"
           - value: 2
-            level: "Proxy metrics"
-            description: "We use adoption or time saved to measure capability success"
+            level: "Métricas alternativas"
+            description: "Usamos adoção ou tempo economizado para medir o sucesso da capacidade"
           - value: 3
-            level: "Success-first approach"
-            description: "We don't add any capability until we figure out how to measure success"
+            level: "Abordagem orientada ao sucesso"
+            description: "Não adicionamos nenhuma capacidade até descobrir como medir o sucesso"
           - value: 4
-            level: "Continuous improvement"
-            description: "Teams continuously refine metrics and data collection"
+            level: "Melhoria contínua"
+            description: "As equipes refinam continuamente as métricas e a coleta de dados"
 
       - id: 3
-        text: "How is user feedback collected and used?"
+        text: "Como o feedback do usuário é coletado e utilizado?"
         field_name: "measurement_3"
         options:
           - value: 1
-            level: "No engagement"
-            description: "Users are not engaged and don't feel heard"
+            level: "Sem engajamento"
+            description: "Os usuários não estão engajados e não se sentem ouvidos"
           - value: 2
-            level: "Informal feedback"
-            description: "Ad-hoc mechanisms exist for user feedback"
+            level: "Feedback informal"
+            description: "Existem mecanismos ad-hoc para feedback do usuário"
           - value: 3
-            level: "Dedicated collection"
-            description: "Product manager or team member drives feedback data collection"
+            level: "Coleta dedicada"
+            description: "O gerente de produto ou membro da equipe lidera a coleta de dados de feedback"
           - value: 4
-            level: "User contribution"
-            description: "Users actively contribute to the platform"
+            level: "Contribuição do usuário"
+            description: "Os usuários contribuem ativamente para a plataforma"
 
       - id: 4
-        text: "How do you collect user satisfaction with the platform?"
+        text: "Como você coleta a satisfação do usuário com a plataforma?"
         field_name: "measurement_4"
         options:
           - value: 1
-            level: "No structured collection"
-            description: "We don't collect user satisfaction in a structured way"
+            level: "Sem coleta estruturada"
+            description: "Não coletamos a satisfação do usuário de forma estruturada"
           - value: 2
-            level: "Surveys and monitoring"
-            description: "We use surveys or forums to understand user sentiment"
+            level: "Pesquisas e monitoramento"
+            description: "Usamos pesquisas ou fóruns para entender o sentimento do usuário"
           - value: 3
-            level: "Active structured approach"
-            description: "We actively explore user satisfaction through structured approaches"
+            level: "Abordagem estruturada ativa"
+            description: "Exploramos ativamente a satisfação do usuário por meio de abordagens estruturadas"
           - value: 4
-            level: "Culture-first"
-            description: "User satisfaction is embedded in our culture"
+            level: "Cultura centrada no usuário"
+            description: "A satisfação do usuário está incorporada em nossa cultura"
