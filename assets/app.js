@@ -232,6 +232,47 @@ let answerState = {};
   canvas.width = 350;
   canvas.height = 350;
 
+  // Helper: draw label with simple two-line wrap if text exceeds maxWidth
+  function drawWrappedText(ctx, text, x, y, maxWidth) {
+    const fullWidth = ctx.measureText(text).width;
+    if (fullWidth <= maxWidth) {
+      ctx.fillText(text, x, y + 5);
+      return;
+    }
+
+    const words = String(text).split(' ');
+    let line1 = '';
+    let line2 = '';
+
+    if (words.length > 1) {
+      for (let i = 0; i < words.length; i++) {
+        const candidate = line1 ? line1 + ' ' + words[i] : words[i];
+        if (ctx.measureText(candidate).width <= maxWidth) {
+          line1 = candidate;
+        } else {
+          line2 = words.slice(i).join(' ');
+          break;
+        }
+      }
+      if (!line1) {
+        // Edge case: first word already exceeds; split word in half
+        const w0 = words[0];
+        const mid = Math.floor(w0.length / 2);
+        line1 = w0.slice(0, mid);
+        line2 = w0.slice(mid) + (words.length > 1 ? ' ' + words.slice(1).join(' ') : '');
+      }
+    } else {
+      // No spaces, split approximately in half
+      const mid = Math.max(1, Math.floor(String(text).length / 2));
+      line1 = String(text).slice(0, mid);
+      line2 = String(text).slice(mid);
+    }
+
+    // Draw the two lines centered near the intended label point
+    ctx.fillText(line1, x, y - 2);
+    ctx.fillText(line2, x, y + 10);
+  }
+
   function drawSpiderChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -270,10 +311,10 @@ let answerState = {};
       ctx.lineTo(x, y);
       ctx.stroke();
 
-      // Draw label
+      // Draw label with simple two-line wrap for long text
       const labelX = centerX + Math.cos(angle) * (radius + 20);
       const labelY = centerY + Math.sin(angle) * (radius + 20);
-      ctx.fillText(categoryName, labelX, labelY + 5);
+      drawWrappedText(ctx, categoryName, labelX, labelY, 90);
     }
 
     // Draw level numbers
