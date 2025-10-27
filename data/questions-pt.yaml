@@ -5,9 +5,24 @@ metadata:
   title: "Avaliação do Modelo de Maturidade em Engenharia de Plataforma"
   language: "pt"
   language_native: "Português"
-  intro: "<h3>Sobre Engenharia de Plataforma</h3><p><span class=\"highlight\">Engenharia de plataforma</span> é a prática de planejar e fornecer plataformas de computação para desenvolvedores e usuários, abrangendo todas as partes das plataformas e suas capacidades — suas pessoas, processos, políticas e tecnologias; bem como os resultados comerciais desejados que as impulsionam.</p><p>Este <span class=\"highlight\">Modelo de Maturidade em Engenharia de Plataforma</span> fornece uma estrutura para reflexão e para identificar oportunidades de melhoria em qualquer organização. Ao organizar padrões e observações em um modelo de maturidade progressivo, nosso objetivo é orientar as equipes de plataforma sobre os desafios que podem enfrentar e as oportunidades a serem buscadas.</p><p>Esta avaliação é baseada no <a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">Modelo de Maturidade em Engenharia de Plataforma da CNCF</a>, que avalia cinco aspectos-chave: <strong>Investimento</strong>, <strong>Adoção</strong>, <strong>Interfaces de Usuário</strong>, <strong>Modelo Operacional</strong> e <strong>Métricas e Indicadores</strong>.</p><p>Estamos em busca de feedback sobre esta avaliação piloto, então, por favor, <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">compartilhe sua opinião</a>.</p>"
+  intro: >
+    <h3>Sobre Engenharia de Plataforma</h3>
+    <p><span class=\"highlight\">Engenharia de plataforma</span> é a prática de planejar e fornecer plataformas de computação para desenvolvedores e
+    usuários, abrangendo todas as partes das plataformas e suas capacidades — suas pessoas, processos, políticas e tecnologias; bem como os resultados
+    comerciais desejados que as impulsionam.</p>
+    <p>Este <span class=\"highlight\">Modelo de Maturidade em Engenharia de Plataforma</span> fornece uma estrutura para reflexão e para identificar
+    oportunidades de melhoria em qualquer organização. Ao organizar padrões e observações em um modelo de maturidade progressivo, nosso objetivo é
+    orientar as equipes de plataforma sobre os desafios que podem enfrentar e as oportunidades a serem buscadas.</p>
+    <p>Esta avaliação é baseada no 
+    <a href=\"https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/\" target=\"_blank\">Modelo de Maturidade em Engenharia de Plataforma da CNCF</a>,
+    que avalia cinco aspectos-chave: <strong>Investimento</strong>, <strong>Adoção</strong>, <strong>Interfaces de Usuário</strong>,
+    <strong>Modelo Operacional</strong> e <strong>Métricas e Indicadores</strong>.</p><p>Estamos em busca de feedback sobre esta avaliação piloto, 
+    então, por favor,
+    <a href=\"https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform\" target=\"_blank\">compartilhe sua opinião</a>.</p>
   results_title: "Resultados da Avaliação"
-  feedback_message: "Obrigado por usar nossa avaliação do Modelo de Maturidade em Engenharia de Plataforma! Esperamos que tenha sido útil. Adoraríamos ouvir suas opiniões e feedbacks para nos ajudar a melhorar esta ferramenta."
+  feedback_message: >
+    Obrigado por usar nossa avaliação do Modelo de Maturidade em Engenharia de Plataforma! Esperamos que tenha sido útil.
+    Adoraríamos ouvir suas opiniões e feedbacks para nos ajudar a melhorar esta ferramenta.
   copy_link_text: "📋 Copiar Link Compartilhável"
   copy_success: "📋 Copiado!"
   copy_fail: "Erro! Por favor, copie da barra de endereços."
