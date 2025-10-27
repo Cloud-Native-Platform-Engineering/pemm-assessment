@@ -12,16 +12,17 @@ This Docker Compose setup provides a local development environment that mimics t
 ### Quick Start
 
 1. **Start the development server:**
+
    ```bash
    docker-compose up -d
    ```
 
 2. **Access the application:**
    - English version: http://localhost:8080/pemm-assessment/
-   - Chinese version: http://localhost:8080/pemm-assessment/?lang=zh
-   - Legacy Chinese URL: http://localhost:8080/pemm-assessment/zh/ (redirects to main template)
+   - Translated versions: http://localhost:8080/pemm-assessment/?lang=code
 
 3. **Stop the development server:**
+
    ```bash
    docker-compose down
    ```
@@ -29,7 +30,8 @@ This Docker Compose setup provides a local development environment that mimics t
 ### File Structure
 
 The Docker setup serves files exactly as GitHub Pages would:
-```
+
+```text
 /pemm-assessment/
 ├── index.html          # Single dynamic template for all languages
 ├── assets/

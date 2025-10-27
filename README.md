@@ -8,6 +8,8 @@ You can copy the URL to share the form in its current state, for example [this p
 
 When [giving feedback](https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform) please use these shareable URLs to help folks see what you see.
 
+Note: If you switch the language while viewing the results, the app will keep you on the results page and re-render them in the selected language. Shareable links from the results page also include this view so recipients land directly on the results.
+
 <img width="1064" height="1114" alt="A screenshot showing the questions" src="https://github.com/user-attachments/assets/909d70d6-0a4c-4cc9-8988-646aa50484f6" />
 
 <img width="1076" height="1201" alt="A screenshot showing the assessment results, a spider chart, heatmap matrix, and list of scores" src="https://github.com/user-attachments/assets/18d4b7db-1f52-4458-8970-acfbdf20c987" />

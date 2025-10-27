@@ -1,0 +1,395 @@
+# Platform Engineering Maturity Model Assessment
+
+metadata:
+  title: Avaliação do Modelo de Maturidade em Engenharia de Plataforma
+  language: pt
+  language_native: Português
+  intro: >
+    <h3>Sobre Engenharia de Plataforma</h3>
+    <p><span class="highlight">Engenharia de plataforma</span> é a prática de planejar e fornecer plataformas de computação para desenvolvedores e
+    usuários, abrangendo todas as partes das plataformas e suas capacidades — suas pessoas, processos, políticas e tecnologias; bem como os resultados
+    comerciais desejados que as impulsionam.</p>
+    <p>Este <span class="highlight">Modelo de Maturidade em Engenharia de Plataforma</span> fornece uma estrutura para reflexão e para identificar
+    oportunidades de melhoria em qualquer organização. Ao organizar padrões e observações em um modelo de maturidade progressivo, nosso objetivo é
+    orientar as equipes de plataforma sobre os desafios que podem enfrentar e as oportunidades a serem buscadas.</p>
+    <p>Esta avaliação é baseada no 
+    <a href="https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/" target="_blank">Modelo de Maturidade em Engenharia de Plataforma da CNCF</a>,
+    que avalia cinco aspectos-chave: <strong>Investimento</strong>, <strong>Adoção</strong>, <strong>Interfaces de Usuário</strong>,
+    <strong>Modelo Operacional</strong> e <strong>Métricas e Indicadores</strong>.</p><p>Estamos em busca de feedback sobre esta avaliação piloto, 
+    então, por favor,
+    <a href="https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform" target="_blank">compartilhe sua opinião</a>.</p>
+  results_title: Resultados da Avaliação
+  feedback_message: >
+    Obrigado por usar nossa avaliação do Modelo de Maturidade em Engenharia de Plataforma! Esperamos que tenha sido útil.
+    Adoraríamos ouvir suas opiniões e feedbacks para nos ajudar a melhorar esta ferramenta.
+  copy_link_text: "📋 Copiar Link Compartilhável"
+  copy_success: "📋 Copiado!"
+  copy_fail: "Erro! Por favor, copie da barra de endereços."
+  share_feedback_text: "💬 Compartilhar Feedback"
+  language_label: "Idioma:"
+  previous_button_text: Anterior
+  next_button_text: Próximo
+  submit_button_text: Enviar avaliação
+  back_to_assessment: Voltar para a avaliação
+  page_indicator_text: "Página {current} de {total}"
+
+categories:
+  - id: investment
+    name: Investimento
+    order: 1
+    questions:
+      - id: 1
+        text: Quem constrói sua plataforma?
+        field_name: investment_1
+        options:
+          - value: 1
+            level: Grupos Ad-hoc
+            description: Equipes ou indivíduos temporários trabalhando juntos informalmente
+          - value: 2
+            level: Equipe ou grupo técnico
+            description: Equipe ou grupo de plataforma dedicado, com habilidades técnicas gerais
+          - value: 3
+            level: Equipe ou grupo focado em produtos
+            description: Equipe ou grupo dedicado com habilidades técnicas, de produto e de design
+          - value: 4
+            level: Equipe ou grupo de especialistas completo
+            description: Equipe ou grupo dedicado com funções especializadas abrangentes
+
+      - id: 2
+        text: De onde vêm as novas necessidades de capacidade da plataforma?
+        field_name: investment_2
+        options:
+          - value: 1
+            level: Orientado a crises
+            description: Necessidades urgentes e imediatas
+          - value: 2
+            level: Orientado a problemas
+            description: Resolvendo problemas existentes
+          - value: 3
+            level: Orientado a estratégia
+            description: Roteiro planejado de recursos
+          - value: 4
+            level: Orientado à comunidade
+            description: Recursos planejados e contribuições da comunidade
+
+      - id: 3
+        text: Como você valida novas capacidades com os usuários da plataforma?
+        field_name: investment_3
+        options:
+          - value: 1
+            level: Sem envolvimento
+            description: Os usuários não fazem parte do processo de validação
+          - value: 2
+            level: Feedback informal
+            description: Pedimos feedback de forma ad-hoc
+          - value: 3
+            level: Co-criação
+            description: Os usuários ajudam a definir quais capacidades são necessárias
+          - value: 4
+            level: Parceria total
+            description: Os usuários estão envolvidos em todo o processo de definição, teste e lançamento
+
+      - id: 4
+        text: Como sua iniciativa de plataforma é financiada?
+        field_name: investment_4
+        options:
+          - value: 1
+            level: Sem financiamento
+            description: Sem investimento ou orçamento direto
+          - value: 2
+            level: Financiamento básico
+            description: Financiamento alocado para construir uma equipe dedicada
+          - value: 3
+            level: Financiamento focado em resultados
+            description: Equipe financiada com resultados esperados claros
+          - value: 4
+            level: Investimento estratégico
+            description: Equipe financiada com resultados e construção de comunidade
+
+  - id: adoption
+    name: Adoção
+    order: 2
+    questions:
+      - id: 1
+        text: Como os usuários da plataforma descobrem suas capacidades?
+        field_name: adoption_1
+        options:
+          - value: 1
+            level: Acidentalmente
+            description: Os usuários encontram novas capacidades por acaso
+          - value: 2
+            level: Fontes dispersas
+            description: As informações existem, mas estão localizadas de forma inconsistente
+          - value: 3
+            level: Catálogo central
+            description: Os usuários começam a partir de uma única fonte para encontrar capacidades
+          - value: 4
+            level: Catálogo interativo
+            description: Fonte única, e usuários também podem solicitar capacidades ausentes
+
+      - id: 2
+        text: Como os usuários da plataforma selecionam ferramentas?
+        field_name: adoption_2
+        options:
+          - value: 1
+            level: Construído pelos usuários
+            description: Os usuários geralmente criam suas próprias soluções sob medida
+          - value: 2
+            level: Navegação na plataforma
+            description: Os usuários navegam e olham para a plataforma, mas muitas vezes escolhem alternativas
+          - value: 3
+            level: Avaliação da plataforma
+            description: A plataforma é comparada de forma justa com alternativas
+          - value: 4
+            level: Preferência pela plataforma
+            description: A plataforma é preferida em relação às alternativas como a escolha padrão
+
+      - id: 3
+        text: Como sua organização incentiva o uso da plataforma?
+        field_name: adoption_3
+        options:
+          - value: 1
+            level: Pouco suporte
+            description: Sem orientação clara, com aconselhamento local limitado
+          - value: 2
+            level: Suporte básico
+            description: Os usuários entendem o valor da plataforma, mas a adoção permanece baixa
+          - value: 3
+            level: Bom suporte
+            description: O uso da plataforma é um objetivo explícito nos objetivos individuais, criando incentivos
+          - value: 4
+            level: Ótimo suporte
+            description: Todos entendem o valor e participam ativamente da construção da plataforma, além do uso básico
+
+      - id: 4
+        text: Como a equipe de plataforma incentiva a adoção?
+        field_name: adoption_4
+        options:
+          - value: 1
+            level: Construa e eles virão
+            description: Pressuposição de que boas capacidades naturalmente atrairão usuários
+          - value: 2
+            level: Envolvimento da liderança
+            description: A equipe da plataforma trabalha com líderes das equipes de usuários
+          - value: 3
+            level: Promoção planejada
+            description: Plano de divulgação explícito para cada capacidade
+          - value: 4
+            level: Abordagem orientada a produtos
+            description: Pesquisas de usuários, roteiro de promoção e melhorias constantes
+
+  - id: interfaces
+    name: Interfaces de Usuário
+    order: 3
+    questions:
+      - id: 1
+        text: Como você escolhe as interfaces de usuário?
+        field_name: interfaces_1
+        options:
+          - value: 1
+            level: Interfaces técnicas
+            description: As capacidades incluem soluções de linha de comando ou arquivos de configuração não opinativos
+          - value: 2
+            level: Escolhas claras
+            description: A plataforma tem caminhos selecionados que usam Infraestrutura como Código (IaC) e pipelines
+          - value: 3
+            level: Abordagem híbrida
+            description: A plataforma é acessada de várias maneiras para atender às diferentes preferências do usuário
+          - value: 4
+            level: Experiências guiadas
+            description: A maioria dos usuários interage com as capacidades por meio de uma experiência guiada
+
+      - id: 2
+        text: Como as capacidades da plataforma são expostas aos usuários?
+        field_name: interfaces_2
+        options:
+          - value: 1
+            level: Capacidades diretas
+            description: Cada capacidade está disponível individualmente
+          - value: 2
+            level: Capacidades combinadas
+            description: As capacidades são organizadas e combinadas em serviços
+          - value: 3
+            level: Soluções integradas
+            description: As capacidades são combinadas em soluções para usuários internos
+          - value: 4
+            level: Plataforma abstraída
+            description: A plataforma é uma solução completa e abstraída que orquestra as camadas subjacentes
+
+      - id: 3
+        text: Que tipo de caminhos a plataforma oferece?
+        field_name: interfaces_3
+        options:
+          - value: 1
+            level: Ferramentas independentes
+            description: Ferramentas ou componentes independentes
+          - value: 2
+            level: Soluções fixas
+            description: Soluções pré-aprovadas sem personalização
+          - value: 3
+            level: Soluções de autoatendimento
+            description: Os usuários podem acessar soluções aprovadas de forma autônoma
+          - value: 4
+            level: Soluções compostas
+            description: Os usuários podem construir e personalizar suas próprias soluções
+
+      - id: 4
+        text: Como o onboarding é suportado?
+        field_name: interfaces_4
+        options:
+          - value: 1
+            level: Suporte intenso necessário
+            description: Os usuários precisam de ajuda significativa da equipe da plataforma
+          - value: 2
+            level: Algum suporte necessário
+            description: Os usuários podem se autoatender, mas frequentemente precisam de assistência
+          - value: 3
+            level: Pouco suporte necessário
+            description: Os usuários podem se autoatender com pouca ajuda
+          - value: 4
+            level: Nenhum suporte necessário
+            description: As capacidades se integram perfeitamente com as ferramentas existentes
+
+  - id: operations
+    name: Modelo Operacional
+    order: 4
+    questions:
+      - id: 1
+        text: Como os usuários descobrem as atualizações da plataforma?
+        field_name: operations_1
+        options:
+          - value: 1
+            level: Sem notificações
+            description: Nenhuma notificação ou comunicação formal
+          - value: 2
+            level: Atualizações em local fixo
+            description: As atualizações são compartilhadas consistentemente em um local fixo
+          - value: 3
+            level: Releases com roadmap incluso
+            description: Local fixo e inclui roadmap futuro
+          - value: 4
+            level: Notificações automatizadas
+            description: Local fixo e notificações proativas
+
+      - id: 2
+        text: Como as equipes solicitam novos recursos ou capacidades da plataforma?
+        field_name: operations_2
+        options:
+          - value: 1
+            level: Avaliação individual
+            description: Os membros da equipe da plataforma avaliam e planejam individualmente cada solicitação
+          - value: 2
+            level: Autoatendimento
+            description: As equipes de negócios constroem seus próprios serviços conforme necessário
+          - value: 3
+            level: Solicitação centralizada
+            description: As equipes de negócios solicitam à equipe da plataforma que construa capacidades para elas
+          - value: 4
+            level: Propriedade compartilhada
+            description: Processo claro com papéis bem definidos, comprometido com um modelo baseado em serviços
+
+      - id: 3
+        text: Como sua equipe de plataforma entrega e mantém capacidades?
+        field_name: operations_3
+        options:
+          - value: 1
+            level: Suporte ad-hoc
+            description: Resposta reativa, corrigindo problemas à medida que surgem
+          - value: 2
+            level: Processo definido
+            description: Processo padrão existe, mas as equipes o executam de maneira diferente
+          - value: 3
+            level: Processo centralizado
+            description: Processo padrão centralizado mas com responsabilidade compartilhada
+          - value: 4
+            level: Processo automatizado
+            description: Processo padronizado e automatizado com responsabilidades claras e mínima interrupção
+
+      - id: 4
+        text: Como a evolução da plataforma é gerenciada?
+        field_name: operations_4
+        options:
+          - value: 1
+            level: Sem plano claro
+            description: Sem processo formal ou planejamento de longo prazo
+          - value: 2
+            level: Prioridades da equipe
+            description: A equipe da plataforma coleta requisitos e os prioriza
+          - value: 3
+            level: Processo alinhado a objetivos
+            description: Processo bem definido que avalia requisitos em relação aos objetivos organizacionais
+          - value: 4
+            level: Economia de produto
+            description: A plataforma é gerenciada como um produto com tomada de decisão econômica
+
+  - id: measurement
+    name: Métricas e Indicadores
+    order: 5
+    questions:
+      - id: 1
+        text: Existe um acordo sobre como o sucesso da plataforma será medido?
+        field_name: measurement_1
+        options:
+          - value: 1
+            level: O sucesso é incerto
+            description: Incerteza sobre a definição de sucesso da plataforma
+          - value: 2
+            level: Visões conflitantes
+            description: Opiniões diferentes existem e não estão alinhadas
+          - value: 3
+            level: Ampla concordância
+            description: Existe concordância organizacional sobre a definição de sucesso da plataforma
+          - value: 4
+            level: Métricas orientadas por insights
+            description: Dados para aprendizado e melhoria, não apenas metas
+
+      - id: 2
+        text: Como você mede os resultados de negócio das plataformas?
+        field_name: measurement_2
+        options:
+          - value: 1
+            level: Sem medição
+            description: Não relatamos em relação às metas de negócio
+          - value: 2
+            level: Métricas alternativas
+            description: Usamos adoção ou tempo economizado para medir o sucesso da capacidade
+          - value: 3
+            level: Abordagem orientada ao sucesso
+            description: Não adicionamos nenhuma capacidade até descobrir como medir o sucesso
+          - value: 4
+            level: Melhoria contínua
+            description: As equipes refinam continuamente as métricas e a coleta de dados
+
+      - id: 3
+        text: Como o feedback do usuário é coletado e utilizado?
+        field_name: measurement_3
+        options:
+          - value: 1
+            level: Sem engajamento
+            description: Os usuários não estão engajados e não se sentem ouvidos
+          - value: 2
+            level: Feedback informal
+            description: Existem mecanismos ad-hoc para feedback do usuário
+          - value: 3
+            level: Coleta dedicada
+            description: O gerente de produto ou membro da equipe lidera a coleta de dados de feedback
+          - value: 4
+            level: Contribuição do usuário
+            description: Os usuários contribuem ativamente para a plataforma
+
+      - id: 4
+        text: Como você coleta a satisfação do usuário com a plataforma?
+        field_name: measurement_4
+        options:
+          - value: 1
+            level: Sem coleta estruturada
+            description: Não coletamos a satisfação do usuário de forma estruturada
+          - value: 2
+            level: Pesquisas e monitoramento
+            description: Usamos pesquisas ou fóruns para entender o sentimento do usuário
+          - value: 3
+            level: Abordagem estruturada ativa
+            description: Exploramos ativamente a satisfação do usuário por meio de abordagens estruturadas
+          - value: 4
+            level: Cultura centrada no usuário
+            description: A satisfação do usuário está incorporada em nossa cultura

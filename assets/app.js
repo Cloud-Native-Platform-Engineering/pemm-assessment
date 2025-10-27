@@ -50,6 +50,7 @@ let answerState = {};
     const next = document.getElementById('next-btn');
     const submit = document.getElementById('submit-btn');
     const backToAssessment = document.getElementById('app-return-button');
+    const pageIndicator = document.getElementById('page-indicator');
 
     if (previous) {
       previous.innerText = questionsData?.metadata?.previous_button_text || 'Previous';
@@ -78,6 +79,14 @@ let answerState = {};
 
     if (backToAssessment) {
       backToAssessment.innerText = questionsData?.metadata?.back_to_assessment || 'Return to Assessment';
+    }
+
+    // Update page indicator text with translation support
+    if (pageIndicator) {
+      const template = questionsData?.metadata?.page_indicator_text || 'Page {current} of {total}';
+      pageIndicator.textContent = template
+        .replace('{current}', String(currentPage + 1))
+        .replace('{total}', String(totalPages));
     }
   }
   
@@ -223,6 +232,47 @@ let answerState = {};
   canvas.width = 350;
   canvas.height = 350;
 
+  // Helper: draw label with simple two-line wrap if text exceeds maxWidth
+  function drawWrappedText(ctx, text, x, y, maxWidth) {
+    const fullWidth = ctx.measureText(text).width;
+    if (fullWidth <= maxWidth) {
+      ctx.fillText(text, x, y + 5);
+      return;
+    }
+
+    const words = String(text).split(' ');
+    let line1 = '';
+    let line2 = '';
+
+    if (words.length > 1) {
+      for (let i = 0; i < words.length; i++) {
+        const candidate = line1 ? line1 + ' ' + words[i] : words[i];
+        if (ctx.measureText(candidate).width <= maxWidth) {
+          line1 = candidate;
+        } else {
+          line2 = words.slice(i).join(' ');
+          break;
+        }
+      }
+      if (!line1) {
+        // Edge case: first word already exceeds; split word in half
+        const w0 = words[0];
+        const mid = Math.floor(w0.length / 2);
+        line1 = w0.slice(0, mid);
+        line2 = w0.slice(mid) + (words.length > 1 ? ' ' + words.slice(1).join(' ') : '');
+      }
+    } else {
+      // No spaces, split approximately in half
+      const mid = Math.max(1, Math.floor(String(text).length / 2));
+      line1 = String(text).slice(0, mid);
+      line2 = String(text).slice(mid);
+    }
+
+    // Draw the two lines centered near the intended label point
+    ctx.fillText(line1, x, y - 2);
+    ctx.fillText(line2, x, y + 10);
+  }
+
   function drawSpiderChart() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -261,10 +311,10 @@ let answerState = {};
       ctx.lineTo(x, y);
       ctx.stroke();
 
-      // Draw label
+      // Draw label with simple two-line wrap for long text
       const labelX = centerX + Math.cos(angle) * (radius + 20);
       const labelY = centerY + Math.sin(angle) * (radius + 20);
-      ctx.fillText(categoryName, labelX, labelY + 5);
+      drawWrappedText(ctx, categoryName, labelX, labelY, 90);
     }
 
     // Draw level numbers
@@ -442,6 +492,16 @@ let answerState = {};
       for (const key in answerState) {
         newParams.set(key, answerState[key]);
       }
+
+      // Preserve current view if results are visible (so switching language stays on results)
+      const resultsSection = document.getElementById('results-section');
+      const isResultsVisible = resultsSection && resultsSection.style.display === 'block';
+      // Also check URL param as a fallback
+      const currentParams = new URLSearchParams(window.location.search);
+      const urlView = currentParams.get('view');
+      if (isResultsVisible || urlView === 'results') {
+        newParams.set('view', 'results');
+      }
       
       // Update the link
       const queryString = newParams.toString();
@@ -464,6 +524,13 @@ let answerState = {};
       params.set(key, answerState[key]);
     }
 
+    // Preserve current view state (results vs assessment)
+    const resultsSection = document.getElementById('results-section');
+    const isResultsVisible = resultsSection && resultsSection.style.display === 'block';
+    if (isResultsVisible) {
+      params.set('view', 'results');
+    }
+
     const newURL = window.location.pathname + "?" + params.toString();
     window.history.replaceState({}, "", newURL);
 
@@ -478,7 +545,7 @@ let answerState = {};
 
     // Load all parameters into answerState (except 'lang')
     for (const [key, value] of params.entries()) {
-      if (key !== 'lang') {
+      if (key !== 'lang' && key !== 'view') {
         answerState[key] = value;
       }
     }
@@ -546,6 +613,14 @@ let answerState = {};
       loadStateFromURL();
     }
 
+    // If URL indicates results view, show results immediately
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('view') === 'results') {
+      showResults();
+      // Ensure URL reflects current state (including view)
+      saveStateToURL();
+    }
+
     draw();
   });
 
@@ -560,11 +635,6 @@ function renderCurrentPage() {
   const introSection = document.getElementById("intro-section");
 
   if (!form || !categoryPages.length) return;
-
-  // Update page indicator
-  if (pageIndicator) {
-    pageIndicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
-  }
 
   // Show/hide intro based on page
   if (introSection) {
@@ -666,6 +736,8 @@ window.previousPage = function () {
 window.submitAssessment = function () {
   saveCurrentPageAnswers();
   showResults();
+  // Persist results view in the URL so it can be restored or preserved when changing language
+  window.saveStateToURL();
   // Scroll to top to show results section
   window.scrollTo(0, 0);
 };
@@ -682,6 +754,8 @@ window.returnToAssessment = function () {
     window.updatePaginationControls();
     restoreCurrentPageAnswers();
   }
+  // Remove results view from the URL
+  window.saveStateToURL();
 };
 
 // Show results section
