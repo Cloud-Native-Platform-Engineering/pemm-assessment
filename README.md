@@ -1,6 +1,6 @@
-# Platform maturity assessment prototype
+# Platform maturity assessment
 
-This repo contains a basic prototype for a platform maturity assessment.
+This repo contains the Platform Maturity Model Assessment.
 
 On answering the questions you get a spider diagram and a matrix to indicate where you are on a map right now.
 
@@ -14,48 +14,9 @@ Note: If you switch the language while viewing the results, the app will keep yo
 
 <img width="1076" height="1201" alt="A screenshot showing the assessment results, a spider chart, heatmap matrix, and list of scores" src="https://github.com/user-attachments/assets/18d4b7db-1f52-4458-8970-acfbdf20c987" />
 
-## HTML requirements
+## Discussion
 
-The form requires a few items and conventions.
-
-- Use a fieldset to group questions by categories.
-- Use a suffix for each set of radio buttons.
-- Use an integer value that matches the maturity level
-
-```html
-<!-- Form with id of "maturity-form" -->
-<form id="maturity-form">
-
-<fieldset>
-    <!--
-        Legend with:
-        data-category=[internal name of category - must match radio names]
-        text: Display name for category
-     -->
-    <legend data-category="category">Display Name</legend>
-
-    <label>
-        <!--
-            Radio with a name that matches the data-category with a numeric suffix, for example category_1, category_2.
-
-            The value must be an integer.
-        -->
-        <input type="radio" name="category_1" value="1">
-        Option display text
-    </label>
-
-</fieldset>
-
-</form>
-```
-
-For the output, you need the following:
-
-```html
-<canvas id="maturity-spider"></canvas>
-<table id="maturity-matrix"></table>
-<div id="maturity-scores" class="scores"></div>
-```
+Please join the [Cloud Native Computing Foundation on Slack](https://communityinviter.com/apps/cloud-native/cncf) and use the [platform-engineering](https://cloud-native.slack.com/archives/C020RHD43BP) channel.
 
 ## Content Management and Translations
 
