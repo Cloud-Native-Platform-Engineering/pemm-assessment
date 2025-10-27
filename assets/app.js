@@ -492,6 +492,16 @@ let answerState = {};
       for (const key in answerState) {
         newParams.set(key, answerState[key]);
       }
+
+      // Preserve current view if results are visible (so switching language stays on results)
+      const resultsSection = document.getElementById('results-section');
+      const isResultsVisible = resultsSection && resultsSection.style.display === 'block';
+      // Also check URL param as a fallback
+      const currentParams = new URLSearchParams(window.location.search);
+      const urlView = currentParams.get('view');
+      if (isResultsVisible || urlView === 'results') {
+        newParams.set('view', 'results');
+      }
       
       // Update the link
       const queryString = newParams.toString();
@@ -514,6 +524,13 @@ let answerState = {};
       params.set(key, answerState[key]);
     }
 
+    // Preserve current view state (results vs assessment)
+    const resultsSection = document.getElementById('results-section');
+    const isResultsVisible = resultsSection && resultsSection.style.display === 'block';
+    if (isResultsVisible) {
+      params.set('view', 'results');
+    }
+
     const newURL = window.location.pathname + "?" + params.toString();
     window.history.replaceState({}, "", newURL);
 
@@ -528,7 +545,7 @@ let answerState = {};
 
     // Load all parameters into answerState (except 'lang')
     for (const [key, value] of params.entries()) {
-      if (key !== 'lang') {
+      if (key !== 'lang' && key !== 'view') {
         answerState[key] = value;
       }
     }
@@ -594,6 +611,14 @@ let answerState = {};
     } else {
       // Fallback to existing HTML structure
       loadStateFromURL();
+    }
+
+    // If URL indicates results view, show results immediately
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('view') === 'results') {
+      showResults();
+      // Ensure URL reflects current state (including view)
+      saveStateToURL();
     }
 
     draw();
@@ -711,6 +736,8 @@ window.previousPage = function () {
 window.submitAssessment = function () {
   saveCurrentPageAnswers();
   showResults();
+  // Persist results view in the URL so it can be restored or preserved when changing language
+  window.saveStateToURL();
   // Scroll to top to show results section
   window.scrollTo(0, 0);
 };
@@ -727,6 +754,8 @@ window.returnToAssessment = function () {
     window.updatePaginationControls();
     restoreCurrentPageAnswers();
   }
+  // Remove results view from the URL
+  window.saveStateToURL();
 };
 
 // Show results section
