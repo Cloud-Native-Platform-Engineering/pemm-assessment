@@ -13,7 +13,7 @@ metadata:
     for identifying opportunities for improvement in any organization. By organizing patterns and observations into a 
     progressive maturity model, we aim to orient platform teams to the challenges they may face and opportunities to aim for.</p>
     <p>This assessment is based on the 
-    <a href="https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/" target="_blank">CNCF Platform Engineering Maturity Model</a>, 
+    <a href="https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/" target="_blank">CNCF Platform Engineering Maturity Model</a>, 
     which evaluates five key aspects: <strong>Investment</strong>, <strong>Adoption</strong>, <strong>Interfaces</strong>, <strong>Operations</strong>, 
     nd <strong>Measurement</strong>.</p>
   results_title: Assessment Results
