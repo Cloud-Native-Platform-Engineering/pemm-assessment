@@ -16,7 +16,7 @@ metadata:
     y observaciones en un modelo de madurez progresivo, buscamos orientar a los equipos de plataforma hacia los 
     desafíos que pueden enfrentar y las oportunidades que pueden perseguir.</p>
     <p>Esta evaluación se basa en el 
-    <a href="https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/" target="_blank">Modelo de Madurez de 
+    <a href="https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/" target="_blank">Modelo de Madurez de 
     Ingeniería de Plataforma de CNCF</a>, 
     que evalúa cinco aspectos clave: <strong>Inversión</strong>, <strong>Adopción</strong>, <strong>Interfaces</strong>, 
     <strong>Operaciones</strong> y <strong>Medición</strong>.</p>

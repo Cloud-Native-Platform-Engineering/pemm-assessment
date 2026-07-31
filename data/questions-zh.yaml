@@ -10,7 +10,7 @@ metadata:
     <p>这个<span class="highlight">平台工程成熟度模型</span>为反思和识别任何组织的改进机会提供了一个框架。通过将模式和观察结果组织成渐进式成熟度模型，
     我们旨在为平台团队指明他们可能面临的挑战和可以追求的机会。</p>
     <p>此评估基于
-    <a href="https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/" target="_blank">CNCF平台工程成熟度模型</a>, 
+    <a href="https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/" target="_blank">CNCF平台工程成熟度模型</a>, 
     该模型评估五个关键方面：<strong>投入</strong>、<strong>采用</strong>、<strong>接口</strong>、<strong>运营</strong>和<strong>度量</strong>。</p>
     <p>我们正在征询对此次试点评估的反馈意见，请与我们
   results_title: 评估结果
