@@ -1,6 +1,10 @@
 # Platform Engineering Maturity Model Assessment
 
 metadata:
+  # Version of the question set defined in this file. See VERSIONING.md for bump rules.
+  content_version: "0.9.0"
+  # Version of the upstream CNCF Platform Engineering Maturity Model these questions follow.
+  model_version: "1.0"
   title: Avaliação do Modelo de Maturidade em Engenharia de Plataforma
   language: pt
   language_native: Português
@@ -32,6 +36,11 @@ metadata:
   submit_button_text: Enviar avaliação
   back_to_assessment: Voltar para a avaliação
   page_indicator_text: "Página {current} de {total}"
+  version_label: Versão da avaliação
+  model_version_label: Baseado no Modelo de Maturidade em Engenharia de Plataforma da CNCF
+  version_mismatch_notice: >
+    Este link foi criado com uma versão anterior da avaliação. As perguntas mudaram desde
+    então, portanto estes resultados podem não refletir o modelo atual.
 
 categories:
   - id: investment

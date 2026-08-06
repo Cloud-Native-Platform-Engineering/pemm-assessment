@@ -1,6 +1,10 @@
 # Platform Engineering Maturity Model Assessment
 
 metadata:
+  # Version of the question set defined in this file. See VERSIONING.md for bump rules.
+  content_version: "0.9.0"
+  # Version of the upstream CNCF Platform Engineering Maturity Model these questions follow.
+  model_version: "1.0"
   title: 平台工程成熟度模型评估
   language: zh
   language_native: 中文
@@ -25,6 +29,10 @@ metadata:
   next_button_text: 下一页
   submit_button_text: 提交评估
   back_to_assessment: 返回评估
+  version_label: 评估版本
+  model_version_label: 基于 CNCF 平台工程成熟度模型
+  version_mismatch_notice: >
+    此链接是使用旧版本的评估创建的。此后问题已发生变化，因此这些结果可能无法反映当前模型。
 
 categories:
   - id: investment

@@ -2,6 +2,12 @@
 # This file contains all questions, answers, and metadata for the Spanish version
 
 metadata:
+  # Quarantined: incomplete — only 15 of the 20 questions in questions-en.yaml are present.
+  # 0.0.0 means "not aligned to any released question set"; do not publish until it reaches
+  # full structural parity, then set content_version to match questions-en.yaml.
+  content_version: "0.0.0"
+  # Version of the upstream CNCF Platform Engineering Maturity Model these questions follow.
+  model_version: "1.0"
   title: "Evaluación del Modelo de Madurez de Ingeniería de Plataforma"
   language: "es"
   language_native: "Español"
