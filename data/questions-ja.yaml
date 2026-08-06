@@ -1,0 +1,387 @@
+# Platform Engineering Maturity Model Assessment
+
+metadata:
+  title: プラットフォームエンジニアリング成熟度モデル アセスメント
+  language: ja
+  language_native: 日本語
+  intro: >
+    <h3>プラットフォームエンジニアリングについて</h3>
+    <p><span class="highlight">プラットフォームエンジニアリング</span>とは、開発者やユーザーにコンピューティングプラットフォームを計画・提供するための実践手法です。人、プロセス、ポリシー、テクノロジーといった構成要素を整備するだけでなく、その目的であるビジネス成果を達成することまでをスコープに入れています。</p>
+    <p><span class="highlight">プラットフォームエンジニアリング成熟度モデル</span>は、あらゆる組織が現状を振り返り、改善すべきポイントを洗い出すためのフレームワークを提供します。パターンや観察結果を段階的な成熟度モデルに整理することで、プラットフォームチームが直面しうる課題を予測し、次に目指すべき姿への道しるべとなることを目的としています。</p>
+    <p>このアセスメントは
+    <a href="https://cloudnativeplatforms.com/ja/whitepapers/platform-eng-maturity-model/" target="_blank">CNCF プラットフォームエンジニアリング成熟度モデル</a> に基づいており、
+    <strong>投資</strong>、<strong>採用</strong>、<strong>インターフェース</strong>、<strong>戦略</strong>、<strong>計測</strong>の5つの重要な側面を評価します。</p>
+  results_title: アセスメント結果
+  feedback_message: >
+    プラットフォームエンジニアリング成熟度モデルのアセスメントをご利用いただき、ありがとうございます！このツールが皆様のお役に立てば幸いです。
+    ツールの改善に役立てるため、ぜひ皆様のご意見やフィードバックをお聞かせください。
+  copy_link_text: 📋 共有リンクをコピー
+  copy_success: 📋 コピーしました！
+  copy_fail: コピーに失敗しました！アドレスバーからコピーしてください。
+  share_feedback_text: 💬 フィードバックを共有
+  language_label: '言語:'
+  previous_button_text: 戻る
+  next_button_text: 次へ
+  submit_button_text: アセスメントの結果をみる
+  back_to_assessment: アセスメントに戻る
+
+categories:
+  - id: investment
+    name: 投資
+    order: 1
+    questions:
+      - id: 1
+        text: プラットフォームを構築しているのは誰ですか？
+        field_name: investment_1
+        options:
+          - value: 1
+            level: アドホックなグループ
+            description: 一時的なチームや個人が非公式に協力している
+          - value: 2
+            level: 技術チームまたはグループ
+            description: 一般的な技術スキルを持つ、専任のプラットフォームチームまたはグループ
+          - value: 3
+            level: プロダクト指向のチームまたはグループ
+            description: 技術、プロダクトマネジメント、デザインのスキルを持つ、専任チームまたはグループ
+          - value: 4
+            level: 完全な専門家チームまたはグループ
+            description: 必要なすべての専門職を網羅した、専任チームまたはグループ
+
+      - id: 2
+        text: 新しいプラットフォーム機能のニーズはどこから生じますか？
+        field_name: investment_2
+        options:
+          - value: 1
+            level: 危機主導
+            description: 緊急かつ差し迫ったニーズ
+          - value: 2
+            level: 問題主導
+            description: 既存の問題の修正
+          - value: 3
+            level: 戦略主導
+            description: 計画された機能ロードマップ
+          - value: 4
+            level: コミュニティ主導
+            description: 計画された機能に加え、コミュニティからの意見を取り入れている
+
+      - id: 3
+        text: プラットフォームの新しい機能をどのようにユーザーと検証していますか？
+        field_name: investment_3
+        options:
+          - value: 1
+            level: 関与なし
+            description: ユーザーは検証に関与していない
+          - value: 2
+            level: 非公式なフィードバック
+            description: その都度、非公式にフィードバックを求めている
+          - value: 3
+            level: 共創
+            description: どのような機能が必要か、ユーザーと一緒に要件を検討・定義している
+          - value: 4
+            level: 完全なパートナーシップ
+            description: 定義、テスト、リリースの全工程にユーザーが関与している
+
+      - id: 4
+        text: プラットフォームの開発や運用には、どのように予算が割り当てられていますか？
+        field_name: investment_4
+        options:
+          - value: 1
+            level: 資金提供なし
+            description: 直接的な投資や予算の割り当てがない
+          - value: 2
+            level: 基本的な資金提供
+            description: 専任チームを構築するための資金が割り当てられている
+          - value: 3
+            level: 成果をベースとした資金提供
+            description: 期待される成果が明確化された上でチームに資金が提供されている
+          - value: 4
+            level: 戦略的投資
+            description: 成果とコミュニティ構築を目的としてチームに資金が提供されている
+
+  - id: adoption
+    name: 採用
+    order: 2
+    questions:
+      - id: 1
+        text: プラットフォームユーザーはどのようにしてその機能を発見しますか？
+        field_name: adoption_1
+        options:
+          - value: 1
+            level: 偶然の発見
+            description: ユーザーが新しい機能を偶然見つける
+          - value: 2
+            level: 情報の散在
+            description: 情報は存在するが、まとまった場所がなくあちこちに散らばっている
+          - value: 3
+            level: 一元化されたカタログ
+            description: ユーザーは「まずここを見ればよい」という1つの集約された場所から機能を探すことができる
+          - value: 4
+            level: インタラクティブなカタログ
+            description: 一元化された情報源に加え、ユーザーがそこから足りない機能を直接リクエストできる
+
+      - id: 2
+        text: プラットフォームユーザーはどのようにツールを選択していますか？
+        field_name: adoption_2
+        options:
+          - value: 1
+            level: ユーザーによる独自構築
+            description: ユーザーは通常、自分たち専用のツールや仕組みを自作している
+          - value: 2
+            level: 検討するが見送り
+            description: プラットフォームを検討はするが、結局は他のツールや独自開発を選ぶことが多い
+          - value: 3
+            level: 公平な比較・評価
+            description: プラットフォームが、他のツールや選択肢と公平に比較・評価されている
+          - value: 4
+            level: プラットフォームの優先
+            description: デフォルトの（標準的な）選択肢として、他のツールよりもプラットフォームが優先して選ばれる
+
+      - id: 3
+        text: 組織はどのようにプラットフォームの利用を推奨していますか？
+        field_name: adoption_3
+        options:
+          - value: 1
+            level: ほとんどサポートなし
+            description: 明確なガイダンスがなく、部分的なアドバイスに限られる
+          - value: 2
+            level: 基本的なサポート
+            description: ユーザーは価値を理解しているが、採用率は低いままに留まっている
+          - value: 3
+            level: 適切なサポート
+            description: プラットフォームの利用が個人の目標として明示され、インセンティブを生んでいる
+          - value: 4
+            level: 強力なサポート
+            description: 全員が価値を理解し、基本的な利用を超えてプラットフォーム構築に積極的に参加している
+
+      - id: 4
+        text: プラットフォームチームはどのように導入を促進していますか？
+        field_name: adoption_4
+        options:
+          - value: 1
+            level: 作れば使われるという想定
+            description: 優れた機能であれば自然にユーザーが集まるという思い込みがある
+          - value: 2
+            level: リーダーシップの関与
+            description: プラットフォームチームがユーザーチームのリーダーと連携している
+          - value: 3
+            level: 計画的なプロモーション
+            description: すべての新機能に対して、社内に普及・定着させるための明確戦略がある
+          - value: 4
+            level: コミュニティ重視
+            description: ユーザーとのエンゲージメントが、新機能の構築と同じくらい重要視されている
+
+  - id: interfaces
+    name: インターフェース
+    order: 3
+    questions:
+      - id: 1
+        text: ユーザーはどのようにプラットフォームの機能にアクセスしますか？
+        field_name: interfaces_1
+        options:
+          - value: 1
+            level: リクエストベース
+            description: ユーザーがプラットフォームチームに依頼して要望を満たしてもらう
+          - value: 2
+            level: セルフサービスツール
+            description: ユーザーがセルフサービスでツールやコンポーネントにアクセスする
+          - value: 3
+            level: ワンクリックアクセス
+            description: ユーザーがシンプルで完全なソリューションに即座にアクセスできる
+          - value: 4
+            level: 完全な統合
+            description: 開発者の日常的な作業フローの中に、すべての機能がシームレスに組み込まれている
+
+      - id: 2
+        text: プラットフォームチームは開発者体験や生産性を考慮していますか？
+        field_name: interfaces_2
+        options:
+          - value: 1
+            level: 考慮されていない
+            description: 開発者体験や生産性は優先事項ではない
+          - value: 2
+            level: 時折考慮される
+            description: 時々議論されることはあるが、体系的には取り組まれていない
+          - value: 3
+            level: 定期的に考慮される
+            description: プラットフォームの意思決定において、開発者体験が日常的に考慮されている
+          - value: 4
+            level: 最優先事項
+            description: 開発者体験と生産性が、プラットフォームのすべての意思決定を牽引している
+
+      - id: 3
+        text: 機能はエンドユーザーにどのように提供されていますか？
+        field_name: interfaces_3
+        options:
+          - value: 1
+            level: スタンドアロンツール
+            description: 連携していない独立したツールやコンポーネントとして提供される
+          - value: 2
+            level: 固定されたソリューション
+            description: カスタマイズ不可の承認済み構成セットとして提供される
+          - value: 3
+            level: セルフサービスソリューション
+            description: 承認済みの構成セットを、ユーザー自身がセルフサービスで即座に取得・利用できる
+          - value: 4
+            level: 構成可能なソリューション
+            description: ユーザー自身でコンポーネントを組み合わせて、独自の構成セットを構築・カスタマイズできる
+
+      - id: 4
+        text: オンボーディングはどのようにサポートされていますか？
+        field_name: interfaces_4
+        options:
+          - value: 1
+            level: 手厚いサポートが必要
+            description: ユーザーはプラットフォームチームからの多大な支援を必要とする
+          - value: 2
+            level: ある程度のサポートが必要
+            description: セルフサービスは可能だが、サポートが必要なことが多い
+          - value: 3
+            level: ほとんどサポート不要
+            description: ユーザーはほとんどサポートなしでセルフサービスを利用できる
+          - value: 4
+            level: サポート不要
+            description: 機能が既存のツールとシームレスに統合されている
+
+  - id: operations
+    name: 戦略
+    order: 4
+    questions:
+      - id: 1
+        text: ユーザーはプラットフォームのアップデートをどのように知りますか？
+        field_name: operations_1
+        options:
+          - value: 1
+            level: アナウンスなし
+            description: アップデートのアナウンスは行われない
+          - value: 2
+            level: 固定場所での更新情報
+            description: アップデート情報は常に特定の場所で共有される
+          - value: 3
+            level: リリースとロードマップ
+            description: 特定の場所での共有に加え、将来のロードマップも含まれる
+          - value: 4
+            level: 自動通知
+            description: 特定の場所での共有に加え、ユーザーが自ら確認しに行かなくても、必要な情報が自動的に通知される
+
+      - id: 2
+        text: ビジネスチーム（プロダクトチーム）は新しいプラットフォームの機能や能力をどのようにリクエストしますか？
+        field_name: operations_2
+        options:
+          - value: 1
+            level: 個別評価
+            description: プラットフォームチームの担当者が、各自の判断でリクエストを評価・計画している
+          - value: 2
+            level: セルフサービス
+            description: ビジネスチーム（プロダクトチーム）が必要な機能を自分たちで勝手に（自前で）構築してしまっている
+          - value: 3
+            level: 集中的なリクエスト
+            description: ビジネスチーム（プロダクトチーム）がプラットフォームチームに機能の構築を依頼する
+          - value: 4
+            level: 共同オーナーシップ
+            description: 役割とプロセスが透明化されており、単なる依頼にとどまらず、両チームが協力して機能を構築・提供するモデルが確立している
+
+      - id: 3
+        text: プラットフォームチームはどのように機能を提供・維持していますか？
+        field_name: operations_3
+        options:
+          - value: 1
+            level: アドホックなサポート
+            description: 問題が発生するたびに、場当たり的に対処する
+          - value: 2
+            level: プロセスの定義
+            description: 標準的なプロセスは存在するが、各機能のオーナー（提供チーム）によって運用方法にばらつきがある
+          - value: 3
+            level: 集中管理
+            description: 集中管理された標準プロセスがあり、各機能のオーナー（提供チーム）はそれに従って機能を提供・運用している
+          - value: 4
+            level: 自動管理
+            description: 責任範囲が明確であり、ユーザーの業務への影響（中断やダウンタイム）を最小限に抑える、標準化・自動化された運用が確立している
+
+      - id: 4
+        text: プラットフォームの進化はどのように管理されていますか？
+        field_name: operations_4
+        options:
+          - value: 1
+            level: 明確な計画なし
+            description: 正式なプロセスや長期的な計画がない
+          - value: 2
+            level: チームの優先順位
+            description: プラットフォームチームが要件を収集し、優先順位を付けている
+          - value: 3
+            level: 目標に沿ったプロセス
+            description: 組織の目標と照らし合わせて要件を評価する、明確に定義されたプロセスがある
+          - value: 4
+            level: 経済的合理性に基づくプロダクト管理
+            description: プラットフォームがプロダクトとして管理されており、経済的合理性に基づいて意思決定が行われている
+
+  - id: measurement
+    name: 計測
+    order: 5
+    questions:
+      - id: 1
+        text: プラットフォームの成功をどのように計測するか合意していますか？
+        field_name: measurement_1
+        options:
+          - value: 1
+            level: 成功基準が不明確
+            description: プラットフォームの成功がどのようなものか明確になっていない
+          - value: 2
+            level: 意見の対立
+            description: プラットフォームの成功について異なる意見が存在し、組織内ですり合わせができていない
+          - value: 3
+            level: 幅広い合意
+            description: プラットフォームの成功とは何かについて組織的な合意がある
+          - value: 4
+            level: インサイト主導の指標
+            description: 目標だけでなく、学習と改善のため計測するデータに関しても合意がある
+
+      - id: 2
+        text: プラットフォームのビジネス上の成果をどのように計測していますか？
+        field_name: measurement_2
+        options:
+          - value: 1
+            level: 計測なし
+            description: ビジネス目標に対する報告を行っていない
+          - value: 2
+            level: 代替指標
+            description: プラットフォーム機能の成功を計測するため、採用率や節約された工数を利用している
+          - value: 3
+            level: 成功第一のアプローチ
+            description: 成功の指標と計測方法を明確にしてから、新しい機能を追加する
+          - value: 4
+            level: 継続的改善
+            description: チームが継続的に指標とデータ収集プロセスを改善している
+
+      - id: 3
+        text: ユーザーフィードバックはどのように収集・活用されていますか？
+        field_name: measurement_3
+        options:
+          - value: 1
+            level: 関与なし
+            description: ユーザーからフィードバックを求める仕組みがなく、ユーザーは自分たちの意見が反映されていないと感じている
+          - value: 2
+            level: 非公式なフィードバック
+            description: ユーザーフィードバックのためのアドホックな仕組みが存在する
+          - value: 3
+            level: 専用の収集プロセス
+            description: プラットフォームチームのプロダクトマネージャーやメンバーがフィードバックデータの収集を推進している
+          - value: 4
+            level: ユーザーの貢献
+            description: ユーザーが積極的にプラットフォームの改善に貢献している
+
+      - id: 4
+        text: プラットフォームに対するユーザー満足度をどのように収集していますか？
+        field_name: measurement_4
+        options:
+          - value: 1
+            level: 構造化された収集がない
+            description: ユーザー満足度を構造化された方法で収集していない
+          - value: 2
+            level: アンケートとモニタリング
+            description: ユーザーの声や反応を把握するために、アンケートやフォーラムを使用している
+          - value: 3
+            level: 積極的で構造化されたアプローチ
+            description: 構造化されたアプローチを通じて、積極的にユーザー満足度を調査している
+          - value: 4
+            level: カルチャーファースト
+            description: ユーザー満足度を向上させることが組織の文化に組み込まれている
