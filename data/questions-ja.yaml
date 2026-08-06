@@ -92,7 +92,7 @@ categories:
             level: 基本的な資金提供
             description: 専任チームを構築するための資金が割り当てられている
           - value: 3
-            level: 成果重視の資金提供
+            level: 成果をベースとした資金提供
             description: 期待される成果が明確化された上でチームに資金が提供されている
           - value: 4
             level: 戦略的投資
