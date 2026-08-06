@@ -65,7 +65,7 @@ categories:
             description: 計画された機能に加え、コミュニティからの意見を取り入れている
 
       - id: 3
-        text: プラットフォームの新しい機能がニーズに合っているか、ユーザーはどのように検証していますか？
+        text: プラットフォームの新しい機能をどのようにユーザーと検証していますか？
         field_name: investment_3
         options:
           - value: 1
