@@ -9,6 +9,7 @@
     /* Text Colors */
     --text-primary: #000;
     --text-heading: #000;
+    --text-muted: #595959;
 
     /* Background Colors */
     --bg-gradient-start: #0175E4;
@@ -438,4 +439,36 @@ label:has(input[type="radio"]:checked) {
 
 .heat_4 {
     background-color: var(--heat-4);
+}
+
+.version-footer {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding-block-end: var(--spacing-xl);
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* Keep the hidden attribute effective regardless of any display rule above */
+.version-footer[hidden],
+.version-footer [hidden] {
+    display: none;
+}
+
+.version-separator {
+    padding-inline: var(--spacing-xs);
+}
+
+/* Keep the whitepaper link legible but subdued -- the site-wide anchor colour is too
+   loud for a footer note */
+.version-footer a {
+    color: inherit;
+    font-weight: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.version-footer a:hover {
+    color: var(--primary-color);
 }
