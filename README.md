@@ -14,18 +14,33 @@ Note: If you switch the language while viewing the results, the app will keep yo
 
 <img width="1076" height="1201" alt="A screenshot showing the assessment results, a spider chart, heatmap matrix, and list of scores" src="https://github.com/user-attachments/assets/18d4b7db-1f52-4458-8970-acfbdf20c987" />
 
+## Versioning
+
+The assessment question set carries its own version, separate from the repository's release tags, because the `field_name` keys and option values in shareable links are a public contract — renaming or renumbering a question silently changes what previously shared links mean.
+
+Shareable links therefore include a `v` parameter recording the question set they were built against, and the footer shows the current assessment version alongside the CNCF Platform Engineering Maturity Model release it is based on.
+
+Before changing anything under `data/`, read [VERSIONING.md](VERSIONING.md) — it has the bump rules and the release process. You can check your changes locally with:
+
+```sh
+python3 scripts/validate_content.py
+```
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
+
 ## Discussion
 
 Please join the [Cloud Native Computing Foundation on Slack](https://communityinviter.com/apps/cloud-native/cncf) and use the [platform-engineering](https://cloud-native.slack.com/archives/C020RHD43BP) channel.
 
 ## Content Management and Translations
 
-The assessment content is now managed through YAML files in the `/data/` directory for easy updates and translations:
+The assessment content is managed through YAML files in the `/data/` directory for easy updates and translations:
 
-- `questions-en.yaml` - English (default language)
-- `questions-[lang].yaml` - Translations
+- `questions-en.yaml` - English (source of truth)
+- `questions-[lang].yaml` - Translations, currently `ja`, `pt` and `zh`
+- `quarantine/` - Translations that are incomplete or not yet reviewed, excluded from the site
 
-To add a language, add the YAML file and add the language to the list in `index.html`.
+To add a language, add the YAML file and add a link for it to the language nav in `index.html`.
 
 ### Updating Questions and Content
 
@@ -33,10 +48,11 @@ To add a language, add the YAML file and add the language to the list in `index.
 
 1. **Make changes to the English source file first**: Edit `data/questions-en.yaml`
 2. **Update translation**: Apply equivalent changes to `data/questions-[lang].yaml`
-3. **Verify consistency**: Ensure all three files have:
+3. **Bump the version**: Follow the rules in [VERSIONING.md](VERSIONING.md)
+4. **Verify consistency**: Run `python3 scripts/validate_content.py`, which checks that every file has:
    - Same category IDs and structure
    - Same question IDs within each category
-   - Same option values (1-5) for scoring consistency
+   - Same option values (1-4) for scoring consistency
    - Translated text for all user-facing content
 
 ### What Needs Translation
