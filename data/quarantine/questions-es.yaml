@@ -11,7 +11,7 @@ metadata:
   # Canonical URL for that model version, carrying campaign tags so referrals from
   # this assessment are attributable. Kept beside model_version so the two cannot
   # drift apart when the upstream model is revised.
-  model_url: "https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&utm_medium=referral&utm_campaign=platform-maturity-assessment&utm_content=version-footer"
+  model_url: "https://cloudnativeplatforms.com/es/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&utm_medium=referral&utm_campaign=platform-maturity-assessment&utm_content=version-footer"
   title: "Evaluación del Modelo de Madurez de Ingeniería de Plataforma"
   language: "es"
   language_native: "Español"
@@ -26,7 +26,7 @@ metadata:
     y observaciones en un modelo de madurez progresivo, buscamos orientar a los equipos de plataforma hacia los 
     desafíos que pueden enfrentar y las oportunidades que pueden perseguir.</p>
     <p>Esta evaluación se basa en el 
-    <a href="https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&amp;utm_medium=referral&amp;utm_campaign=platform-maturity-assessment&amp;utm_content=intro" target="_blank">Modelo de Madurez de 
+    <a href="https://cloudnativeplatforms.com/es/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&amp;utm_medium=referral&amp;utm_campaign=platform-maturity-assessment&amp;utm_content=intro" target="_blank">Modelo de Madurez de 
     Ingeniería de Plataforma de CNCF</a>, 
     que evalúa cinco aspectos clave: <strong>Inversión</strong>, <strong>Adopción</strong>, <strong>Interfaces</strong>, 
     <strong>Operaciones</strong> y <strong>Medición</strong>.</p>
