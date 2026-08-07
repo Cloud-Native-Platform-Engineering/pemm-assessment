@@ -708,6 +708,12 @@ let answerState = {};
 
     setVersionNoticeVisible(mismatched);
 
+    // Answers that arrive from the URL -- a shared link, a bookmark, a refresh, or the
+    // browser back button -- still have to reach the language links, which are otherwise
+    // only rebuilt when saveStateToURL() runs. Without this, switching language after
+    // any of those discards the answers.
+    updateLanguageSwitcher();
+
     updateScores();
   }
 
