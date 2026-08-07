@@ -16,11 +16,11 @@ Note: If you switch the language while viewing the results, the app will keep yo
 
 ## Versioning
 
-The assessment question set carries its own version, separate from the repository's release tags, because the `field_name` keys and option values in shareable links are a public contract — renaming or renumbering a question silently changes what previously shared links mean.
+The assessment question set carries its own version, separate from the repository's release tags, because the `field_name` keys and option values in shareable links are a public contract: renaming or renumbering a question silently changes what previously shared links mean.
 
 Shareable links therefore include a `v` parameter recording the question set they were built against, and the footer shows the current assessment version alongside the CNCF Platform Engineering Maturity Model release it is based on.
 
-Before changing anything under `data/`, read [VERSIONING.md](VERSIONING.md) — it has the bump rules and the release process. You can check your changes locally with:
+Before changing anything under `data/`, read [VERSIONING.md](VERSIONING.md), which has the bump rules and the release process. You can check your changes locally with:
 
 ```sh
 python3 scripts/validate_content.py

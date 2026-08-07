@@ -1,10 +1,10 @@
-# Python — scripts/validate_content.py generates bytecode when imported
+# Python: scripts/validate_content.py generates bytecode when imported
 __pycache__/
 *.py[cod]
 .venv/
 venv/
 
-# Node — not used by the site itself, but contributors may install local tooling
+# Node: not used by the site itself, but contributors may install local tooling
 node_modules/
 npm-debug.log*
 
@@ -18,5 +18,5 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Local scratch — notes and drafts that are not part of the project
+# Local scratch: notes and drafts that are not part of the project
 .backlog/
