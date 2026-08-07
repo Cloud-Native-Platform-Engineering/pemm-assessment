@@ -47,9 +47,28 @@ let answerState = {};
   // Query-string key holding the content version a shareable link was built against.
   const VERSION_PARAM = 'v';
 
+  // Query-string key holding which page of the assessment is open.
+  const PAGE_PARAM = 'page';
+
   // Params that are not answers. Anything else in the query string is treated as one,
   // so every non-answer param must be listed here.
-  const RESERVED_PARAMS = new Set(['lang', 'view', VERSION_PARAM]);
+  const RESERVED_PARAMS = new Set(['lang', 'view', VERSION_PARAM, PAGE_PARAM]);
+
+  // Page position is 1-based in the URL so it matches the "Page 3 of 5" indicator.
+  // Switching language is a full navigation, so without this the reader is sent back
+  // to the first page every time.
+  function readPageFromURL(pageCount) {
+    const page = Number.parseInt(
+      new URLSearchParams(window.location.search).get(PAGE_PARAM),
+      10
+    );
+
+    if (!Number.isInteger(page) || pageCount < 1) return 0;
+
+    // Clamp rather than reject: a link shared before a category was added or removed
+    // should still land somewhere sensible.
+    return Math.min(Math.max(page - 1, 0), pageCount - 1);
+  }
 
   // Version of the question set currently loaded, or null if data failed to load.
   function getContentVersion() {
@@ -203,7 +222,7 @@ let answerState = {};
     // Store categories for pagination
     categoryPages = data.categories.sort((a, b) => a.order - b.order);
     totalPages = categoryPages.length;
-    currentPage = 0;
+    currentPage = readPageFromURL(totalPages);
 
     // Initialize pagination
     renderCurrentPage();
@@ -583,11 +602,15 @@ let answerState = {};
         newParams.set(key, answerState[key]);
       }
 
-      // These links are rebuilt from scratch, so the version stamp has to be re-applied
-      // or it would be dropped every time the user switches language.
+      // These links are rebuilt from scratch, so the version stamp and page position have
+      // to be re-applied or they would be dropped every time the user switches language.
       const contentVersion = getContentVersion();
       if (contentVersion && Object.keys(answerState).length) {
         newParams.set(VERSION_PARAM, contentVersion);
+      }
+
+      if (currentPage > 0) {
+        newParams.set(PAGE_PARAM, String(currentPage + 1));
       }
 
       // Preserve current view if results are visible (so switching language stays on results)
@@ -626,6 +649,11 @@ let answerState = {};
     const contentVersion = getContentVersion();
     if (contentVersion && Object.keys(answerState).length) {
       params.set(VERSION_PARAM, contentVersion);
+    }
+
+    // Only past the first page, so the entry URL stays clean
+    if (currentPage > 0) {
+      params.set(PAGE_PARAM, String(currentPage + 1));
     }
 
     // Preserve current view state (results vs assessment)
@@ -832,10 +860,14 @@ function restoreCurrentPageAnswers() {
 // Global pagination functions (accessible from HTML)
 window.nextPage = function () {
   if (currentPage < totalPages - 1) {
+    // Answers first: this reads the radios that are about to be replaced
     saveCurrentPageAnswers();
     currentPage++;
     renderCurrentPage();
     window.updatePaginationControls();
+    // Re-sync the URL now that currentPage has moved, since saveCurrentPageAnswers()
+    // wrote it using the page we just left
+    window.saveStateToURL();
     // Scroll to top of page for better UX
     window.scrollTo(0, 0);
   }
@@ -843,10 +875,14 @@ window.nextPage = function () {
 
 window.previousPage = function () {
   if (currentPage > 0) {
+    // Answers first: this reads the radios that are about to be replaced
     saveCurrentPageAnswers();
     currentPage--;
     renderCurrentPage();
     window.updatePaginationControls();
+    // Re-sync the URL now that currentPage has moved, since saveCurrentPageAnswers()
+    // wrote it using the page we just left
+    window.saveStateToURL();
     // Scroll to top of page for better UX
     window.scrollTo(0, 0);
   }
