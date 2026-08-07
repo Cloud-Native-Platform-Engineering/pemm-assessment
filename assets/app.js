@@ -629,7 +629,10 @@ let answerState = {};
     });
   }
 
-  function saveStateToURL() {
+  // Answering a question rewrites the current history entry, so the back button is not
+  // consumed by twenty radio clicks. Moving between pages pushes a new entry instead, so
+  // back steps through the assessment the way the URL implies it should.
+  function saveStateToURL(createHistoryEntry = false) {
     const params = new URLSearchParams();
 
     // Preserve language parameter
@@ -664,10 +667,41 @@ let answerState = {};
     }
 
     const newURL = window.location.pathname + "?" + params.toString();
-    window.history.replaceState({}, "", newURL);
+
+    if (createHistoryEntry) {
+      window.history.pushState({}, "", newURL);
+    } else {
+      window.history.replaceState({}, "", newURL);
+    }
 
     updateLanguageSwitcher();
   }
+
+  // Back and forward move between pages without reloading the document, so the view has
+  // to be rebuilt from the URL by hand.
+  function applyStateFromURL() {
+    currentPage = readPageFromURL(totalPages);
+
+    // Answers first, so the freshly rendered page restores from current state rather
+    // than whatever was on screen before
+    loadStateFromURL();
+    renderCurrentPage();
+    updatePaginationControls();
+
+    const formSection = document.querySelector('.form-section');
+    const resultsSection = document.getElementById('results-section');
+    const wantsResults =
+      new URLSearchParams(window.location.search).get('view') === 'results';
+
+    if (wantsResults) {
+      showResults();
+    } else {
+      if (resultsSection) resultsSection.style.display = 'none';
+      if (formSection) formSection.style.display = 'block';
+    }
+  }
+
+  window.addEventListener('popstate', applyStateFromURL);
 
   function loadStateFromURL() {
     const params = new URLSearchParams(window.location.search);
@@ -871,9 +905,9 @@ window.nextPage = function () {
     currentPage++;
     renderCurrentPage();
     window.updatePaginationControls();
-    // Re-sync the URL now that currentPage has moved, since saveCurrentPageAnswers()
-    // wrote it using the page we just left
-    window.saveStateToURL();
+    // Push, not replace, so the page we just left stays in history for the back button.
+    // saveCurrentPageAnswers() already rewrote that entry with the answers on it.
+    window.saveStateToURL(true);
     // Scroll to top of page for better UX
     window.scrollTo(0, 0);
   }
@@ -886,9 +920,9 @@ window.previousPage = function () {
     currentPage--;
     renderCurrentPage();
     window.updatePaginationControls();
-    // Re-sync the URL now that currentPage has moved, since saveCurrentPageAnswers()
-    // wrote it using the page we just left
-    window.saveStateToURL();
+    // Push, not replace, so the page we just left stays in history for the back button.
+    // saveCurrentPageAnswers() already rewrote that entry with the answers on it.
+    window.saveStateToURL(true);
     // Scroll to top of page for better UX
     window.scrollTo(0, 0);
   }
@@ -897,8 +931,9 @@ window.previousPage = function () {
 window.submitAssessment = function () {
   saveCurrentPageAnswers();
   showResults();
-  // Persist results view in the URL so it can be restored or preserved when changing language
-  window.saveStateToURL();
+  // Persist results view in the URL so it can be restored or preserved when changing
+  // language, and push it so back returns to the assessment rather than leaving the site
+  window.saveStateToURL(true);
   // Scroll to top to show results section
   window.scrollTo(0, 0);
 };

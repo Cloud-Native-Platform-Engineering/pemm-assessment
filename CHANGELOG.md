@@ -30,6 +30,9 @@ First tagged release. The assessment has been publicly available since July 2025
 
 ### Fixed
 
+- Answers were lost when switching language after arriving from a URL that already contained them — via the browser back button, a refresh, a bookmark, or a shared link. The language links were only rebuilt when state was written to the URL, never when it was read from it.
+- Switching language reset the assessment to the first page. The current page is now recorded in the URL as `page` and restored on load, clamped if the question set has since changed.
+- The browser back button did not step between assessment pages. Moving between pages now pushes a history entry, and back and forward rebuild the view from the URL. Answering a question still rewrites the current entry rather than adding one, so the back button is not consumed by individual radio clicks. Submitting also pushes an entry, so back leaves the results view instead of the site.
 - `README.md` listed the option scale as 1-5 (it is 1-4) and described Spanish as an available translation, when the live set is English, Japanese, Brazilian Portuguese and Chinese.
 
 ### Known issues
