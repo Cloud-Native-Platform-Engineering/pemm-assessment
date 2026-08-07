@@ -33,10 +33,6 @@ The tiers are defined by what happens to links that were shared before the chang
 | **MINOR** | Add a question with a new `field_name`, adjust scoring | Old links remain valid but **incomplete** |
 | **PATCH** | Reword a question, option, or description; fix a typo, translation, or link | Old links remain **fully valid** |
 
-Anything that alters `field_name` values, option `value` numbers, or the set of categories is at least MINOR. Text-only edits are PATCH.
-
-The app warns the visitor on MAJOR and MINOR mismatches, and stays silent on PATCH, because after a wording fix the answers still mean exactly what they meant before.
-
 `data/questions-en.yaml` is the source of truth. Bump it there first, then bring the translations up to the same number as they are updated.
 
 ## `model_version` and `model_url`

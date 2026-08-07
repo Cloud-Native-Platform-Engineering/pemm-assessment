@@ -4,7 +4,12 @@ This repo contains the Platform Maturity Model Assessment.
 
 On answering the questions you get a spider diagram and a matrix to indicate where you are on a map right now.
 
-You can copy the URL to share the form in its current state, for example [this pre-filled form](https://cloud-native-platform-engineering.github.io/pemm-assessment/?investment_1=1&investment_2=1&investment_3=2&investment_4=1&adoption_1=1&adoption_2=2&adoption_3=2&adoption_4=2&interfaces_1=2&interfaces_2=3&interfaces_3=3&interfaces_4=4&operations_1=3&operations_2=3&operations_3=2&operations_4=1&measurement_1=3&measurement_2=4&measurement_3=4&measurement_4=4)
+You can copy the URL to share the assessment in whatever state it is in. For example:
+
+- [a completed assessment, opened on its results](https://cloud-native-platform-engineering.github.io/pemm-assessment/?investment_1=1&investment_2=1&investment_3=2&investment_4=1&adoption_1=1&adoption_2=2&adoption_3=2&adoption_4=2&interfaces_1=2&interfaces_2=3&interfaces_3=3&interfaces_4=4&operations_1=3&operations_2=3&operations_3=2&operations_4=1&measurement_1=3&measurement_2=4&measurement_3=4&measurement_4=4&v=0.9.0&view=results)
+- [a partly answered assessment, reopened on page 2](https://cloud-native-platform-engineering.github.io/pemm-assessment/?investment_1=2&investment_2=3&adoption_1=4&v=0.9.0&page=2)
+
+Alongside the answers, `v` records which version of the question set they were given against, `page` records which page was open, and `view=results` opens straight to the results.
 
 When [giving feedback](https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform) please use these shareable URLs to help folks see what you see.
 
@@ -53,7 +58,8 @@ To add a language, add the YAML file and add a link for it to the language nav i
    - Same category IDs and structure
    - Same question IDs within each category
    - Same option values (1-4) for scoring consistency
-   - Translated text for all user-facing content
+
+   It compares structure only, and cannot tell whether the text was actually translated. Check that by eye.
 
 ### What Needs Translation
 
@@ -68,7 +74,7 @@ When updating content, ensure these elements are translated in all language file
 
 After updating translations:
 
-1. Test each language using URL parameters: `?lang=en`, `?lang=zh`, `?lang=es`
+1. Test each language using URL parameters: `?lang=en`, `?lang=ja`, `?lang=pt`, `?lang=zh`
 2. Verify all text displays correctly
 3. Ensure functionality works across all languages
 4. Test the complete assessment flow in each language
