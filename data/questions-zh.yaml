@@ -1,6 +1,14 @@
 # Platform Engineering Maturity Model Assessment
 
 metadata:
+  # Version of the question set defined in this file. See VERSIONING.md for bump rules.
+  content_version: "0.9.0"
+  # Version of the upstream CNCF Platform Engineering Maturity Model these questions follow.
+  model_version: "1.0"
+  # Canonical URL for that model version, carrying campaign tags so referrals from
+  # this assessment are attributable. Kept beside model_version so the two cannot
+  # drift apart when the upstream model is revised.
+  model_url: "https://cloudnativeplatforms.com/zh/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&utm_medium=referral&utm_campaign=platform-maturity-assessment&utm_content=version-footer"
   title: 平台工程成熟度模型评估
   language: zh
   language_native: 中文
@@ -10,7 +18,7 @@ metadata:
     <p>这个<span class="highlight">平台工程成熟度模型</span>为反思和识别任何组织的改进机会提供了一个框架。通过将模式和观察结果组织成渐进式成熟度模型，
     我们旨在为平台团队指明他们可能面临的挑战和可以追求的机会。</p>
     <p>此评估基于
-    <a href="https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/" target="_blank">CNCF平台工程成熟度模型</a>, 
+    <a href="https://cloudnativeplatforms.com/zh/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&amp;utm_medium=referral&amp;utm_campaign=platform-maturity-assessment&amp;utm_content=intro" target="_blank">CNCF平台工程成熟度模型</a>, 
     该模型评估五个关键方面：<strong>投入</strong>、<strong>采用</strong>、<strong>接口</strong>、<strong>运营</strong>和<strong>度量</strong>。</p>
     <p>我们正在征询对此次试点评估的反馈意见，请与我们
   results_title: 评估结果
@@ -25,6 +33,10 @@ metadata:
   next_button_text: 下一页
   submit_button_text: 提交评估
   back_to_assessment: 返回评估
+  version_label: 评估版本
+  model_version_label: 基于 CNCF 平台工程成熟度模型
+  version_mismatch_notice: >
+    此链接是使用旧版本的评估创建的。此后问题已发生变化，因此这些结果可能无法反映当前模型。
 
 categories:
   - id: investment

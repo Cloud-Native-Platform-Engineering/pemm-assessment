@@ -1,0 +1,44 @@
+name: Validate content
+
+# Deliberately no `paths:` filter. This workflow is meant to become a required status
+# check on main, and a required check that gets skipped by a paths filter leaves the pull
+# request waiting on a run that will never report. It is fast enough to run every time.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-content:
+    name: validate-content
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          # Full history so the version-bump gate can diff against the base branch
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install PyYAML
+        run: pip install --disable-pip-version-check pyyaml
+
+      - name: Validate assessment content
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [ -n "$BASE_REF" ]; then
+            git fetch --no-tags origin "$BASE_REF"
+            python3 scripts/validate_content.py --base "origin/$BASE_REF"
+          else
+            python3 scripts/validate_content.py
+          fi

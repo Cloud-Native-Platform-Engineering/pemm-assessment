@@ -44,6 +44,112 @@ let answerState = {};
     }
   }
 
+  // Query-string key holding the content version a shareable link was built against.
+  const VERSION_PARAM = 'v';
+
+  // Query-string key holding which page of the assessment is open.
+  const PAGE_PARAM = 'page';
+
+  // Params that are not answers. Anything else in the query string is treated as one,
+  // so every non-answer param must be listed here.
+  const RESERVED_PARAMS = new Set(['lang', 'view', VERSION_PARAM, PAGE_PARAM]);
+
+  // Page position is 1-based in the URL so it matches the "Page 3 of 5" indicator.
+  // Switching language is a full navigation, so without this the reader is sent back
+  // to the first page every time.
+  function readPageFromURL(pageCount) {
+    const page = Number.parseInt(
+      new URLSearchParams(window.location.search).get(PAGE_PARAM),
+      10
+    );
+
+    if (!Number.isInteger(page) || pageCount < 1) return 0;
+
+    // Clamp rather than reject: a link shared before a category was added or removed
+    // should still land somewhere sensible.
+    return Math.min(Math.max(page - 1, 0), pageCount - 1);
+  }
+
+  // Version of the question set currently loaded, or null if data failed to load.
+  function getContentVersion() {
+    return questionsData?.metadata?.content_version || null;
+  }
+
+  function parseVersion(version) {
+    const match = String(version ?? '').trim().match(/^(\d+)\.(\d+)\.(\d+)$/);
+    return match
+      ? { major: Number(match[1]), minor: Number(match[2]), patch: Number(match[3]) }
+      : null;
+  }
+
+  // A link is stale when the question set has gained, lost or renamed questions since it
+  // was shared -- major and minor bumps. Patch bumps are wording-only, so the answers
+  // still mean the same thing and there is nothing worth interrupting the user about.
+  // Unparseable versions are ignored rather than guessed at.
+  function isVersionMismatch(linkVersion, currentVersion) {
+    const link = parseVersion(linkVersion);
+    const current = parseVersion(currentVersion);
+
+    if (!link || !current) return false;
+
+    return link.major !== current.major || link.minor !== current.minor;
+  }
+
+  // The user-facing notice element lands in a follow-up PR. Toggling it here already, so
+  // that PR only has to add the markup and its styling -- no JavaScript change needed.
+  // No-ops until #version-notice exists.
+  function setVersionNoticeVisible(visible) {
+    const notice = document.getElementById('version-notice');
+    if (notice) {
+      notice.hidden = !visible;
+    }
+  }
+
+  // Placeholder until the notice element ships: keeps a stale link observable, and lets
+  // the detection path be verified before any UI exists.
+  function reportVersionMismatch(linkVersion, currentVersion) {
+    console.warn(
+      `[pemm-assessment] This link was created with assessment version ${linkVersion}, ` +
+      `but the current question set is ${currentVersion}. ` +
+      `Results may not reflect the current model.`
+    );
+  }
+
+  // Show which question set and upstream model the page is running, so a screenshot or a
+  // shared result can be traced back to the content it was produced from.
+  function renderVersionFooter() {
+    const footer = document.getElementById('version-footer');
+    if (!footer) return;
+
+    const contentVersion = getContentVersion();
+    const modelVersion = questionsData?.metadata?.model_version || null;
+    const modelUrl = questionsData?.metadata?.model_url || null;
+
+    const contentValue = document.getElementById('content-version-value');
+    const modelValue = document.getElementById('model-version-value');
+    const modelGroup = document.getElementById('model-version-group');
+    const modelLink = document.getElementById('model-version-link');
+
+    if (contentValue) contentValue.textContent = contentVersion ?? '';
+    if (modelValue) modelValue.textContent = modelVersion ?? '';
+
+    // Without an href the anchor renders as plain text, so a content file that omits
+    // model_url still shows the model name -- it just is not clickable.
+    if (modelLink) {
+      if (modelUrl) {
+        modelLink.href = modelUrl;
+      } else {
+        modelLink.removeAttribute('href');
+      }
+    }
+
+    // Drop the model half rather than leaving a dangling label behind
+    if (modelGroup) modelGroup.hidden = !modelVersion;
+
+    // Nothing worth showing if the content file declares no version at all
+    footer.hidden = !contentVersion;
+  }
+
   // Update pagination button states (global scope)
   function updatePaginationControls() {
     const previous = document.getElementById('prev-btn');
@@ -110,10 +216,13 @@ let answerState = {};
       }
     });
 
+    // Runs after the data-text pass so the labels are localized before values fill in
+    renderVersionFooter();
+
     // Store categories for pagination
     categoryPages = data.categories.sort((a, b) => a.order - b.order);
     totalPages = categoryPages.length;
-    currentPage = 0;
+    currentPage = readPageFromURL(totalPages);
 
     // Initialize pagination
     renderCurrentPage();
@@ -493,6 +602,17 @@ let answerState = {};
         newParams.set(key, answerState[key]);
       }
 
+      // These links are rebuilt from scratch, so the version stamp and page position have
+      // to be re-applied or they would be dropped every time the user switches language.
+      const contentVersion = getContentVersion();
+      if (contentVersion && Object.keys(answerState).length) {
+        newParams.set(VERSION_PARAM, contentVersion);
+      }
+
+      if (currentPage > 0) {
+        newParams.set(PAGE_PARAM, String(currentPage + 1));
+      }
+
       // Preserve current view if results are visible (so switching language stays on results)
       const resultsSection = document.getElementById('results-section');
       const isResultsVisible = resultsSection && resultsSection.style.display === 'block';
@@ -509,7 +629,10 @@ let answerState = {};
     });
   }
 
-  function saveStateToURL() {
+  // Answering a question rewrites the current history entry, so the back button is not
+  // consumed by twenty radio clicks. Moving between pages pushes a new entry instead, so
+  // back steps through the assessment the way the URL implies it should.
+  function saveStateToURL(createHistoryEntry = false) {
     const params = new URLSearchParams();
 
     // Preserve language parameter
@@ -524,6 +647,18 @@ let answerState = {};
       params.set(key, answerState[key]);
     }
 
+    // Stamp the question-set version, but only once there are answers to qualify.
+    // A visitor who has not answered anything yet keeps a clean, unversioned URL.
+    const contentVersion = getContentVersion();
+    if (contentVersion && Object.keys(answerState).length) {
+      params.set(VERSION_PARAM, contentVersion);
+    }
+
+    // Only past the first page, so the entry URL stays clean
+    if (currentPage > 0) {
+      params.set(PAGE_PARAM, String(currentPage + 1));
+    }
+
     // Preserve current view state (results vs assessment)
     const resultsSection = document.getElementById('results-section');
     const isResultsVisible = resultsSection && resultsSection.style.display === 'block';
@@ -532,20 +667,52 @@ let answerState = {};
     }
 
     const newURL = window.location.pathname + "?" + params.toString();
-    window.history.replaceState({}, "", newURL);
+
+    if (createHistoryEntry) {
+      window.history.pushState({}, "", newURL);
+    } else {
+      window.history.replaceState({}, "", newURL);
+    }
 
     updateLanguageSwitcher();
   }
 
+  // Back and forward move between pages without reloading the document, so the view has
+  // to be rebuilt from the URL by hand.
+  function applyStateFromURL() {
+    currentPage = readPageFromURL(totalPages);
+
+    // Answers first, so the freshly rendered page restores from current state rather
+    // than whatever was on screen before
+    loadStateFromURL();
+    renderCurrentPage();
+    updatePaginationControls();
+
+    const formSection = document.querySelector('.form-section');
+    const resultsSection = document.getElementById('results-section');
+    const wantsResults =
+      new URLSearchParams(window.location.search).get('view') === 'results';
+
+    if (wantsResults) {
+      showResults();
+    } else {
+      if (resultsSection) resultsSection.style.display = 'none';
+      if (formSection) formSection.style.display = 'block';
+    }
+  }
+
+  window.addEventListener('popstate', applyStateFromURL);
+
   function loadStateFromURL() {
     const params = new URLSearchParams(window.location.search);
+    const linkVersion = params.get(VERSION_PARAM);
 
     // Clear existing state
     answerState = {};
 
-    // Load all parameters into answerState (except 'lang')
+    // Every param that is not reserved is treated as an answer
     for (const [key, value] of params.entries()) {
-      if (key !== 'lang' && key !== 'view') {
+      if (!RESERVED_PARAMS.has(key)) {
         answerState[key] = value;
       }
     }
@@ -560,6 +727,26 @@ let answerState = {};
         radio.checked = true;
       }
     }
+
+    // Warn only when a shared link carried both answers and a version that no longer
+    // matches the current question set. Answers are never discarded.
+    const currentVersion = getContentVersion();
+    const mismatched =
+      Boolean(linkVersion) &&
+      Object.keys(answerState).length > 0 &&
+      isVersionMismatch(linkVersion, currentVersion);
+
+    if (mismatched) {
+      reportVersionMismatch(linkVersion, currentVersion);
+    }
+
+    setVersionNoticeVisible(mismatched);
+
+    // Answers that arrive from the URL -- a shared link, a bookmark, a refresh, or the
+    // browser back button -- still have to reach the language links, which are otherwise
+    // only rebuilt when saveStateToURL() runs. Without this, switching language after
+    // any of those discards the answers.
+    updateLanguageSwitcher();
 
     updateScores();
   }
@@ -713,10 +900,14 @@ function restoreCurrentPageAnswers() {
 // Global pagination functions (accessible from HTML)
 window.nextPage = function () {
   if (currentPage < totalPages - 1) {
+    // Answers first: this reads the radios that are about to be replaced
     saveCurrentPageAnswers();
     currentPage++;
     renderCurrentPage();
     window.updatePaginationControls();
+    // Push, not replace, so the page we just left stays in history for the back button.
+    // saveCurrentPageAnswers() already rewrote that entry with the answers on it.
+    window.saveStateToURL(true);
     // Scroll to top of page for better UX
     window.scrollTo(0, 0);
   }
@@ -724,10 +915,14 @@ window.nextPage = function () {
 
 window.previousPage = function () {
   if (currentPage > 0) {
+    // Answers first: this reads the radios that are about to be replaced
     saveCurrentPageAnswers();
     currentPage--;
     renderCurrentPage();
     window.updatePaginationControls();
+    // Push, not replace, so the page we just left stays in history for the back button.
+    // saveCurrentPageAnswers() already rewrote that entry with the answers on it.
+    window.saveStateToURL(true);
     // Scroll to top of page for better UX
     window.scrollTo(0, 0);
   }
@@ -736,8 +931,9 @@ window.previousPage = function () {
 window.submitAssessment = function () {
   saveCurrentPageAnswers();
   showResults();
-  // Persist results view in the URL so it can be restored or preserved when changing language
-  window.saveStateToURL();
+  // Persist results view in the URL so it can be restored or preserved when changing
+  // language, and push it so back returns to the assessment rather than leaving the site
+  window.saveStateToURL(true);
   // Scroll to top to show results section
   window.scrollTo(0, 0);
 };

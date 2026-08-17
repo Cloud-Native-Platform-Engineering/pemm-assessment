@@ -2,6 +2,15 @@
 # This file contains all questions, answers, and metadata for the German version
 
 metadata:
+  # Quarantined: structurally at parity with questions-en.yaml, but not yet published.
+  # Version of the question set defined in this file. See VERSIONING.md for bump rules.
+  content_version: "0.9.0"
+  # Version of the upstream CNCF Platform Engineering Maturity Model these questions follow.
+  model_version: "1.0"
+  # Canonical URL for that model version, carrying campaign tags so referrals from
+  # this assessment are attributable. Kept beside model_version so the two cannot
+  # drift apart when the upstream model is revised.
+  model_url: "https://cloudnativeplatforms.com/de/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&utm_medium=referral&utm_campaign=platform-maturity-assessment&utm_content=version-footer"
   title: "Platform Engineering Reifegrad-Modell Bewertung"
   language: "de"
   language_native: "Deutsch"
@@ -17,7 +26,7 @@ metadata:
     die Herausforderungen zu orientieren, denen sie begegnen könnten, und Chancen aufzuzeigen, die sie anstreben 
     können.</p>
     <p>Diese Bewertung basiert auf dem 
-    <a href="https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/" target="_blank">CNCF Platform Engineering Reifegrad-Modell</a>, 
+    <a href="https://cloudnativeplatforms.com/de/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&amp;utm_medium=referral&amp;utm_campaign=platform-maturity-assessment&amp;utm_content=intro" target="_blank">CNCF Platform Engineering Reifegrad-Modell</a>, 
     das fünf Schlüsselaspekte bewertet: <strong>Investition</strong>, <strong>Adoption</strong>, <strong>Schnittstellen</strong>, 
     <strong>Betrieb</strong> und <strong>Messung</strong>.</p>
   results_title: "Bewertungsergebnisse"

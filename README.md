@@ -4,7 +4,12 @@ This repo contains the Platform Maturity Model Assessment.
 
 On answering the questions you get a spider diagram and a matrix to indicate where you are on a map right now.
 
-You can copy the URL to share the form in its current state, for example [this pre-filled form](https://cloud-native-platform-engineering.github.io/pemm-assessment/?investment_1=1&investment_2=1&investment_3=2&investment_4=1&adoption_1=1&adoption_2=2&adoption_3=2&adoption_4=2&interfaces_1=2&interfaces_2=3&interfaces_3=3&interfaces_4=4&operations_1=3&operations_2=3&operations_3=2&operations_4=1&measurement_1=3&measurement_2=4&measurement_3=4&measurement_4=4)
+You can copy the URL to share the assessment in whatever state it is in. For example:
+
+- [a completed assessment, opened on its results](https://cloud-native-platform-engineering.github.io/pemm-assessment/?investment_1=1&investment_2=1&investment_3=2&investment_4=1&adoption_1=1&adoption_2=2&adoption_3=2&adoption_4=2&interfaces_1=2&interfaces_2=3&interfaces_3=3&interfaces_4=4&operations_1=3&operations_2=3&operations_3=2&operations_4=1&measurement_1=3&measurement_2=4&measurement_3=4&measurement_4=4&v=0.9.0&view=results)
+- [a partly answered assessment, reopened on page 2](https://cloud-native-platform-engineering.github.io/pemm-assessment/?investment_1=2&investment_2=3&adoption_1=4&v=0.9.0&page=2)
+
+Alongside the answers, `v` records which version of the question set they were given against, `page` records which page was open, and `view=results` opens straight to the results.
 
 When [giving feedback](https://docs.google.com/forms/d/1SW8NE-7E2zjhoun4jklRPmH5sYgJ_3rTw2D_FoOwViA/viewform) please use these shareable URLs to help folks see what you see.
 
@@ -14,18 +19,33 @@ Note: If you switch the language while viewing the results, the app will keep yo
 
 <img width="1076" height="1201" alt="A screenshot showing the assessment results, a spider chart, heatmap matrix, and list of scores" src="https://github.com/user-attachments/assets/18d4b7db-1f52-4458-8970-acfbdf20c987" />
 
+## Versioning
+
+The assessment question set carries its own version, separate from the repository's release tags, because the `field_name` keys and option values in shareable links are a public contract: renaming or renumbering a question silently changes what previously shared links mean.
+
+Shareable links therefore include a `v` parameter recording the question set they were built against, and the footer shows the current assessment version alongside the CNCF Platform Engineering Maturity Model release it is based on.
+
+Before changing anything under `data/`, read [VERSIONING.md](VERSIONING.md), which has the bump rules and the release process. You can check your changes locally with:
+
+```sh
+python3 scripts/validate_content.py
+```
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
+
 ## Discussion
 
 Please join the [Cloud Native Computing Foundation on Slack](https://communityinviter.com/apps/cloud-native/cncf) and use the [platform-engineering](https://cloud-native.slack.com/archives/C020RHD43BP) channel.
 
 ## Content Management and Translations
 
-The assessment content is now managed through YAML files in the `/data/` directory for easy updates and translations:
+The assessment content is managed through YAML files in the `/data/` directory for easy updates and translations:
 
-- `questions-en.yaml` - English (default language)
-- `questions-[lang].yaml` - Translations
+- `questions-en.yaml` - English (source of truth)
+- `questions-[lang].yaml` - Translations, currently `ja`, `pt` and `zh`
+- `quarantine/` - Translations that are incomplete or not yet reviewed, excluded from the site
 
-To add a language, add the YAML file and add the language to the list in `index.html`.
+To add a language, add the YAML file and add a link for it to the language nav in `index.html`.
 
 ### Updating Questions and Content
 
@@ -33,11 +53,13 @@ To add a language, add the YAML file and add the language to the list in `index.
 
 1. **Make changes to the English source file first**: Edit `data/questions-en.yaml`
 2. **Update translation**: Apply equivalent changes to `data/questions-[lang].yaml`
-3. **Verify consistency**: Ensure all three files have:
+3. **Bump the version**: Follow the rules in [VERSIONING.md](VERSIONING.md)
+4. **Verify consistency**: Run `python3 scripts/validate_content.py`, which checks that every file has:
    - Same category IDs and structure
    - Same question IDs within each category
-   - Same option values (1-5) for scoring consistency
-   - Translated text for all user-facing content
+   - Same option values (1-4) for scoring consistency
+
+   It compares structure only, and cannot tell whether the text was actually translated. Check that by eye.
 
 ### What Needs Translation
 
@@ -52,7 +74,7 @@ When updating content, ensure these elements are translated in all language file
 
 After updating translations:
 
-1. Test each language using URL parameters: `?lang=en`, `?lang=zh`, `?lang=es`
+1. Test each language using URL parameters: `?lang=en`, `?lang=ja`, `?lang=pt`, `?lang=zh`
 2. Verify all text displays correctly
 3. Ensure functionality works across all languages
 4. Test the complete assessment flow in each language

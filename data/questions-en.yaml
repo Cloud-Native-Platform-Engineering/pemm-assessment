@@ -1,6 +1,14 @@
 # Platform Engineering Maturity Model Assessment
 
 metadata:
+  # Version of the question set defined in this file. See VERSIONING.md for bump rules.
+  content_version: "0.9.0"
+  # Version of the upstream CNCF Platform Engineering Maturity Model these questions follow.
+  model_version: "1.0"
+  # Canonical URL for that model version, carrying campaign tags so referrals from
+  # this assessment are attributable. Kept beside model_version so the two cannot
+  # drift apart when the upstream model is revised.
+  model_url: "https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&utm_medium=referral&utm_campaign=platform-maturity-assessment&utm_content=version-footer"
   title: Platform Engineering Maturity Model Assessment
   language: en
   language_native: English
@@ -13,7 +21,7 @@ metadata:
     for identifying opportunities for improvement in any organization. By organizing patterns and observations into a 
     progressive maturity model, we aim to orient platform teams to the challenges they may face and opportunities to aim for.</p>
     <p>This assessment is based on the 
-    <a href="https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/" target="_blank">CNCF Platform Engineering Maturity Model</a>, 
+    <a href="https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&amp;utm_medium=referral&amp;utm_campaign=platform-maturity-assessment&amp;utm_content=intro" target="_blank">CNCF Platform Engineering Maturity Model</a>, 
     which evaluates five key aspects: <strong>Investment</strong>, <strong>Adoption</strong>, <strong>Interfaces</strong>, <strong>Operations</strong>, 
     nd <strong>Measurement</strong>.</p>
   results_title: Assessment Results
@@ -29,6 +37,11 @@ metadata:
   next_button_text: Next
   submit_button_text: Submit assessment
   back_to_assessment: Return to assessment
+  version_label: Assessment version
+  model_version_label: Based on CNCF Platform Engineering Maturity Model
+  version_mismatch_notice: >
+    This link was created with an earlier version of the assessment. The questions have
+    changed since then, so these results may not reflect the current model.
 
 categories:
   - id: investment

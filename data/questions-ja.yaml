@@ -1,6 +1,14 @@
 # Platform Engineering Maturity Model Assessment
 
 metadata:
+  # Version of the question set defined in this file. See VERSIONING.md for bump rules.
+  content_version: "0.9.0"
+  # Version of the upstream CNCF Platform Engineering Maturity Model these questions follow.
+  model_version: "1.0"
+  # Canonical URL for that model version, carrying campaign tags so referrals from
+  # this assessment are attributable. Kept beside model_version so the two cannot
+  # drift apart when the upstream model is revised. Japanese localisation of the whitepaper.
+  model_url: "https://cloudnativeplatforms.com/ja/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&utm_medium=referral&utm_campaign=platform-maturity-assessment&utm_content=version-footer"
   title: プラットフォームエンジニアリング成熟度モデル アセスメント
   language: ja
   language_native: 日本語
@@ -9,7 +17,7 @@ metadata:
     <p><span class="highlight">プラットフォームエンジニアリング</span>とは、開発者やユーザーにコンピューティングプラットフォームを計画・提供するための実践手法です。人、プロセス、ポリシー、テクノロジーといった構成要素を整備するだけでなく、その目的であるビジネス成果を達成することまでをスコープに入れています。</p>
     <p><span class="highlight">プラットフォームエンジニアリング成熟度モデル</span>は、あらゆる組織が現状を振り返り、改善すべきポイントを洗い出すためのフレームワークを提供します。パターンや観察結果を段階的な成熟度モデルに整理することで、プラットフォームチームが直面しうる課題を予測し、次に目指すべき姿への道しるべとなることを目的としています。</p>
     <p>このアセスメントは
-    <a href="https://cloudnativeplatforms.com/ja/whitepapers/platform-eng-maturity-model/" target="_blank">CNCF プラットフォームエンジニアリング成熟度モデル</a> に基づいており、
+    <a href="https://cloudnativeplatforms.com/ja/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&amp;utm_medium=referral&amp;utm_campaign=platform-maturity-assessment&amp;utm_content=intro" target="_blank">CNCF プラットフォームエンジニアリング成熟度モデル</a> に基づいており、
     <strong>投資</strong>、<strong>採用</strong>、<strong>インターフェース</strong>、<strong>戦略</strong>、<strong>計測</strong>の5つの重要な側面を評価します。</p>
   results_title: アセスメント結果
   feedback_message: >
@@ -24,6 +32,10 @@ metadata:
   next_button_text: 次へ
   submit_button_text: アセスメントの結果をみる
   back_to_assessment: アセスメントに戻る
+  version_label: アセスメントバージョン
+  model_version_label: "参照モデル: CNCF プラットフォームエンジニアリング成熟度モデル"
+  version_mismatch_notice: >
+    このリンクは以前のバージョンのアセスメントで作成されました。その後設問が変更されているため、この結果は現在のモデルを反映していない可能性があります。
 
 categories:
   - id: investment
