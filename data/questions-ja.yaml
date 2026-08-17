@@ -33,7 +33,7 @@ metadata:
   submit_button_text: アセスメントの結果をみる
   back_to_assessment: アセスメントに戻る
   version_label: アセスメントバージョン
-  model_version_label: 準拠する CNCF プラットフォームエンジニアリング成熟度モデル
+  model_version_label: "参照モデル: CNCF プラットフォームエンジニアリング成熟度モデル"
   version_mismatch_notice: >
     このリンクは以前のバージョンのアセスメントで作成されました。その後設問が変更されているため、この結果は現在のモデルを反映していない可能性があります。
 
