@@ -23,7 +23,7 @@ metadata:
     <p>This assessment is based on the 
     <a href="https://cloudnativeplatforms.com/whitepapers/platform-eng-maturity-model/v1/?utm_source=pemm-assessment&amp;utm_medium=referral&amp;utm_campaign=platform-maturity-assessment&amp;utm_content=intro" target="_blank">CNCF Platform Engineering Maturity Model</a>, 
     which evaluates five key aspects: <strong>Investment</strong>, <strong>Adoption</strong>, <strong>Interfaces</strong>, <strong>Operations</strong>, 
-    nd <strong>Measurement</strong>.</p>
+    and <strong>Measurement</strong>.</p>
   results_title: Assessment Results
   feedback_message: >
     Thank you for using our Platform Engineering Maturity Model assessment! We hope you found it valuable. 
