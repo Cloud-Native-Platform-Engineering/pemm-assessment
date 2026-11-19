@@ -6,6 +6,10 @@ This project tracks two version numbers, explained in [VERSIONING.md](VERSIONING
 
 ## [Unreleased]
 
+### Added
+
+- Spanish translation, completed to structural parity with the English source and moved out of `data/quarantine/`.
+
 ## [0.9.0] - 2026-08-06
 
 First tagged release. Ships `content_version` **0.9.0**, tracking CNCF Platform Engineering Maturity Model **v1.0**.
