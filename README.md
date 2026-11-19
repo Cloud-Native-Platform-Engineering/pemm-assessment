@@ -42,7 +42,7 @@ Please join the [Cloud Native Computing Foundation on Slack](https://communityin
 The assessment content is managed through YAML files in the `/data/` directory for easy updates and translations:
 
 - `questions-en.yaml` - English (source of truth)
-- `questions-[lang].yaml` - Translations, currently `ja`, `pt` and `zh`
+- `questions-[lang].yaml` - Translations, currently `es`, `ja`, `pt` and `zh`
 - `quarantine/` - Translations that are incomplete or not yet reviewed, excluded from the site
 
 To add a language, add the YAML file and add a link for it to the language nav in `index.html`.
@@ -74,7 +74,7 @@ When updating content, ensure these elements are translated in all language file
 
 After updating translations:
 
-1. Test each language using URL parameters: `?lang=en`, `?lang=ja`, `?lang=pt`, `?lang=zh`
+1. Test each language using URL parameters: `?lang=en`, `?lang=es`, `?lang=ja`, `?lang=pt`, `?lang=zh`
 2. Verify all text displays correctly
 3. Ensure functionality works across all languages
 4. Test the complete assessment flow in each language
